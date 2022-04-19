@@ -66,7 +66,7 @@ int	main(int ac, char **av, char **envp)
 	ft_init_env(&global, envp);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("KOUKOU EMMA > ");
 		if (!line)
 			ft_error("Error\n");
 		if (line && ft_strncmp(line, "exit", 6) == 0)
