@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:26:07 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/14 10:26:09 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/04/19 10:29:56 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 // 	g_pid = 0;
 // 	return (1);
 // }
+
+//COUCOU
+
 
 void	ft_init_env(t_global *global, char **envp)
 {
