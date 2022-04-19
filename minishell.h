@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:31:26 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/14 11:31:29 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:13:59 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,9 @@ void	ft_exe(t_global *global, char *av);
 /* UTILS */
 void	**ft_free_tab(char **tab);
 void	ft_error(char *msg);
+
+//SIGNAL
+void siginthandler();
+void signalslash();
 
 #endif

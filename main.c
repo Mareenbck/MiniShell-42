@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:26:07 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/19 10:29:56 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:14:38 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,24 @@ int	main(int ac, char **av, char **envp)
 	pid_t	pid;
 
 	ft_init_env(&global, envp);
+	if (signal(SIGINT, siginthandler) == SIG_ERR)
+		write(1, "boobs", 6);
+	if (signal(SIGQUIT,signalslash) == SIG_ERR)
+		write(1, "marche pas", 11);
 	while (1)
 	{
-		line = readline("KOUKOU EMMA > ");
-		if (!line)
-			ft_error("Error\n");
+		line = readline("> ");
+		if (!line || line[0] == '\0')
+			break ;
 		if (line && ft_strncmp(line, "exit", 6) == 0)
 			break ;
+		fprintf(stderr, "%d", 0);
+		sleep(3);
+		exit(EXIT_SUCCESS);
 		add_history(line);
 		pid = fork();
 		if (pid == 0)
-		{
 			ft_exe(&global, line);
-		}
 		wait(&pid);
 	}
 }
