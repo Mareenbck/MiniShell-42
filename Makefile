@@ -4,7 +4,7 @@ LIB_DIR = ./libft
 
 LIBFT	= ./libft/libft.a
 
-SRCS	= main.c parsing.c utils.c signal.c lexer.c
+SRCS	= main.c parsing.c utils.c signal.c lexer.c split_line2.c
 
 OBJS	= ${SRCS:.c=.o}
 
