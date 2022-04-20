@@ -65,6 +65,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	pid_t	pid;
+	t_liste	*list;
 
 	ft_init_env(&global, envp);
 	if (signal(SIGINT, siginthandler) == SIG_ERR)
@@ -80,6 +81,8 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		add_history(line);
 		ft_test_lex(line, &global);
+		list = ft_split_pipe(line);
+		afficherListe(list);
 		pid = fork();
 		if (pid == 0)
 			ft_exe(&global, line);

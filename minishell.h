@@ -49,6 +49,30 @@ typedef struct s_global
 	char token;
 }	t_global;
 
+typedef struct ss_list
+{
+	struct s_elemt	*head;
+}	t_liste;
+
+typedef struct mini_list
+{
+	struct s_elemt	*head;
+}	t_minilist;
+
+typedef struct s_elemt
+{
+	char	*val;
+	int	pipe;
+	struct s_elemt	*next;
+}	t_elemt;
+
+typedef struct mini_elemt
+{
+	char	*val;
+	int	token;
+	struct s_elemt	*next;
+}	t_minielemt;
+
 /* PARSING */
 void	ft_exe(t_global *global, char *av);
 
@@ -61,5 +85,8 @@ void siginthandler();
 void signalslash();
 
 void	ft_test_lex(char *line, t_global *global);
+t_liste	*ft_split_pipe(char *line);
+void afficherListe(t_liste *list);
+
 
 #endif
