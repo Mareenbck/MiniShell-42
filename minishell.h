@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:31:26 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/20 13:18:44 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/20 15:52:26 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_global
 
 typedef struct s_line
 {
-    char *val;
+    char    *val;
     int     pipe;
     struct s_tmp *tmp;
     struct s_line *next;
@@ -71,13 +71,15 @@ void	ft_exe(t_global *global, char *av);
 /* UTILS */
 void	**ft_free_tab(char **tab);
 void	ft_error(char *msg);
+t_line	*lstlast(t_line *lst);
 
 //SIGNAL
 void siginthandler();
 void signalslash();
 
 //LEXER
-char	*fill_linked_list(t_line *line);
+t_line	*fill_linked_list(char *str);
+void test(t_line *line);
 void	ft_test_lex(char *line, t_global *global);
 
 #endif

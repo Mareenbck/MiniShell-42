@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:26:07 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/19 12:14:38 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:37:36 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,3 +86,4 @@ int	main(int ac, char **av, char **envp)
 		wait(&pid);
 	}
 }
+
