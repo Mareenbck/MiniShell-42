@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 11:31:26 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/20 15:52:26 by emcariot         ###   ########.fr       */
+/*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
+/*   Updated: 2022/04/20 17:35:26 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -65,6 +67,31 @@ typedef struct s_tmp
     struct s_tmp *next;
 }   t_tmp;
 
+typedef struct ss_list
+{
+	struct s_elemt	*head;
+}	t_liste;
+
+typedef struct mini_list
+{
+	struct s_elemt	*head;
+}	t_minilist;
+
+typedef struct s_elemt
+{
+	char	*val;
+	int	pipe;
+	struct s_elemt	*next;
+}	t_elemt;
+
+typedef struct mini_elemt
+{
+	char	*val;
+	int	token;
+	struct s_elemt	*next;
+}	t_minielemt;
+
+
 /* PARSING */
 void	ft_exe(t_global *global, char *av);
 
@@ -81,5 +108,8 @@ void signalslash();
 t_line	*fill_linked_list(char *str);
 void test(t_line *line);
 void	ft_test_lex(char *line, t_global *global);
+t_liste	*ft_split_pipe(char *line);
+void afficherListe(t_liste *list);
+
 
 #endif
