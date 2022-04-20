@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 18:03:19 by marinebas         #+#    #+#             */
-/*   Updated: 2022/04/19 17:27:55 by emcariot         ###   ########.fr       */
+/*   Created: 2022/04/20 11:12:35 by emcariot          #+#    #+#             */
+/*   Updated: 2022/04/20 12:15:04 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalpha(int c)
-{	
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	return (0);
+char	*fill_linked_list(t_line *line)
+{
+	char **tab;
+	char *str;
+	int i;
+	int	j;
+
+	tab = ft_split(str, '|');
+	i = 0;
+	while (tab[i] && line)
+	{
+		printf("tab[i] = %s", tab[i]);
+		line->val = tab[i];
+		i++;
+		line = line->next;
+	}
+	return (str);
 }
 
