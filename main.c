@@ -78,10 +78,8 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (line && ft_strncmp(line, "exit", 6) == 0)
 			break ;
-		fprintf(stderr, "%d", 0);
-		sleep(3);
-		exit(EXIT_SUCCESS);
 		add_history(line);
+		ft_test_lex(line, &global);
 		pid = fork();
 		if (pid == 0)
 			ft_exe(&global, line);

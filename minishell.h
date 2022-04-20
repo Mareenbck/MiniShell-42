@@ -28,9 +28,25 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
+
+typedef enum {
+	PIPE = 0,
+	DOLLAR = 1,
+	DOUBLE_QUOTE = 2,
+	SIMPLE_QUOTE = 3,
+	REDIR_IN = 4,
+	REDIR_OUT = 5,
+	ASSIGN = 6,
+	// DOUBLE_GREATER = 7,
+	// HEREDOC = 8,
+	WORD = 9,
+	// SPACE = 10
+} token_type;
+
 typedef struct s_global
 {
 	char **env;
+	char token;
 }	t_global;
 
 /* PARSING */
@@ -43,5 +59,7 @@ void	ft_error(char *msg);
 //SIGNAL
 void siginthandler();
 void signalslash();
+
+void	ft_test_lex(char *line, t_global *global);
 
 #endif
