@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 11:31:26 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/20 12:16:00 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/20 13:18:44 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,25 @@
 # include "libft/libft.h"
 
 
-# define PIPE        "|"
-# define SIMPLE_QUOTE    "'"
-# define DOUBLE_QUOTE    """
-# define DOLLAR_SIGN    "$"
-# define SIMPLE_GREATER    ">"
-# define DOUBLE_GREATER    ">>"
-# define SIMPLE_LESS    "<"
-# define DOUBLE_LESS    "<<"
-# define ASSIGN        "="
-# define SPACE        " "
 
+typedef enum {
+	PIPE = 0,
+	DOLLAR = 1,
+	DOUBLE_QUOTE = 2,
+	SIMPLE_QUOTE = 3,
+	REDIR_IN = 4,
+	REDIR_OUT = 5,
+	ASSIGN = 6,
+	// DOUBLE_GREATER = 7,
+	// HEREDOC = 8,
+	WORD = 9,
+	// SPACE = 10
+} token_type;
 
 typedef struct s_global
 {
 	char **env;
+	char token;
 }	t_global;
 
 typedef struct s_line
@@ -74,5 +78,6 @@ void signalslash();
 
 //LEXER
 char	*fill_linked_list(t_line *line);
+void	ft_test_lex(char *line, t_global *global);
 
 #endif
