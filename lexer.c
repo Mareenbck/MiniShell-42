@@ -28,11 +28,17 @@ int	ft_find_operator(char c)
 		return (DOLLAR);
 	else if (c == '=')
 		return (ASSIGN);
-	else
+  else if (c == '-')
+    return (MINUS);
+  else if (c == '|')
+    return (PIPE);
+  else if (c == ' ')
+    return (SPACE);
+  else
 		return (0);
 }
 
-int	ft_lex(char *str)
+int	ft_lex(char *str, t_token *token)
 {
 	int	i;
 
@@ -42,23 +48,19 @@ int	ft_lex(char *str)
 		if (ft_isalnum(str[i]))
 		{
 			while (str[i] && ft_isalnum(str[i]))
-				i++;
+        i++;
+      token->len = i;
+      token->val = ft_strdup_bis(&str[i - token->len], token->len);
 			return (WORD);
 		}
-		else if (ft_strchr("><\'\"$=", str[i]))
-			return (ft_find_operator(str[i]));
-		else
-			return (0);
+    //AJOUTER CONDITION SI "" >> WORD
+		else if (ft_strchr("><\'\"$=-|", str[i]))
+    {
+      token->len = 1;
+      token->val = ft_strdup_bis(&str[i], token->len);
+      return (ft_find_operator(str[i]));
+    }
+    i++;
 	}
 	return (0);
-}
-
-void	ft_test_lex(char *line, t_global *global)
-{
-	global->token = ft_lex(line);
-	printf(" Token : %d", global->token) ;
-	if (global->token == WORD)
-		printf(", valeur: %s\n", line);
-	else
-		printf ("\n");
 }
