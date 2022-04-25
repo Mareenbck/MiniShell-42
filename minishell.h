@@ -39,11 +39,13 @@ typedef enum
   REDIR_IN = 4,
   REDIR_OUT = 5,
   ASSIGN = 6,
-  // DOUBLE_GREATER = 7,
-  // HEREDOC = 8,
+  APPEND_OUT = 7,
+  APPEND_IN = 8,
   WORD = 9,
   MINUS = 11,
   SPACE = 10,
+  POINT = 12,
+  DOUBLE_POINT = 13,
 } token_type;
 
 typedef struct s_token
