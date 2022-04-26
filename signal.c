@@ -12,36 +12,24 @@
 
 #include "minishell.h"
 
-void siginthandler()
-{
-	ft_putstr_fd("", 1);
-}
+// char		*ft_get_pwd(void)
+// {
+// 	int		i;
+// 	char	*buf;
 
-void signalslash()
-{
-	ft_putstr_fd("", 1);
-}
-
-
-
-char		*ft_get_pwd(void)
-{
-	int		i;
-	char	*buf;
-
-	i = 5;
-	if (!(buf = malloc(i)))
-		return (0);
-	while (!getcwd(buf, i))
-	{
-		if (errno != ERANGE)
-			return (0);
-		i += 5;
-		free(buf);
-		buf = malloc(i);
-	}
-	return (buf);
-}
+// 	i = 5;
+// 	if (!(buf = malloc(i)))
+// 		return (0);
+// 	while (!getcwd(buf, i))
+// 	{
+// 		if (errno != ERANGE)
+// 			return (0);
+// 		i += 5;
+// 		free(buf);
+// 		buf = malloc(i);
+// 	}
+// 	return (buf);
+// }
 
 void	handle_sigint(int sig)
 {
@@ -63,12 +51,8 @@ void		ft_signal(int i)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (i == 1)
-	{
 		signal(SIGINT, SIG_DFL);
-	}
 	else if (i == 2)
-	{
 		signal(SIGINT, handle_sigint);
-	}
 }
 

@@ -12,33 +12,6 @@
 
 #include "minishell.h"
 
-// int			run(char **args, char *bin, int pipe)
-// {
-// 	if (!pipe)
-// 		g_pid = fork();
-// 	if (!pipe && g_pid < 0)
-// 	{
-// 		free(bin);
-// 		ft_putstr_fd("minishell: execve: failed to create a new process.\n", 2);
-// 		g_status = 1;
-// 		return (-1);
-// 	}
-// 	else if (!g_pid)
-// 		execve(bin, args, g_envs);
-// 	free(bin);
-// 	if (pipe)
-// 		return (1);
-// 	if (ft_strequ(args[0], "./minishell"))
-// 		signal(SIGINT, SIG_IGN);
-// 	wait(&g_pid);
-// 	status_child();
-// 	g_pid = 0;
-// 	return (1);
-// }
-
-//COUCOU
-
-
 void	ft_init_env(t_global *global, char **envp)
 {
 	int	i;
@@ -62,7 +35,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char *line;
 	t_global	global;
-	// t_token	*head;
 	(void)ac;
 	(void)av;
 	pid_t	pid;
@@ -83,7 +55,7 @@ int	main(int ac, char **av, char **envp)
 			write(1, "\n", 1);
 			break ;
 		}
-		if (line && ft_strncmp(line, "exit", 6) == 0)
+		if (line && ft_strncmp(line, "exit", 4) == 0)
 			break ;
 		add_history(line);
     	init_line(line, &global.head);
