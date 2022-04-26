@@ -1,14 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_str.c                                        :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marinebascunana <marvin@42.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 16:37:56 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/20 16:38:32 by emcariot         ###   ########.fr       */
+/*   Created: 2022/04/21 12:35:32 by marinebas         #+#    #+#             */
+/*   Updated: 2022/04/21 12:35:35 by marinebas        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
+int ft_isspace(int c)
+{
+  if (c == '\t' || c == '\v' || c == '\n' || c == '\r' || c == '\f' || c == 32)
+    return (1);
+  return (0);
+}
