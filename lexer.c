@@ -20,6 +20,7 @@ t_token *ft_init_token()
   if (!new_token)
     return (NULL);
   new_token->val = NULL;
+//   new_token->token = 0;
   new_token->next = NULL;
   return (new_token);
 }
@@ -34,15 +35,15 @@ t_token  *create_token(char *str)
   return (new_token);
 }
 
-void ft_print(t_token *head)
+void ft_print(t_token **head)
 {
   t_token *tmp;
   int i = 0;
 
-  tmp = head;
+  tmp = *head;
   while (tmp != NULL)
   {
-    printf("%d > token : %d, size : %d, data : %s\n", i, tmp->token, tmp->len, tmp->val);
+    printf("%d > token : %d, size : %d, data : %s  next : %p\n", i, tmp->token, tmp->len, tmp->val, tmp->next);
     i++;
     tmp = tmp->next;
   }
@@ -67,8 +68,7 @@ void init_line(char *line, t_token **head)
 		ft_lstaddback(head, new);
 		i += new->len;
 	}
-	// ft_lst_clear(head, free);
-	ft_print(*head);
+	ft_print(head);
 }
 
 // tant que espaces au debut on avance
@@ -129,23 +129,23 @@ int	ft_lex(char *str, t_token *token)
 		if (ft_isalnum(str[i]))
 		{
 			while (str[i] && ft_isalnum(str[i]))
-        i++;
-      token->len = i;
-      token->val = ft_strdup_bis(&str[i - token->len], token->len);
+				i++;
+			token->len = i;
+			token->val = ft_strdup_bis(&str[i - token->len], token->len);
 			return (WORD);
 		}
     //AJOUTER CONDITION SI "" >> WORD OU DANS PARSING
 		else if (ft_strchr("><\'\"$=-|.", str[i]))
-    {
-      token->token = ft_find_operator(str[i], str[i + 1]);
-      if (token->token == APPEND_IN || token->token == APPEND_OUT || token->token == DOUBLE_POINT)
-        token->len = 2;
-      else
-        token->len = 1;
-      token->val = ft_strdup_bis(&str[i], token->len);
-      return (token->token);
-    }
-    i++;
+		{
+			token->token = ft_find_operator(str[i], str[i + 1]);
+			if (token->token == APPEND_IN || token->token == APPEND_OUT || token->token == DOUBLE_POINT)
+				token->len = 2;
+			else
+				token->len = 1;
+			token->val = ft_strdup_bis(&str[i], token->len);
+			return (token->token);
+		}
+		i++;
 	}
-  return (0);
+	return (0);
 }
