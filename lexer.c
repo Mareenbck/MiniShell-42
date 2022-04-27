@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/27 10:02:52 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/27 17:35:05 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token *ft_init_token()
     return (NULL);
   new_token->val = NULL;
   new_token->next = NULL;
+  new_token->prev = NULL;
   return (new_token);
 }
 
@@ -31,17 +32,22 @@ t_token  *create_token(char *str)
   new_token = ft_init_token();
   new_token->token = ft_lex(str, new_token);
   new_token->next = NULL;
+  new_token->prev = NULL;
   return (new_token);
 }
 
 void ft_print(t_token **head)
 {
   t_token *tmp;
+
+  tmp = *head;
   int i = 0;
 
   while (tmp != NULL)
   {
-    printf("%d > token : %d, size : %d, data : %s  next : %p\n", i, tmp->token, tmp->len, tmp->val, tmp->next);
+    printf("%d > token : %d, size : %d, data : %s  next : %p \n", i, tmp->token, tmp->len, tmp->val, tmp->next);
+	if (tmp->prev != NULL)
+	    printf("%d > token : %d, size : %d, data : %s  prev : %s \n", i, tmp->token, tmp->len, tmp->val, tmp->prev->val);
     i++;
     tmp = tmp->next;
   }
@@ -66,7 +72,9 @@ void init_line(char *line, t_token **head)
 		ft_lstaddback(head, new);
 		i += new->len;
 	}
+	ft_lstaddback(head, ft_init_token());
 	ft_print(head);
+	
 }
 
 // tant que espaces au debut on avance

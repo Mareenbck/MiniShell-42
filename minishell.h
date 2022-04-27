@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/27 10:03:15 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:54:46 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,34 @@ typedef struct s_token
   char token;
   char *val;
   int len;
+  struct s_token *prev;
   struct s_token *next;
 } t_token;
+
+typedef struct s_cmd
+{
+  char *value;
+  char *infile;
+  char *outfile;
+  char *arg;
+  char *option; //ou int bool
+  struct s_cmd *next;
+} t_cmd;
+
 
 typedef struct s_global
 {
 	char **env;
 	t_token *head;
+  t_cmd   *headcmd;
 }	t_global;
 
 
-
 /* PARSING */
-void	ft_exe(t_global *global, char *av);
+int	count_option(char *line);
+void	analize_cmd(t_token **head, t_cmd **comd);
+void	ft_print_cmd(t_cmd **cmd);
+t_cmd *ft_init_cmd();
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
@@ -74,6 +89,8 @@ t_token *lstlast(t_token *lst);
 void ft_lstaddback(t_token **alst, t_token *new);
 void ft_lst_clear(t_token **lst, void (*del)(void *));
 char *ft_strdup_bis(const char *s1, int len);
+void ft_lstaddback2(t_cmd **alst, t_cmd *new);
+t_cmd	*lstlast2(t_cmd *lst);
 
 // SIGNAL
 void siginthandler();
@@ -88,4 +105,6 @@ int ft_lex(char *str, t_token *token);
 
 void		ft_signal(int i);
 void	handle_sigint(int sig);
+
+void	ft_exe(t_global *global, char *line);
 #endif

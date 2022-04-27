@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 10:26:07 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/27 10:01:14 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/27 14:54:54 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int	main(int ac, char **av, char **envp)
 {
 	char *line;
 	t_global	global;
-	t_token	*head;
+	//t_token	*head;
 	(void)ac;
 	(void)av;
 	pid_t	pid;
 
 	global.head = NULL;
+	global.headcmd = NULL;
 	ft_init_env(&global, envp);
 	// if (signal(SIGINT, siginthandler) == SIG_ERR)
 	// 	write(1, "boobs", 6);
@@ -60,6 +61,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		add_history(line);
     	init_line(line, &global.head);
+		analize_cmd(&global.head, &global.headcmd);
 		ft_signal(0);
 		pid = fork();
 		if (pid == 0)
