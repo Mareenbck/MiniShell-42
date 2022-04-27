@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/26 09:53:05 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/27 10:03:15 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,34 +63,6 @@ typedef struct s_global
 }	t_global;
 
 
-typedef struct s_line
-{
-    char    *val;
-    int     pipe;
-    struct s_tmp *tmp;
-    struct s_line *next;
-}   t_line;
-
-typedef struct s_tmp
-{
-    char *val;
-    char *type;
-    struct s_tmp *next;
-}   t_tmp;
-
-typedef struct ss_list
-{
-	struct s_elemt	*head;
-}	t_liste;
-
-
-typedef struct s_elemt
-{
-	char	*val;
-	int	pipe;
-	struct s_elemt	*next;
-}	t_elemt;
-
 
 /* PARSING */
 void	ft_exe(t_global *global, char *av);
@@ -108,13 +80,12 @@ void siginthandler();
 void signalslash();
 
 //LEXER
-t_line	*fill_linked_list(char *str);
-void test(t_line *line);
 void	ft_test_lex(char *line, t_global *global);
-t_liste	*ft_split_pipe(char *line);
-void afficherListe(t_liste *list);
+
 
 void init_line(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
 
+void		ft_signal(int i);
+void	handle_sigint(int sig);
 #endif

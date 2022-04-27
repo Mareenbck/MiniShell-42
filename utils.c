@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 13:08:26 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/20 14:15:03 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/27 10:03:35 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,34 +45,34 @@ void ft_lstaddback(t_token **alst, t_token *new)
 {
   if (alst)
   {
-    if (*alst)
+    if (*alst != NULL)
       lstlast(*alst)->next = new;
     else
-      *alst = new;
+      (*alst) = new;
   }
 }
 
-void ft_lst_delone(t_token *lst, void (*del)(void *))
+void ft_lst_delone(t_token *token, void (*del)(void *))
 {
-  if (!del)
-    return;
-  if (lst)
-  {
-    (*del)(lst->val);
-    free(lst);
-  }
+	if (!del || !token)
+		return;
+	if (token)
+		(*del)(token);
 }
 
-void ft_lst_clear(t_token **lst, void (*del)(void *))
+void ft_lst_clear(t_token **head, void (*del)(void *))
 {
-  t_token *tmp;
+	t_token *tmp;
 
-  while (*lst)
-  {
-    tmp = (*lst)->next;
-    ft_lst_delone(*lst, del);
-    (*lst) = tmp;
-  }
+	if (!del || !head)
+		return ;
+	while (*head)
+	{
+		tmp = (*head)->next;
+		ft_lst_delone(*head, del);
+		(*head) = tmp;
+	}
+
 }
 
 char *ft_strdup_bis(const char *s1, int len)
