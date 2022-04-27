@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/27 17:37:52 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/27 17:43:57 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 
 // 	while (token->token != PIPE)
 // }
+
+//
 
 void	ft_print_cmd(t_cmd **cmd)
 {
