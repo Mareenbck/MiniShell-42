@@ -4,7 +4,7 @@ LIB_DIR = ./libft
 
 LIBFT	= ./libft/libft.a
 
-SRCS	= main.c parsing.c utils.c signal.c lexer.c split_line2.c split_line.c
+SRCS	= main.c utils.c signal.c lexer.c parse_env.c
 
 OBJS	= ${SRCS:.c=.o}
 
@@ -46,5 +46,3 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean re
-
-

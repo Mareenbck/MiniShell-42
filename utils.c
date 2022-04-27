@@ -32,7 +32,7 @@ void	ft_error(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-t_line	*lstlast(t_line *lst)
+t_token	*lstlast(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -40,3 +40,75 @@ t_line	*lstlast(t_line *lst)
 		lst = lst->next;
 	return (lst);
 }
+
+void ft_lstaddback(t_token **alst, t_token *new)
+{
+  if (alst)
+  {
+    if (*alst != NULL)
+      lstlast(*alst)->next = new;
+    else
+      (*alst) = new;
+  }
+}
+
+void ft_lst_delone(t_token *token, void (*del)(void *))
+{
+	if (!del || !token)
+		return;
+	if (token)
+		(*del)(token);
+}
+
+void ft_lst_clear(t_token **head, void (*del)(void *))
+{
+	t_token *tmp;
+
+	if (!del || !head)
+		return ;
+	while (*head)
+	{
+		tmp = (*head)->next;
+		ft_lst_delone(*head, del);
+		(*head) = tmp;
+	}
+}
+
+char *ft_strdup_bis(const char *s1, int len)
+{
+  char *str;
+
+  str = (char *)malloc(sizeof(char) * (len + 1));
+  if (!str)
+    return (NULL);
+  str[len] = '\0';
+  len--;
+  while (s1[len])
+  {
+    str[len] = s1[len];
+    len--;
+  }
+  return (str);
+}
+
+// void	ft_add_back(t_liste *list, char *val)
+// {
+// 	t_elemt	*new;
+// 	t_elemt	*last;
+
+// 	new = malloc(sizeof(t_elemt));
+// 	if (!new)
+// 		return ;
+// 	if (list == NULL)
+// 		ft_error("Error\n");
+// 	new->val = val;
+// 	new->pipe = 0;
+// 	new->next = NULL;
+// 	if (list->head != NULL)
+// 	{
+// 		last = ft_lst_last(list->head);
+// 		last->next = new;
+// 	}
+// 	else
+// 		list->head = new;
+// }

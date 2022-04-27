@@ -58,16 +58,13 @@ char	*ft_join_envp(char **split_path, char *av)
 		join_path = ft_strjoin(split_path[i], "/");
 		join_path = ft_strjoin(join_path, av);
 		if (!join_path)
-			ft_error("Error");
+			exit(1);
 		if (access(join_path, F_OK) == 0)
 			return (join_path);
 		i++;
 	}
 	return (NULL);
 }
-
-
-
 
 void	ft_exe(t_global *global, char *line)
 {
