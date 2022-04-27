@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/14 13:08:26 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/20 14:15:03 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/27 15:56:15 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,45 @@ t_token	*lstlast(t_token *lst)
 	return (lst);
 }
 
+t_cmd	*lstlast2(t_cmd *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
 void ft_lstaddback(t_token **alst, t_token *new)
+{
+	t_token	*tmp;
+  	if (alst)
+  	{
+    	if (*alst != NULL)
+		{
+      		tmp = *alst;
+			while (tmp->next)
+            	tmp = tmp->next;
+        	tmp->next = new;
+        	new->prev = tmp;
+        	new->next = NULL;
+		}
+    	else
+      		(*alst) = new;
+  	}
+}
+
+void ft_lstaddback2(t_cmd **alst, t_cmd *new)
 {
   if (alst)
   {
     if (*alst != NULL)
-      lstlast(*alst)->next = new;
+      lstlast2(*alst)->next = new;
     else
       (*alst) = new;
   }
 }
+
 
 void ft_lst_delone(t_token *token, void (*del)(void *))
 {
@@ -72,6 +101,7 @@ void ft_lst_clear(t_token **head, void (*del)(void *))
 		ft_lst_delone(*head, del);
 		(*head) = tmp;
 	}
+
 }
 
 char *ft_strdup_bis(const char *s1, int len)
