@@ -66,9 +66,6 @@ char	*ft_join_envp(char **split_path, char *av)
 	return (NULL);
 }
 
-
-
-
 void	ft_exe(t_global *global, char *line)
 {
 	char	*cmd;
