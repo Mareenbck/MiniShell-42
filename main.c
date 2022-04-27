@@ -52,7 +52,7 @@ int	main(int ac, char **av, char **envp)
 		line = readline("\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
 		if (!line)
 		{
-			write(1, "\n", 1);
+			printf("exit\n");
 			break ;
 		}
 		if (line && ft_strncmp(line, "exit", 4) == 0)
@@ -60,12 +60,16 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
     	init_line(line, &global.head);
 		ft_signal(0);
+		ft_pwd();
+
 		pid = fork();
 		if (pid == 0)
 		{
 			ft_signal(1);
-			ft_exe(&global, line);
+			ft_cd(line, &global);
+			// ft_exe(&global, line);
 		}
+
 		wait(&pid);
     	ft_lst_clear(&global.head, free);
 		ft_signal(2);

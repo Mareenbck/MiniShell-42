@@ -12,37 +12,17 @@
 
 #include "minishell.h"
 
-// char		*ft_get_pwd(void)
-// {
-// 	int		i;
-// 	char	*buf;
-
-// 	i = 5;
-// 	if (!(buf = malloc(i)))
-// 		return (0);
-// 	while (!getcwd(buf, i))
-// 	{
-// 		if (errno != ERANGE)
-// 			return (0);
-// 		i += 5;
-// 		free(buf);
-// 		buf = malloc(i);
-// 	}
-// 	return (buf);
-// }
-
 void	handle_sigint(int sig)
 {
-
-	if (sig == SIGINT || sig == SIGQUIT)
+	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-
 	}
 }
+
 void		ft_signal(int i)
 {
 	if (i == 0)
@@ -54,5 +34,6 @@ void		ft_signal(int i)
 		signal(SIGINT, SIG_DFL);
 	else if (i == 2)
 		signal(SIGINT, handle_sigint);
+
 }
 

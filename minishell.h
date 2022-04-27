@@ -84,4 +84,7 @@ int ft_lex(char *str, t_token *token);
 
 void		ft_signal(int i);
 void	handle_sigint(int sig);
+
+void	ft_pwd(void);
+void	ft_cd(char *str, t_global *global);
 #endif
