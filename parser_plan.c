@@ -59,6 +59,7 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 	ft_print_cmd(comd);
 }
 
+//
 void	ft_print_cmd(t_cmd **cmd)
 {
 	t_cmd *tmp;
