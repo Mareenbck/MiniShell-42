@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/27 17:43:57 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/29 10:46:45 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,10 @@ t_cmd *ft_init_cmd()
   new_cmd = malloc(sizeof(t_cmd));
   if (!new_cmd)
     return (NULL);
-  new_cmd->value = NULL;
-  new_cmd->option = NULL;
+	new_cmd->val = (char **)malloc(sizeof(char *));
+//   new_cmd->val = NULL;
   new_cmd->next = NULL;
   return (new_cmd);
-}
-
-int	count_option(char *line)
-{
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (line[i])
-	{
-		if (line[i] == '-')
-			count++;
-		i++;
-	}
-	return (count);
 }
 
 void	analize_cmd(t_token **head, t_cmd **comd)
@@ -46,48 +30,45 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 	t_token *token;
 	t_cmd	*cmd;
 	token = *head;
-	
+	int	i;
+
 	cmd = ft_init_cmd();
 	while (token != NULL)
 	{
-		while (token->next != NULL && token->token != PIPE)
+		i = 0;
+		while (token != NULL && token->token != PIPE)
 		{
-			if (token->token == WORD && (token->prev == NULL || token->prev->token == PIPE))
-				cmd->value = ft_strdup_bis(token->val, token->len);
-			// COMMENT REMPLIR LES ARGS
-			if (token->token == WORD && cmd->value != NULL)
-				cmd->arg = ft_strdup_bis(token->val, token->len);
-			if (token->token == MINUS)
-				cmd->option = ft_strdup_bis(token->next->val, token->next->len);
+			printf("i =  %d\n", i);
+			if (token->token == WORD)
+			{
+				//if (token->prev == NULL || token->prev->token == PIPE)
+				cmd->val[i] = ft_strdup(token->val);
+				printf("cmd->val[%d] = %s\n", i, cmd->val[i]);
+			}
+			i++;
 			token = token->next;
-			printf("cmd value : %s, option : %s, next : %p , arg : %s\n", cmd->value, cmd->option, cmd->next, cmd->arg);
 		}
+		cmd->val[i] = NULL;
 		ft_lstaddback2(comd, cmd);
-		if (token->token == PIPE)
+		if (token->token == PIPE || token->token == 0)
 			cmd = ft_init_cmd();
+		// printf("token->next %s\n", token->next->val);
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd());
 	ft_print_cmd(comd);
 }
-// void	analise_pipe(t_token **head, t_cmd **comd)
-// {
-// 	t_token *token;
-// 	t_cmd	*cmd;
-
-// 	while (token->token != PIPE)
-// }
-
-//
 
 void	ft_print_cmd(t_cmd **cmd)
 {
 	t_cmd *tmp;
+	int i = 0;
 
 	tmp = *cmd;
-	while (tmp != NULL)
+	while (tmp->val[i] != NULL)
 	{
-		printf("value = %s, option = %s, next : %p, arg : %s\n", tmp->value, tmp->option, tmp->next, tmp->arg);
-		tmp = tmp->next;
+		printf("mot[%d] = %s\n", i, tmp->val[i]);
+		i++;
+		// tmp = tmp->va;
 	}
 }
