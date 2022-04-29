@@ -37,37 +37,31 @@ int	replace_var_env(char *str, t_global *global)
 }
 
 
-void	ft_cd(char *str, t_global *global)
+int	ft_cd(t_token *token, t_global *global)
 {
-	char **arg;
-	int i;
 	char *new_path;
 	char *old_path;
 	char *new;
 	char *home;
-	// (void)str;
 
-	arg = ft_split(str, ' ');
-	i = 0;
-	while (arg[i] != NULL)
-		i++;
-	if (i > 2)
-		ft_error("cd : too many arguments\n");
+	if (token->next && token->next->val != NULL)
+		printf("cd : too many arguments\n");
 	old_path = ft_strjoin("OLDPWD=", getcwd(NULL,0));
-	printf("old path %s\n", old_path);
 	replace_var_env(old_path, global);
-	if (arg[1])
-	{
-		new = ft_strjoin(getcwd(NULL,0), arg[1]);
-		chdir(new);
-	}
-	else if (!arg[1] || arg[1][0] == '~')
+	if (token->val == NULL || !ft_strncmp(token->val, "~", 1))
 	{
 		// DOIT RETOURNER A HOME OU RACINE DU MINISHELL ??
 		home = search_envp(global->env, "HOME=");
 		chdir(home);
 	}
+	else
+	{
+		new = ft_strjoin(getcwd(NULL,0), "/");
+		new = ft_strjoin(new, token->val);
+		chdir(new);
+	}
 	new_path = ft_strjoin("PATH=", getcwd(NULL,0));
 	printf("new path %s\n", new_path);
 	replace_var_env(new_path, global);
+	return (0);
 }

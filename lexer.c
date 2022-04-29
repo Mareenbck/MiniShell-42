@@ -46,8 +46,8 @@ void ft_print(t_token **head)
   while (tmp != NULL)
   {
     printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
-	if (tmp->prev != NULL)
-	    printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
+	// if (tmp->prev != NULL)
+	//     printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
     i++;
     tmp = tmp->next;
   }
@@ -74,7 +74,6 @@ void init_line(char *line, t_token **head)
 	}
 	ft_lstaddback(head, ft_init_token());
 	ft_print(head);
-	
 }
 
 // tant que espaces au debut on avance
@@ -101,7 +100,7 @@ int	ft_find_operator(char c, char c1)
       return (APPEND_IN);
 		return (REDIR_IN);
   }
-  else if (c == '-')
+  else if (c == '-' || c == '~')
    return (WORD);
   else if (c == '|')
     return (PIPE);
@@ -119,7 +118,7 @@ int	ft_lex(char *str, t_token *token)
 	{
 		while (str[i] == ' ')
 			i++;
-		if (str[i] == '-')
+		if (str[i] == '-' || str[i] == '~')
 		{
 			token->len = 1;
 			token->val = ft_strdup_bis(&str[i], token->len);
@@ -139,6 +138,8 @@ int	ft_lex(char *str, t_token *token)
 			token->token = ft_find_operator(str[i], str[i + 1]);
 			if (token->token == APPEND_IN || token->token == APPEND_OUT)
 				token->len = 2;
+			else
+				token->len = 1;
 			token->val = ft_strdup_bis(&str[i], token->len);
 			return (token->token);
 		}

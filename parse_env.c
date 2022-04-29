@@ -66,23 +66,3 @@ char	*ft_join_envp(char **split_path, char *av)
 	return (NULL);
 }
 
-void	ft_exe(t_global *global, char *line)
-{
-	char	*cmd;
-	char	**split_path;
-	char	**cmd_args;
-
-	cmd_args = ft_split(line, ' ');
-	if (!cmd_args)
-		ft_error("Split failed");
-	split_path = ft_split_envp(global->env);
-	cmd = ft_join_envp(split_path, cmd_args[0]);
-	if (!cmd)
-		ft_error("command not found");
-	// ft_free_tab(split_path);
-	if (execve(cmd, cmd_args, global->env) == -1)
-	{
-		ft_free_tab(cmd_args);
-		ft_error("Error of execution");
-	}
-}

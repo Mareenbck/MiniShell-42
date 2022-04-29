@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **envp)
 	//t_token	*head;
 	(void)ac;
 	(void)av;
-	pid_t	pid;
+	// pid_t	pid;
 
 	global.head = NULL;
 	global.headcmd = NULL;
@@ -63,18 +63,7 @@ int	main(int ac, char **av, char **envp)
     	init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
 		ft_signal(0);
-		ft_pwd();
-
-		pid = fork();
-		if (pid == 0)
-		{
-			ft_signal(1);
-			// ft_cd(line, &global);
-			ft_exe(&global, line);
-		}
-
-		wait(&pid);
-    	ft_lst_clear(&global.head, free);
+		ft_execution(&global, line);
 		ft_signal(2);
 	}
 }

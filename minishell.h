@@ -95,9 +95,16 @@ void		ft_signal(int i);
 void	handle_sigint(int sig);
 
 
-void	ft_pwd(void);
-void	ft_cd(char *str, t_global *global);
-
+void	ft_execution(t_global *global, char *line);
 void	ft_exe(t_global *global, char *line);
 char	*search_envp(char **env, char *str);
+char	**ft_split_envp(char **env);
+char	*ft_join_envp(char **split_path, char *av);
+
+// BUILTIN
+int	ft_echo(t_token *token);
+int	ft_pwd(void);
+int	ft_cd(t_token *token, t_global *global);
+int	ft_env(t_global *global);
+
 #endif

@@ -14,15 +14,14 @@
 
 t_cmd *ft_init_cmd()
 {
-  t_cmd *new_cmd;
+	t_cmd *new_cmd;
 
-  new_cmd = malloc(sizeof(t_cmd));
-  if (!new_cmd)
-    return (NULL);
+	new_cmd = malloc(sizeof(t_cmd));
+	if (!new_cmd)
+		return (NULL);
 	new_cmd->val = (char **)malloc(sizeof(char *));
-//   new_cmd->val = NULL;
-  new_cmd->next = NULL;
-  return (new_cmd);
+	new_cmd->next = NULL;
+	return (new_cmd);
 }
 
 void	analize_cmd(t_token **head, t_cmd **comd)
@@ -36,15 +35,9 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 	while (token != NULL)
 	{
 		i = 0;
-		while (token != NULL && token->token != PIPE)
+		while (token->token == WORD)
 		{
-			printf("i =  %d\n", i);
-			if (token->token == WORD)
-			{
-				//if (token->prev == NULL || token->prev->token == PIPE)
-				cmd->val[i] = ft_strdup(token->val);
-				printf("cmd->val[%d] = %s\n", i, cmd->val[i]);
-			}
+			cmd->val[i] = ft_strdup(token->val);
 			i++;
 			token = token->next;
 		}
@@ -52,14 +45,12 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		ft_lstaddback2(comd, cmd);
 		if (token->token == PIPE || token->token == 0)
 			cmd = ft_init_cmd();
-		// printf("token->next %s\n", token->next->val);
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd());
 	ft_print_cmd(comd);
 }
 
-//
 void	ft_print_cmd(t_cmd **cmd)
 {
 	t_cmd *tmp;
@@ -70,6 +61,5 @@ void	ft_print_cmd(t_cmd **cmd)
 	{
 		printf("mot[%d] = %s\n", i, tmp->val[i]);
 		i++;
-		// tmp = tmp->va;
 	}
 }

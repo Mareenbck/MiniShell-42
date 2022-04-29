@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/27 08:57:01 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/27 08:57:13 by mbascuna         ###   ########.fr       */
+/*   Created: 2022/04/29 14:13:35 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/04/29 14:13:54 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// A VERIFIER SI TJR OK APRES CD
 
-int	ft_pwd(void)
+int	ft_env(t_global *global)
 {
-	char *path;
+	int i;
 
-	path = getcwd(NULL, 0);
-	printf("%s\n", path);
+	i = 0;
+	while (global->env[i])
+	{
+		printf("MINI : %s\n", global->env[i]);
+		i++;
+	}
 	return (0);
 }
