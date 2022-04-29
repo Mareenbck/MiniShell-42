@@ -15,11 +15,11 @@
 
 int	ft_echo(t_token *token)
 {
-	if (ft_strncmp(token->data, "-n", 3) == 0)
+	if (ft_strncmp(token->val, "-n", 3) == 0)
 		token = token->next;
 	while (token)
 	{
-		printf(token->data);
+		printf("%s",token->val);
 		token = token->next;
 	}
 	printf("\n");

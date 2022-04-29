@@ -99,4 +99,5 @@ void	ft_pwd(void);
 void	ft_cd(char *str, t_global *global);
 
 void	ft_exe(t_global *global, char *line);
+char	*search_envp(char **env, char *str);
 #endif

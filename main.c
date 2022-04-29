@@ -69,8 +69,8 @@ int	main(int ac, char **av, char **envp)
 		if (pid == 0)
 		{
 			ft_signal(1);
-			ft_cd(line, &global);
-			// ft_exe(&global, line);
+			// ft_cd(line, &global);
+			ft_exe(&global, line);
 		}
 
 		wait(&pid);

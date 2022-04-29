@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 
-char	*search_envp(char **env)
+char	*search_envp(char **env, char *str)
 {
 	char	*path;
 	int		i;
@@ -21,7 +21,7 @@ char	*search_envp(char **env)
 	i = 0;
 	while (env[i])
 	{
-		path = ft_strnstr(env[i], "PATH=", 5);
+		path = ft_strnstr(env[i], str, ft_strlen(str));
 		if (path)
 		{
 			path = ft_substr(env[i], 5, ft_strlen(env[i]));
@@ -39,7 +39,7 @@ char	**ft_split_envp(char **env)
 	char	*paths;
 	char	**split_path;
 
-	paths = search_envp(env);
+	paths = search_envp(env, "PATH=");
 	split_path = ft_split(paths, ':');
 	if (!split_path)
 		ft_error("Split error");
