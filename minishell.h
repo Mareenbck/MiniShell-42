@@ -6,11 +6,9 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/27 16:54:46 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/04/29 10:51:20 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -33,19 +31,11 @@
 typedef enum
 {
   PIPE = 0,
-  DOLLAR = 1,
-  DOUBLE_QUOTE = 2,
-  SIMPLE_QUOTE = 3,
-  REDIR_IN = 4,
-  REDIR_OUT = 5,
-  ASSIGN = 6,
-  APPEND_OUT = 7,
-  APPEND_IN = 8,
-  WORD = 9,
-  MINUS = 11,
-  ISPACE = 10,
-  POINT = 12,
-  DOUBLE_POINT = 13,
+  REDIR_IN = 1,
+  REDIR_OUT = 2,
+  APPEND_OUT = 3,
+  APPEND_IN = 4,
+  WORD = 5,
 } token_type;
 
 typedef struct s_token
@@ -59,11 +49,9 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-  char *value;
-  char *infile;
-  char *outfile;
-  char *arg;
-  char *option; //ou int bool
+  int count;
+  char **val;
+  char *redir;
   struct s_cmd *next;
 } t_cmd;
 
