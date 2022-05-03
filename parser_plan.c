@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:23:47 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 15:31:20 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,13 @@ void	ft_print_cmd(t_cmd **cmd)
 	int i = 0;
 
 	tmp = *cmd;
-<<<<<<< HEAD
 	while (tmp->next != NULL)
-=======
-	while (tmp)
->>>>>>> parser
 	{
 		while (tmp->val[i] != NULL)
 		{
 			printf("mot[%d] = %s\n", i, tmp->val[i]);
 			i++;
 		}
-<<<<<<< HEAD
 		tmp = tmp->next;
-=======
-		tmp = tmp ->next;
->>>>>>> parser
 	}
 }
