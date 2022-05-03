@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:31:20 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 19:11:08 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,22 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 	while (token != NULL)
 	{
 		i = 0;
-		while (token->token == WORD)
+		while (token->token == WORD && token->token != PIPE)
 		{
 			cmd->val[i] = ft_strdup(token->val);
 			i++;
 			token = token->next;
 		}
 		cmd->val[i] = NULL;
-		if (token->token == PIPE)
- 			cmd = ft_init_cmd();
 		ft_lstaddback2(comd, cmd);
+		if (token->token == PIPE)
+		{
+			cmd = ft_init_cmd();
+			//token = token->next;
+			check_pipe_position(token, cmd);
+			printf("token->next->token = %i\n", token->next->token);
+
+		}
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd());
@@ -59,6 +65,7 @@ void	ft_print_cmd(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp->next != NULL)
 	{
+		i = 0;
 		while (tmp->val[i] != NULL)
 		{
 			printf("mot[%d] = %s\n", i, tmp->val[i]);

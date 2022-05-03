@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 14:26:42 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:16:09 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 19:11:42 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,12 @@
 // 	}
 // }
 
-int	check_pipe_position(t_token **head)
+int	check_pipe_position(t_token *token, t_cmd *cmd)
 {
-	t_token *token;
-
-	token = *head;
-	while (token != NULL)
+	(void)cmd;
+	if (token->next->token != WORD && token->next != NULL)
 	{
-		while (token->token == PIPE)
-		{
-			if (token->next->val == NULL)
-				return (1);
-			if (token->next->token == PIPE)
-				return (1);
-		}
-		token = token->next;
+		ft_putstr_fd("error syntax \n", 2);
 	}
 	return (0);
-}
-
-void check_global_pipe(t_token **head)
-{
-	if (!(check_pipe_position(head)))
-		ft_error("syntax error\n");
 }

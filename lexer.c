@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:14:20 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:18:35 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,12 @@ int	ft_find_operator(char c, char c1)
 		if (c1 == '<')
 			return (APPEND_IN);
 		return (REDIR_IN);
-<<<<<<< HEAD
 	}
+	else if (c == '\n')
+		return (NEW_LINE);
 	else if (c == '|')
 		return (PIPE);
 	else
-=======
-  }
-  else if (c == '-' || c == '~')
-   return (WORD);
-   else if (c == '\n')
-	return (NEWLINE);
-  else if (c == '|')
-    return (PIPE);
-  else
->>>>>>> parser
 		return (0);
 }
 
@@ -115,7 +106,7 @@ int	ft_lex(char *str, t_token *token)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) && !ft_isspace(str[i]))
+		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && str[i] != '|')
 		{
 			while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
 				i++;
@@ -123,7 +114,7 @@ int	ft_lex(char *str, t_token *token)
 			token->val = ft_strdup_bis(&str[i - token->len], token->len);
 			return (WORD);
 		}
-		else if (ft_strchr("><|", str[i]))
+		else if (ft_strchr("><|\n", str[i]))
 		{
 			token->token = ft_find_operator(str[i], str[i + 1]);
 			if (token->token == APPEND_IN || token->token == APPEND_OUT)

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:15:20 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 19:10:06 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@
 
 typedef enum
 {
-  PIPE = 0,
   REDIR_IN = 1,
   REDIR_OUT = 2,
   APPEND_OUT = 3,
   APPEND_IN = 4,
   WORD = 5,
   NEW_LINE = 6,
+  PIPE = 7,
 } token_type;
 
 typedef struct s_token
@@ -66,7 +66,7 @@ typedef struct s_env
 typedef struct s_global
 {
 	char **env;
-  t_env   *env;
+  t_env   *head_env;
 	t_token *head;
   t_cmd   *headcmd;
 }	t_global;
@@ -77,7 +77,8 @@ int	count_option(char *line);
 void	analize_cmd(t_token **head, t_cmd **comd);
 void	ft_print_cmd(t_cmd **cmd);
 t_cmd *ft_init_cmd();
-void check_global_pipe(t_token **head);
+void check_global_pipe(t_token **head, t_cmd **cmd);
+int	check_pipe_position(t_token *token, t_cmd *cmd);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
