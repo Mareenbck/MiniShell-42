@@ -13,33 +13,33 @@
 #include "minishell.h"
 
 
-char	*search_envp(char **env, char *str)
+char	*search_envp(t_env **head_env, char *str)
 {
 	char	*path;
-	int		i;
+	t_env *env;
 
-	i = 0;
-	while (env[i])
+	env = *head_env;
+	while (env->next != NULL)
 	{
-		path = ft_strnstr(env[i], str, ft_strlen(str));
+		path = ft_strnstr(env->env, str, ft_strlen(str));
 		if (path)
 		{
-			path = ft_substr(env[i], 5, ft_strlen(env[i]));
+			path = ft_substr(env->env, 5, ft_strlen(env->env));
 			if (!path)
 				ft_error("Error");
 			return (path);
 		}
-		i++;
+		env = env->next;
 	}
 	return (NULL);
 }
 
-char	**ft_split_envp(char **env)
+char	**ft_split_envp(t_env **head_env)
 {
 	char	*paths;
 	char	**split_path;
 
-	paths = search_envp(env, "PATH=");
+	paths = search_envp(head_env, "PATH=");
 	split_path = ft_split(paths, ':');
 	if (!split_path)
 		ft_error("Split error");

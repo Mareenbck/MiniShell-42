@@ -66,7 +66,7 @@ typedef struct s_env
 typedef struct s_global
 {
 	char **env;
-  t_env   *env;
+  t_env   *head_env;
 	t_token *head;
   t_cmd   *headcmd;
 }	t_global;
@@ -83,13 +83,15 @@ void check_global_pipe(t_token **head);
 void	**ft_free_tab(char **tab);
 void	ft_error(char *msg);
 t_token *lstlast(t_token *lst);
-void ft_lstaddback(t_token **alst, t_token *new);
 void ft_lst_clear(t_token **lst, void (*del)(void *));
 char *ft_strdup_bis(const char *s1, int len);
+void ft_lstaddback(t_token **alst, t_token *new);
 void ft_lstaddback2(t_cmd **alst, t_cmd *new);
+void ft_lstaddback3(t_env **alst, t_env *new);
 t_cmd	*lstlast2(t_cmd *lst);
 void ft_lst_clear2(t_cmd **head, void (*del)(void *));
 void ft_lst_clear3(t_global *head, void (*del)(void *));
+
 
 
 // SIGNAL
@@ -104,11 +106,13 @@ int ft_lex(char *str, t_token *token);
 void		ft_signal(int i);
 void	handle_sigint(int sig);
 
+// EXE
+void	ft_execution(t_global *global);
+void	ft_exe(t_global *global);
+int	ft_search_builtin(t_token *token, t_global *global);
 
-void	ft_execution(t_global *global, char *line);
-void	ft_exe(t_global *global, char *line);
-char	*search_envp(char **env, char *str);
-char	**ft_split_envp(char **env);
+char	*search_envp(t_env **head_env, char *str);
+char	**ft_split_envp(t_env **head_env);
 char	*ft_join_envp(char **split_path, char *av);
 
 // BUILTIN

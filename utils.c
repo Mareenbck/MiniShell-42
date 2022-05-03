@@ -69,6 +69,25 @@ void ft_lstaddback(t_token **alst, t_token *new)
   	}
 }
 
+void ft_lstaddback3(t_env **alst, t_env *new)
+{
+	t_env	*tmp;
+  	if (alst)
+  	{
+    	if (*alst != NULL)
+		{
+      		tmp = *alst;
+			while (tmp->next)
+            	tmp = tmp->next;
+        	tmp->next = new;
+        	new->prev = tmp;
+        	new->next = NULL;
+		}
+    	else
+      		(*alst) = new;
+  	}
+}
+
 void ft_lstaddback2(t_cmd **alst, t_cmd *new)
 {
   if (alst)
@@ -140,25 +159,3 @@ char *ft_strdup_bis(const char *s1, int len)
   }
   return (str);
 }
-
-// void	ft_add_back(t_liste *list, char *val)
-// {
-// 	t_elemt	*new;
-// 	t_elemt	*last;
-
-// 	new = malloc(sizeof(t_elemt));
-// 	if (!new)
-// 		return ;
-// 	if (list == NULL)
-// 		ft_error("Error\n");
-// 	new->val = val;
-// 	new->pipe = 0;
-// 	new->next = NULL;
-// 	if (list->head != NULL)
-// 	{
-// 		last = ft_lst_last(list->head);
-// 		last->next = new;
-// 	}
-// 	else
-// 		list->head = new;
-// }

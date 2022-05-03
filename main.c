@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_init_list_env(t_global *global, char **envp)
+void	ft_init_env(t_global *global, char **envp)
 {
 	int	i;
 
@@ -31,6 +31,61 @@ void	ft_init_list_env(t_global *global, char **envp)
 	global->env[i] = NULL;
 }
 
+void ft_print_env(t_env **head)
+{
+	t_env *tmp;
+
+	tmp = *head;
+	int i = 0;
+
+	while (tmp != NULL)
+	{
+		printf("%d > env : %s \n", i, tmp->env);
+		i++;
+		tmp = tmp->next;
+	}
+}
+
+t_env *ft_init_var_env()
+{
+  t_env *new_var_env;
+
+  new_var_env = malloc(sizeof(t_env));
+  if (!new_var_env)
+    return (NULL);
+  new_var_env->env = NULL;
+  new_var_env->next = NULL;
+  new_var_env->prev = NULL;
+  return (new_var_env);
+}
+
+t_env  *create_var_env(char *envp)
+{
+  t_env *new_var_env;
+
+  new_var_env = ft_init_var_env();
+  new_var_env->env = ft_strdup(envp);
+  new_var_env->next = NULL;
+  new_var_env->prev = NULL;
+  return (new_var_env);
+}
+
+void	ft_init_list_env(t_env **head_env, char **envp)
+{
+	int	i;
+	t_env *new_var_env;
+
+	i = 0;
+	while (envp[i])
+	{
+		new_var_env = create_var_env(envp[i]);
+		ft_lstaddback3(head_env, new_var_env);
+		i++;
+	}
+	ft_lstaddback3(head_env, ft_init_var_env());
+	// ft_print_env(head_env);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char *line;
@@ -40,7 +95,9 @@ int	main(int ac, char **av, char **envp)
 
 	global.head = NULL;
 	global.headcmd = NULL;
+	global.head_env = NULL;
 	ft_init_env(&global, envp);
+	ft_init_list_env(&global.head_env, envp);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -56,8 +113,8 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
-		check_global_pipe(&global.head);
+		// check_global_pipe(&global.head);
 		ft_signal(0);
-		ft_execution(&global, line);
+		ft_execution(&global);
 	}
 }

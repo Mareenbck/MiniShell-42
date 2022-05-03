@@ -51,7 +51,7 @@ int	ft_cd(t_token *token, t_global *global)
 	if (token->val == NULL || !ft_strncmp(token->val, "~", 1))
 	{
 		// DOIT RETOURNER A HOME OU RACINE DU MINISHELL ??
-		home = search_envp(global->env, "HOME=");
+		home = search_envp(&global->head_env, "HOME=");
 		chdir(home);
 	}
 	else
