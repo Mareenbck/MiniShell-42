@@ -80,13 +80,20 @@ void ft_lstaddback2(t_cmd **alst, t_cmd *new)
   }
 }
 
-
 void ft_lst_delone(t_token *token, void (*del)(void *))
 {
 	if (!del || !token)
 		return;
 	if (token)
 		(*del)(token);
+}
+
+void ft_lst_delone2(t_cmd *cmd, void (*del)(void *))
+{
+	if (!del || !cmd)
+		return;
+	if (cmd)
+		(*del)(cmd);
 }
 
 void ft_lst_clear(t_token **head, void (*del)(void *))
@@ -101,7 +108,20 @@ void ft_lst_clear(t_token **head, void (*del)(void *))
 		ft_lst_delone(*head, del);
 		(*head) = tmp;
 	}
+}
 
+void ft_lst_clear2(t_cmd **head, void (*del)(void *))
+{
+	t_cmd *tmp;
+
+	if (!del || !head)
+		return ;
+	while (*head)
+	{
+		tmp = (*head)->next;
+		ft_lst_delone2(*head, del);
+		(*head) = tmp;
+	}
 }
 
 char *ft_strdup_bis(const char *s1, int len)

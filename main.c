@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_init_env(t_global *global, char **envp)
+void	ft_init_list_env(t_global *global, char **envp)
 {
 	int	i;
 
@@ -35,18 +35,12 @@ int	main(int ac, char **av, char **envp)
 {
 	char *line;
 	t_global	global;
-	//t_token	*head;
 	(void)ac;
 	(void)av;
-	// pid_t	pid;
 
 	global.head = NULL;
 	global.headcmd = NULL;
 	ft_init_env(&global, envp);
-	// if (signal(SIGINT, siginthandler) == SIG_ERR)
-	// 	write(1, "boobs", 6);
-	// if (signal(SIGQUIT,signalslash) == SIG_ERR)
-	// 	write(1, "marche pas", 11);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -60,11 +54,9 @@ int	main(int ac, char **av, char **envp)
 		if (line && ft_strncmp(line, "exit", 4) == 0)
 			break ;
 		add_history(line);
-    	init_line(line, &global.head);
+		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
 		ft_signal(0);
 		ft_execution(&global, line);
-		ft_signal(2);
 	}
 }
-

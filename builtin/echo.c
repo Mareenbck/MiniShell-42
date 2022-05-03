@@ -18,20 +18,19 @@ int	ft_echo(t_token *token)
 	int option;
 
 	option = 0;
-	if (token->val == NULL)
-		printf(" ");
-	else if (!ft_strncmp(token->val, "-", 1) && !ft_strncmp(token->next->val, "n", 1))
+	while (token != NULL)
 	{
-		option = 1;
-		token = token->next->next;
-	}
-	else if (token->next != NULL)
-	{
-		while (token->next != NULL)
+		if (token->val == NULL)
+			printf(" ");
+		else if (!ft_strncmp(token->val, "-n", 2))
+			option = 1;
+		else if (token->next != NULL)
 		{
 			printf("%s",token->val);
-			token = token->next;
+			if (token->next->next != NULL)
+				printf(" ");
 		}
+		token = token->next;
 	}
 	if (!option)
 		printf("\n");

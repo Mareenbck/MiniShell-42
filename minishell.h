@@ -36,6 +36,7 @@ typedef enum
   APPEND_OUT = 3,
   APPEND_IN = 4,
   WORD = 5,
+  NEW_LINE = 6,
 } token_type;
 
 typedef struct s_token
@@ -55,10 +56,17 @@ typedef struct s_cmd
   struct s_cmd *next;
 } t_cmd;
 
+typedef struct s_env
+{
+  char *env;
+  struct s_env *prev;
+  struct s_env *next;
+} t_env;
 
 typedef struct s_global
 {
 	char **env;
+  t_env   *env;
 	t_token *head;
   t_cmd   *headcmd;
 }	t_global;
@@ -79,6 +87,9 @@ void ft_lst_clear(t_token **lst, void (*del)(void *));
 char *ft_strdup_bis(const char *s1, int len);
 void ft_lstaddback2(t_cmd **alst, t_cmd *new);
 t_cmd	*lstlast2(t_cmd *lst);
+void ft_lst_clear2(t_cmd **head, void (*del)(void *));
+void ft_lst_clear3(t_global *head, void (*del)(void *));
+
 
 // SIGNAL
 void siginthandler();
@@ -86,8 +97,6 @@ void signalslash();
 
 //LEXER
 void	ft_test_lex(char *line, t_global *global);
-
-
 void init_line(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
 

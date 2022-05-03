@@ -23,7 +23,7 @@ void	handle_sigint(int sig)
 	}
 }
 
-void		ft_signal(int i)
+void	ft_signal(int i)
 {
 	if (i == 0)
 	{
@@ -34,6 +34,5 @@ void		ft_signal(int i)
 		signal(SIGINT, SIG_DFL);
 	else if (i == 2)
 		signal(SIGINT, handle_sigint);
-
 }
 

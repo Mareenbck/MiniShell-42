@@ -57,9 +57,13 @@ void	ft_print_cmd(t_cmd **cmd)
 	int i = 0;
 
 	tmp = *cmd;
-	while (tmp->val[i] != NULL)
+	while (tmp->next != NULL)
 	{
-		printf("mot[%d] = %s\n", i, tmp->val[i]);
-		i++;
+		while (tmp->val[i] != NULL)
+		{
+			printf("mot[%d] = %s\n", i, tmp->val[i]);
+			i++;
+		}
+		tmp = tmp->next;
 	}
 }
