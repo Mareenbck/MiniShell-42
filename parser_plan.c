@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 19:11:08 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 20:02:31 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		if (token->token == PIPE)
 		{
 			cmd = ft_init_cmd();
-			//token = token->next;
 			check_pipe_position(token, cmd);
-			printf("token->next->token = %i\n", token->next->token);
-
 		}
 		token = token->next;
 	}

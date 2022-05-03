@@ -1,0 +1,26 @@
+total 1736
+drwxr-xr-x 2 emcariot 2021_paris   4096 May  3 19:39 builtin
+-rw-r--r-- 1 emcariot 2021_paris   2074 May  3 15:33 exe.c
+-rw-r--r-- 1 emcariot 2021_paris 171712 May  3 19:39 exe.o
+-rw-r--r-- 1 emcariot 2021_paris      0 May  3 20:02 foo
+-rw-r--r-- 1 emcariot 2021_paris   2940 May  3 17:18 lexer.c
+-rw-r--r-- 1 emcariot 2021_paris 172072 May  3 19:39 lexer.o
+drwxr-xr-x 2 emcariot 2021_paris   4096 May  3 19:12 libft
+-rw-r--r-- 1 emcariot 2021_paris   1803 May  3 19:55 main.c
+-rw-r--r-- 1 emcariot 2021_paris 170952 May  3 19:57 main.o
+-rw-r--r-- 1 emcariot 2021_paris    911 May  3 19:57 Makefile
+-rwxr-xr-x 1 emcariot 2021_paris 163264 May  3 20:01 minishell
+-rw-r--r-- 1 emcariot 2021_paris   3142 May  3 19:57 minishell.h
+-rw-r--r-- 1 emcariot 2021_paris   1758 May  3 09:55 parse_env.c
+-rw-r--r-- 1 emcariot 2021_paris 169800 May  3 19:39 parse_env.o
+-rw-r--r-- 1 emcariot 2021_paris   1876 May  3 20:01 parser_plan.c
+-rw-r--r-- 1 emcariot 2021_paris 170408 May  3 20:01 parser_plan.o
+-rw-r--r-- 1 emcariot 2021_paris   1155 May  3 19:53 pipe.c
+-rw-r--r-- 1 emcariot 2021_paris 168872 May  3 19:58 pipe.o
+-rw-r--r-- 1 emcariot 2021_paris     14 Apr 19 10:29 README.md
+-rw-r--r-- 1 emcariot 2021_paris   1155 May  3 19:55 redir.c
+-rw-r--r-- 1 emcariot 2021_paris 168880 May  3 19:58 redir.o
+-rw-r--r-- 1 emcariot 2021_paris   1257 May  3 15:33 signal.c
+-rw-r--r-- 1 emcariot 2021_paris 168608 May  3 19:39 signal.o
+-rw-r--r-- 1 emcariot 2021_paris   3078 May  3 15:33 utils.c
+-rw-r--r-- 1 emcariot 2021_paris 172176 May  3 19:39 utils.o
