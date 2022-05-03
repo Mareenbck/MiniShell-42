@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/29 10:51:20 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 15:15:20 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum
   APPEND_OUT = 3,
   APPEND_IN = 4,
   WORD = 5,
+  NEW_LINE = 6,
 } token_type;
 
 typedef struct s_token
@@ -69,6 +70,7 @@ int	count_option(char *line);
 void	analize_cmd(t_token **head, t_cmd **comd);
 void	ft_print_cmd(t_cmd **cmd);
 t_cmd *ft_init_cmd();
+void check_global_pipe(t_token **head);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
