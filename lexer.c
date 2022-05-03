@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/29 10:47:19 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 15:14:20 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,21 @@ int	ft_find_operator(char c, char c1)
 		if (c1 == '<')
 			return (APPEND_IN);
 		return (REDIR_IN);
+<<<<<<< HEAD
 	}
 	else if (c == '|')
 		return (PIPE);
 	else
+=======
+  }
+  else if (c == '-' || c == '~')
+   return (WORD);
+   else if (c == '\n')
+	return (NEWLINE);
+  else if (c == '|')
+    return (PIPE);
+  else
+>>>>>>> parser
 		return (0);
 }
 

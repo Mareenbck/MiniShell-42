@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/29 10:46:45 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/03 15:23:47 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 			token = token->next;
 		}
 		cmd->val[i] = NULL;
+		if (token->token == PIPE)
+ 			cmd = ft_init_cmd();
 		ft_lstaddback2(comd, cmd);
-		if (token->token == PIPE || token->token == 0)
-			cmd = ft_init_cmd();
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd());
@@ -57,13 +57,21 @@ void	ft_print_cmd(t_cmd **cmd)
 	int i = 0;
 
 	tmp = *cmd;
+<<<<<<< HEAD
 	while (tmp->next != NULL)
+=======
+	while (tmp)
+>>>>>>> parser
 	{
 		while (tmp->val[i] != NULL)
 		{
 			printf("mot[%d] = %s\n", i, tmp->val[i]);
 			i++;
 		}
+<<<<<<< HEAD
 		tmp = tmp->next;
+=======
+		tmp = tmp ->next;
+>>>>>>> parser
 	}
 }
