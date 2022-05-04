@@ -12,23 +12,15 @@
 
 #include "minishell.h"
 
-
-char	*search_envp(t_env **head_env, char *str)
+t_env	*find_name(t_env **head_env, char *var)
 {
-	char	*path;
 	t_env *env;
 
 	env = *head_env;
 	while (env->next != NULL)
 	{
-		path = ft_strnstr(env->env, str, ft_strlen(str));
-		if (path)
-		{
-			path = ft_substr(env->env, 5, ft_strlen(env->env));
-			if (!path)
-				ft_error("Error");
-			return (path);
-		}
+		if (ft_strnstr(env->var_name, var, ft_strlen(var)))
+			return (env);
 		env = env->next;
 	}
 	return (NULL);
@@ -36,15 +28,18 @@ char	*search_envp(t_env **head_env, char *str)
 
 char	**ft_split_envp(t_env **head_env)
 {
-	char	*paths;
 	char	**split_path;
+	t_env	*env;
 
-	paths = search_envp(head_env, "PATH=");
-	split_path = ft_split(paths, ':');
-	if (!split_path)
-		ft_error("Split error");
-	free(paths);
-	return (split_path);
+	env = find_name(head_env, "PATH=");
+	if (env != NULL)
+	{
+		split_path = ft_split(env->var_value, ':');
+		if (!split_path)
+			ft_error("Split error");
+		return (split_path);
+	}
+	return (NULL);
 }
 
 char	*ft_join_envp(char **split_path, char *av)

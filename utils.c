@@ -88,6 +88,33 @@ void ft_lstaddback3(t_env **alst, t_env *new)
   	}
 }
 
+void	ft_lst_insert(t_env **head_env, t_env *new)
+{
+	t_env	*tmp;
+	t_env	*tmp2;
+	tmp = *head_env;
+	if (head_env)
+	{
+		if (*head_env != NULL)
+		{
+			while (ft_strncmp(tmp->var_name, new->var_name, ft_strlen(tmp->var_name)) < 0)
+			{
+				// printf("strncmp : %d / env: %s\n", ft_strncmp(tmp->var_name, new->var_name, ft_strlen(tmp->var_name)), tmp->var_name);
+				tmp = tmp->next;
+			}
+			tmp2 = tmp->prev;
+			tmp2->next = new;
+			new->prev = tmp->prev;
+			tmp->prev = new;
+			new->next = tmp;
+			// printf("\033[01;32m new %s, next : %s, prev : %s next next %s\n \e[00m", new->var_name, new->next->var_name, new->prev->var_name, new->next->next->var_name);
+		}
+		else
+			(*head_env) = new;
+	}
+
+}
+
 void ft_lstaddback2(t_cmd **alst, t_cmd *new)
 {
   if (alst)

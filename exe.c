@@ -19,13 +19,13 @@ void	ft_exe(t_global *global)
 	char	**cmd_args;
 
 	cmd_args = global->headcmd->val;
-	printf("cmd args %s\n", cmd_args[0]);
-
 	split_path = ft_split_envp(&global->head_env);
+	if (!split_path)
+		ft_error("Variable not found");
 	cmd_path = ft_join_envp(split_path, cmd_args[0]);
 	if (!cmd_path)
 		ft_error("command not found");
-	// ft_free_tab(split_path);
+	ft_free_tab(split_path);
 	printf("cmd path %s\n", cmd_path);
 	if (execve(cmd_path, cmd_args, global->env) == -1)
 	{
@@ -46,6 +46,8 @@ int	ft_search_builtin(t_token *token, t_global *global)
 		ft_env(global);
 	else if (!ft_strncmp(token->val, "pwd", 3))
 		ft_pwd();
+	else if (!ft_strncmp(token->val, "export", 6))
+		ft_export(token->next, &global->head_env);
 	else
 		return (1);
 	return (0);
