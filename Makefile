@@ -6,9 +6,9 @@ LIBFT	= ./libft/libft.a
 
 SRCS	= main.c utils.c signal.c \
 		lexer.c parse_env.c builtin/pwd.c \
-		builtin/cd.c parser_plan.c \
+		builtin/cd.c parsing/parser_plan.c \
 		builtin/echo.c exe.c builtin/env.c \
-		pipe.c redir.c
+		parsing/pipe.c parsing/redir.c
 
 OBJS	= ${SRCS:.c=.o}
 

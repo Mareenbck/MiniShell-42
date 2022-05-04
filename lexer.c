@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 17:18:35 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/04 14:51:02 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,14 @@ int	ft_find_operator(char c, char c1)
 		return (0);
 }
 
+int    ft_operator(char c)
+{
+    if (c != '|' && c != '>' && c != '<')
+        return (1);
+    else 
+        return (0);
+}
+
 int	ft_lex(char *str, t_token *token)
 {
 	int	i;
@@ -106,7 +114,7 @@ int	ft_lex(char *str, t_token *token)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && str[i] != '|')
+		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && ft_operator(str[i]))
 		{
 			while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
 				i++;
