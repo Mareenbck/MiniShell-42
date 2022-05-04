@@ -97,11 +97,8 @@ void	ft_lst_insert(t_env **head_env, t_env *new)
 	{
 		if (*head_env != NULL)
 		{
-			while (ft_strncmp(tmp->var_name, new->var_name, ft_strlen(tmp->var_name)) < 0)
-			{
-				// printf("strncmp : %d / env: %s\n", ft_strncmp(tmp->var_name, new->var_name, ft_strlen(tmp->var_name)), tmp->var_name);
+			while (ft_strcmp(tmp->var_name, new->var_name) < 0)
 				tmp = tmp->next;
-			}
 			tmp2 = tmp->prev;
 			tmp2->next = new;
 			new->prev = tmp->prev;

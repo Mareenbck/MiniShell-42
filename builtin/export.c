@@ -19,19 +19,32 @@ void	ft_print_export(t_env **head)
 	tmp = *head;
 	while (tmp->next != NULL )
 	{
-		printf("%s %s\"%s\" next > %s\n", tmp->declare, tmp->var_name, tmp->var_value, tmp->next->var_name);
+		printf("%s %s\"%s\"\n", tmp->declare, tmp->var_name, tmp->var_value);
 		tmp = tmp->next;
 	}
+}
+// A FINIR
+int	name_is_valid(char *name)
+{
+	int i;
+
+	i = 0;
+	if (ft_isdigit(str[i]))
+		return (1);
+	while (ft_isalnum(str[i]) || str[i] == '_')
+		i++;
+	if (str[i] == '+' && str[i++] != '=')
+		return (1);
+	return (0)
 }
 
 void	ft_export(t_token *token, t_env **head_env)
 {
-	// t_env *env;
+	t_env *env;
 	t_env *new_env;
 	char *value;
 	char *name;
 
-	// env = *head_env;
 	if (token->val == NULL)
 		ft_print_export(head_env);
 	while (token->next != NULL)
@@ -42,11 +55,14 @@ void	ft_export(t_token *token, t_env **head_env)
 			name = init_var_name(token->val, '=');
 			if (!name)
 				name = token->val;
-			// printf("name : %s, value : %s\n", name, &value[1]);
-			new_env = create_var_env(name, &value[1]);
-			// printf("new_env name: %s val:%s\n", new_env->var_name, new_env->var_value);
-			ft_lst_insert(head_env, new_env);
-			// ft_print_export(head_env);
+			env = find_name(head_env, name);
+			if (env != NULL)
+				env->var_value = &value[1];
+			else
+			{
+				new_env = create_var_env(name, &value[1]);
+				ft_lst_insert(head_env, new_env);
+			}
 		}
 		token = token->next;
 	}
