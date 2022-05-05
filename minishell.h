@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/04 17:42:09 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/05 14:45:23 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,47 +30,46 @@
 
 typedef enum
 {
-  REDIR_IN = 1,
-  REDIR_OUT = 2,
-  APPEND_OUT = 3,
-  APPEND_IN = 4,
-  WORD = 5,
-  NEW_LINE = 6,
-  PIPE = 7,
+	REDIR_IN = 1,
+	REDIR_OUT = 2,
+	APPEND_OUT = 3,
+	APPEND_IN = 4,
+	WORD = 5,
+	NEW_LINE = 6,
+	PIPE = 7,
 } token_type;
 
 typedef struct s_token
 {
-  char token;
-  char *val;
-  int len;
-  struct s_token *prev;
-  struct s_token *next;
+	char token;
+	char *val;
+	int len;
+	struct s_token *prev;
+	struct s_token *next;
 } t_token;
 
 typedef struct s_cmd
 {
-  int count;
-  char **val;
-  char *redir;
-  struct s_cmd *next;
+	int count;
+	char **val;
+	char *redir;
+	struct s_cmd *next;
 } t_cmd;
 
 typedef struct s_env
 {
-  char *env;
-  struct s_env *prev;
-  struct s_env *next;
+	char *env;
+	struct s_env *prev;
+	struct s_env *next;
 } t_env;
 
 typedef struct s_global
 {
 	char **env;
-  t_env   *head_env;
+	t_env   *head_env;
 	t_token *head;
-  t_cmd   *headcmd;
+	t_cmd   *headcmd;
 }	t_global;
-
 
 /* PARSING */
 int	count_option(char *line);
