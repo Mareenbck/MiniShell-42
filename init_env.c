@@ -58,7 +58,7 @@ t_env *ft_init_var_env()
 	new_var_env->var_value = NULL;
 	new_var_env->next = NULL;
 	new_var_env->prev = NULL;
-  return (new_var_env);
+	return (new_var_env);
 }
 
 t_env  *create_var_env(char *envp, char *value)

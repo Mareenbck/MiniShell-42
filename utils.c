@@ -105,7 +105,6 @@ void	ft_lst_insert(t_env **head_env, t_env *new)
 	t_env	*tmp2;
 
 	tmp = *head_env;
-
 	if (head_env)
 	{
 		while ((ft_strcmp(new->var_name, tmp->var_name) > 0) && tmp->next->var_name != NULL)
@@ -187,17 +186,17 @@ void ft_lst_clear2(t_cmd **head, void (*del)(void *))
 
 char *ft_strdup_bis(const char *s1, int len)
 {
-  char *str;
+	char *str;
 
-  str = (char *)malloc(sizeof(char) * (len + 1));
-  if (!str)
-    return (NULL);
-  str[len] = '\0';
-  len--;
-  while (s1[len])
-  {
-    str[len] = s1[len];
-    len--;
-  }
-  return (str);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	str[len] = '\0';
+	len--;
+	while (s1[len])
+	{
+		str[len] = s1[len];
+		len--;
+	}
+	return (str);
 }
