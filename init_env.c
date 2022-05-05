@@ -113,5 +113,4 @@ void	ft_init_list_env(t_env **head_env, char **envp)
 		i++;
 	}
 	ft_lstaddback3(head_env, ft_init_var_env());
-	// ft_print_env(head_env);
 }
