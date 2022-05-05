@@ -92,24 +92,45 @@ void	ft_lst_insert(t_env **head_env, t_env *new)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
+
 	tmp = *head_env;
+
 	if (head_env)
 	{
-		if (*head_env != NULL)
+		while ((ft_strcmp(new->var_name, tmp->var_name) > 0) && tmp->next->var_name != NULL)
 		{
-			while (ft_strcmp(tmp->var_name, new->var_name) < 0)
-				tmp = tmp->next;
+			// printf("tmp : %s\n", tmp->var_name);
+			tmp = tmp->next;
+		}
+		if (tmp->next == NULL)
+		{
+			printf("coucou");
+			ft_lstaddback3(head_env, new);
+		}
+		else if (tmp->next != NULL && tmp->prev != NULL)
+		{
+			printf("ici tmp->next : %s\n", tmp->next->var_name);
 			tmp2 = tmp->prev;
 			tmp2->next = new;
 			new->prev = tmp->prev;
 			tmp->prev = new;
 			new->next = tmp;
-			// printf("\033[01;32m new %s, next : %s, prev : %s next next %s\n \e[00m", new->var_name, new->next->var_name, new->prev->var_name, new->next->next->var_name);
+		}
+		else if (tmp->prev == NULL)
+		{
+			printf("la tmp : %s new : %s\n", tmp->var_name, new->var_name);
+			new->next = tmp;
+			printf("new->next : %s, new : %s\n", new->next->var_name, new->var_name);
+			tmp->prev = new;
+			printf("tmp->prev : %s, tmp : %s , tmp->next : %s\n", tmp->prev->var_name, tmp->var_name, tmp->next->var_name);
+			printf("new->prev : , new : %s , new->next : %s\n", new->var_name, new->next->var_name);
 		}
 		else
-			(*head_env) = new;
+		{
+			printf("coucou\n");
+		}
+		// printf("\033[01;32m new %s, next : %s, prev : %s next next %s\n \e[00m", new->var_name, new->next->var_name, new->prev->var_name, new->next->next->var_name);
 	}
-
 }
 
 void ft_lstaddback2(t_cmd **alst, t_cmd *new)

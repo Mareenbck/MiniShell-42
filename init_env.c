@@ -81,7 +81,11 @@ char *init_var_name(char *str, char c)
 
 	i = 0;
 	while (str[i] != c)
+	{
 		i++;
+		if (str[i] == '\0')
+			return (NULL);
+	}
 	res = (char *)malloc(sizeof(char) * (i + 1));
 	if (!res)
 		return (NULL);

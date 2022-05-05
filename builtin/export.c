@@ -24,19 +24,19 @@ void	ft_print_export(t_env **head)
 	}
 }
 // A FINIR
-int	name_is_valid(char *name)
-{
-	int i;
+// int	name_is_valid(char *name)
+// {
+// 	int i;
 
-	i = 0;
-	if (ft_isdigit(str[i]))
-		return (1);
-	while (ft_isalnum(str[i]) || str[i] == '_')
-		i++;
-	if (str[i] == '+' && str[i++] != '=')
-		return (1);
-	return (0)
-}
+// 	i = 0;
+// 	if (ft_isdigit(str[i]))
+// 		return (1);
+// 	while (ft_isalnum(str[i]) || str[i] == '_')
+// 		i++;
+// 	if (str[i] == '+' && str[i++] != '=')
+// 		return (1);
+// 	return (0);
+// }
 
 void	ft_export(t_token *token, t_env **head_env)
 {
@@ -62,6 +62,7 @@ void	ft_export(t_token *token, t_env **head_env)
 			{
 				new_env = create_var_env(name, &value[1]);
 				ft_lst_insert(head_env, new_env);
+				printf("name : %s\n", name);
 			}
 		}
 		token = token->next;
