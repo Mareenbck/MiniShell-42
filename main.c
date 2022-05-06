@@ -12,24 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_init_list_env(t_global *global, char **envp)
-{
-	int	i;
 
-	i = 0;
-	while (envp[i])
-		i++;
-	global->env = (char **)malloc(sizeof(char *) * i + 1);
-	if(!global->env)
-		ft_error("Error\n");
-	i = 0;
-	while (envp[i])
-	{
-		global->env[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	global->env[i] = NULL;
-}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -40,7 +23,9 @@ int	main(int ac, char **av, char **envp)
 
 	global.head = NULL;
 	global.headcmd = NULL;
+	global.head_env = NULL;
 	ft_init_env(&global, envp);
+	ft_init_list_env(&global.head_env, envp);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -56,8 +41,8 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
-		check_global_pipe(&global.head);
+		// check_global_pipe(&global.head);
 		ft_signal(0);
-		ft_execution(&global, line);
+		ft_execution(&global);
 	}
 }

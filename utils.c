@@ -69,6 +69,66 @@ void ft_lstaddback(t_token **alst, t_token *new)
   	}
 }
 
+void ft_lstaddback3(t_env **alst, t_env *new)
+{
+	t_env	*tmp;
+
+  	if (alst)
+  	{
+    	if (*alst != NULL)
+		{
+      		tmp = *alst;
+			while (tmp->next != NULL)
+            	tmp = tmp->next;
+        	tmp->next = new;
+        	new->prev = tmp;
+        	new->next = NULL;
+		}
+    	else
+      		(*alst) = new;
+  	}
+}
+
+void	ft_lstaddfront(t_env **alst, t_env *new)
+{
+	t_env *tmp;
+
+	tmp = *alst;
+	new->next = *alst;
+	tmp->prev = new;
+	*alst = new;
+}
+
+void	ft_lst_insert(t_env **head_env, t_env *new)
+{
+	t_env	*tmp;
+	t_env	*tmp2;
+
+	tmp = *head_env;
+	if (head_env)
+	{
+		while ((ft_strcmp(new->var_name, tmp->var_name) > 0) && tmp->next->var_name != NULL)
+			tmp = tmp->next;
+		if (tmp->next->var_name != NULL && tmp->prev != NULL)
+		{
+			tmp2 = tmp->prev;
+			tmp2->next = new;
+			new->prev = tmp->prev;
+			tmp->prev = new;
+			new->next = tmp;
+		}
+		else if (tmp == *head_env)
+			ft_lstaddfront(head_env, new);
+		else
+		{
+			tmp->next = new;
+			new->prev = tmp;
+			new->next = NULL;
+			ft_lstaddback3(head_env, ft_init_var_env());
+		}
+	}
+}
+
 void ft_lstaddback2(t_cmd **alst, t_cmd *new)
 {
   if (alst)
@@ -126,39 +186,17 @@ void ft_lst_clear2(t_cmd **head, void (*del)(void *))
 
 char *ft_strdup_bis(const char *s1, int len)
 {
-  char *str;
+	char *str;
 
-  str = (char *)malloc(sizeof(char) * (len + 1));
-  if (!str)
-    return (NULL);
-  str[len] = '\0';
-  len--;
-  while (s1[len])
-  {
-    str[len] = s1[len];
-    len--;
-  }
-  return (str);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	str[len] = '\0';
+	len--;
+	while (s1[len])
+	{
+		str[len] = s1[len];
+		len--;
+	}
+	return (str);
 }
-
-// void	ft_add_back(t_liste *list, char *val)
-// {
-// 	t_elemt	*new;
-// 	t_elemt	*last;
-
-// 	new = malloc(sizeof(t_elemt));
-// 	if (!new)
-// 		return ;
-// 	if (list == NULL)
-// 		ft_error("Error\n");
-// 	new->val = val;
-// 	new->pipe = 0;
-// 	new->next = NULL;
-// 	if (list->head != NULL)
-// 	{
-// 		last = ft_lst_last(list->head);
-// 		last->next = new;
-// 	}
-// 	else
-// 		list->head = new;
-// }

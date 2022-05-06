@@ -90,21 +90,10 @@ int	ft_find_operator(char c, char c1)
 		if (c1 == '<')
 			return (APPEND_IN);
 		return (REDIR_IN);
-<<<<<<< HEAD
 	}
 	else if (c == '|')
 		return (PIPE);
 	else
-=======
-  }
-  else if (c == '-' || c == '~')
-   return (WORD);
-   else if (c == '\n')
-	return (NEWLINE);
-  else if (c == '|')
-    return (PIPE);
-  else
->>>>>>> parser
 		return (0);
 }
 
@@ -115,7 +104,7 @@ int	ft_lex(char *str, t_token *token)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) && !ft_isspace(str[i]))
+		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && str[i] != '|')
 		{
 			while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
 				i++;

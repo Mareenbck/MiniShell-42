@@ -12,39 +12,38 @@
 
 #include "minishell.h"
 
-
-char	*search_envp(char **env, char *str)
+t_env	*find_name(t_env **head_env, char *var)
 {
-	char	*path;
-	int		i;
+	t_env *env;
 
-	i = 0;
-	while (env[i])
+	env = *head_env;
+	while (env->next != NULL)
 	{
-		path = ft_strnstr(env[i], str, ft_strlen(str));
-		if (path)
+		// printf("var : %s, len : %d\n", var, len);
+		if (ft_strnstr(env->var_name, var, ft_strlen(var)))
 		{
-			path = ft_substr(env[i], 5, ft_strlen(env[i]));
-			if (!path)
-				ft_error("Error");
-			return (path);
+			printf("var name : %s\n", env->var_name);
+			return (env);
 		}
-		i++;
+		env = env->next;
 	}
 	return (NULL);
 }
 
-char	**ft_split_envp(char **env)
+char	**ft_split_envp(t_env **head_env)
 {
-	char	*paths;
 	char	**split_path;
+	t_env	*env;
 
-	paths = search_envp(env, "PATH=");
-	split_path = ft_split(paths, ':');
-	if (!split_path)
-		ft_error("Split error");
-	free(paths);
-	return (split_path);
+	env = find_name(head_env, "PATH=");
+	if (env != NULL)
+	{
+		split_path = ft_split(env->var_value, ':');
+		if (!split_path)
+			ft_error("Split error");
+		return (split_path);
+	}
+	return (NULL);
 }
 
 char	*ft_join_envp(char **split_path, char *av)

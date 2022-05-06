@@ -24,6 +24,24 @@ t_cmd *ft_init_cmd()
 	return (new_cmd);
 }
 
+void	ft_print_cmd(t_cmd **cmd)
+{
+	t_cmd *tmp;
+	int i = 0;
+
+	tmp = *cmd;
+	while (tmp->next != NULL)
+	{
+		i = 0;
+		while (tmp->val[i] != NULL)
+		{
+			printf("mot[%d] = %s\n", i, tmp->val[i]);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	analize_cmd(t_token **head, t_cmd **comd)
 {
 	t_token *token;
@@ -42,28 +60,12 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 			token = token->next;
 		}
 		cmd->val[i] = NULL;
+		ft_lstaddback2(comd, cmd);
 		if (token->token == PIPE)
  			cmd = ft_init_cmd();
-		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd());
 	ft_print_cmd(comd);
 }
 
-void	ft_print_cmd(t_cmd **cmd)
-{
-	t_cmd *tmp;
-	int i = 0;
-
-	tmp = *cmd;
-	while (tmp->next != NULL)
-	{
-		while (tmp->val[i] != NULL)
-		{
-			printf("mot[%d] = %s\n", i, tmp->val[i]);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-}

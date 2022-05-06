@@ -12,19 +12,21 @@
 
 #include "minishell.h"
 
-void	ft_exe(t_global *global, char *line)
+void	ft_exe(t_global *global)
 {
 	char	*cmd_path;
 	char	**split_path;
 	char	**cmd_args;
-	(void)line;
 
 	cmd_args = global->headcmd->val;
-	split_path = ft_split_envp(global->env);
+	split_path = ft_split_envp(&global->head_env);
+	if (!split_path)
+		ft_error("Variable not found");
 	cmd_path = ft_join_envp(split_path, cmd_args[0]);
 	if (!cmd_path)
 		ft_error("command not found");
-	// ft_free_tab(split_path);
+	ft_free_tab(split_path);
+	printf("cmd path %s\n", cmd_path);
 	if (execve(cmd_path, cmd_args, global->env) == -1)
 	{
 		ft_free_tab(cmd_args);
@@ -44,12 +46,14 @@ int	ft_search_builtin(t_token *token, t_global *global)
 		ft_env(global);
 	else if (!ft_strncmp(token->val, "pwd", 3))
 		ft_pwd();
+	else if (!ft_strncmp(token->val, "export", 6))
+		ft_export(token->next, &global->head_env);
 	else
 		return (1);
 	return (0);
 }
 
-void	ft_execution(t_global *global, char *line)
+void	ft_execution(t_global *global)
 {
 	pid_t	pid;
 
@@ -60,7 +64,7 @@ void	ft_execution(t_global *global, char *line)
 		if (pid == 0)
 		{
 			ft_signal(1);
-			ft_exe(global, line);
+			ft_exe(global);
 		}
 		wait(&pid);
 	}
@@ -68,4 +72,3 @@ void	ft_execution(t_global *global, char *line)
 	ft_lst_clear2(&global->headcmd, free);
 	ft_signal(2);
 }
-
