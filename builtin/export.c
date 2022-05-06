@@ -42,18 +42,7 @@ int check_name(char *name)
 
 char *check_value(char *value)
 {
-	// int i;
-
-	// i = 0;
 	value = ft_strtrim(&value[0], "=");
-	// while (ft_isalnum(name[i]) || name[i] == '_')
-	// 	i++;
-	// if (name[i] == '+' && name[i+1] == '=')
-	// {
-	// 	env = find_name(head_env, name);
-	// 	value = ft_strjoin(env->var_value, value);
-	// 	free(env->var_value);
-	// }
 	if (!value)
 		value = "\0";
 	else if (value[0] == '\"')
