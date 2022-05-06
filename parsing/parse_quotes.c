@@ -10,22 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	check_s_quotes_positon(t_token *token)
-{
-	int	i;
+// int	check_s_quotes_positon(t_token *token)
+// {
+// 	int	i;
 
-	i = 0;
-	while (token->val[i])
-	{
-		if (is_simple_quotes(token->val[i]))
-		{
+// 	i = 0;
+// 	while (token->val[i])
+// 	{
+// 		if (is_simple_quotes(token->val[i]))
+// 		{
 
-		}
+// 		}
 
-	}
-}
+// 	}
+// }
 
 /*pour le plan :
 	examiner si quote dans le token WORD.
@@ -40,4 +40,4 @@ int	check_s_quotes_positon(t_token *token)
 
 	si precede dun chevron
 		peut etre ok.
-
+*/

@@ -41,6 +41,7 @@ void	ft_print_cmd(t_cmd **cmd)
 		}
 		tmp = tmp->next;
 	}
+}
 
 void	analize_redir(t_token *token, t_cmd *cmd)
 {
@@ -91,22 +92,3 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 	ft_lstaddback2(comd, ft_init_cmd());
 	ft_print_cmd(comd);
 }
-
-void	ft_print_cmd(t_cmd **cmd)
-{
-	t_cmd *tmp;
-	int i = 0;
-
-	tmp = *cmd;
-	while (tmp->next != NULL)
-	{
-		i = 0;
-		while (tmp->val[i] != NULL)
-		{
-			printf("mot[%d] = %s\n", i, tmp->val[i]);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-}
-
