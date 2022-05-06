@@ -38,9 +38,9 @@ void		trim_doble_quotes(t_token *token)
 		{
 			if (is_doble_quotes(token->val[i]))
 			{
-				printf("i = %d\n", i);
+				//printf("i = %d\n", i);
 				token->val = ft_strtrim(token->val, "\"");
-				printf("token->val[i] = %c\n", token->val[i]);
+				//printf("token->val[i] = %c\n", token->val[i]);
 			}
 			i++;
 		}
@@ -59,9 +59,9 @@ void		trim_simple_quotes(t_token *token)
 		{
 			if (is_simple_quotes(token->val[i]))
 			{
-				printf("i = %d\n", i);
+				//printf("i = %d\n", i);
 				token->val = ft_strtrim(token->val, "\'");
-				printf("token->val[i] = %c\n", token->val[i]);
+				//printf("token->val[i] = %c\n", token->val[i]);
 			}
 			i++;
 		}
