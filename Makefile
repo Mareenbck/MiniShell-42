@@ -9,7 +9,7 @@ SRCS	= main.c utils.c signal.c \
 		builtin/cd.c parsing/parser_plan.c \
 		builtin/echo.c exe.c builtin/env.c \
 		parsing/pipe.c parsing/redir.c \
-		parsing/append.c
+		parsing/append.c parsing/trim_quotes.c \
 
 OBJS	= ${SRCS:.c=.o}
 
