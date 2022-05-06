@@ -6,9 +6,13 @@ LIBFT	= ./libft/libft.a
 
 SRCS	= main.c utils.c signal.c \
 		lexer.c parse_env.c builtin/pwd.c \
-		builtin/cd.c parser_plan.c \
+		builtin/cd.c parsing/parser_plan.c \
 		builtin/echo.c exe.c builtin/env.c \
-		pipe.c init_env.c builtin/export.c
+		init_env.c builtin/export.c
+		parsing/pipe.c parsing/redir.c \
+		parsing/append.c parsing/trim_quotes.c \
+		parsing/parse_quotes.c
+
 
 OBJS	= ${SRCS:.c=.o}
 
@@ -16,7 +20,7 @@ RM	= rm -f
 
 CC	= gcc
 
-FLAGS	= -Wall -Wextra -Werror
+FLAGS	= -Wall -Wextra -Werror -g3
 
 all:		${NAME}
 

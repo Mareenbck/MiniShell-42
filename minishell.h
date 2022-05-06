@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/03 15:15:20 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/06 13:33:55 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,30 @@
 
 typedef enum
 {
-  PIPE = 0,
-  REDIR_IN = 1,
-  REDIR_OUT = 2,
-  APPEND_OUT = 3,
-  APPEND_IN = 4,
-  WORD = 5,
-  NEW_LINE = 6,
+	REDIR_IN = 1,
+	REDIR_OUT = 2,
+	APPEND_OUT = 3,
+	APPEND_IN = 4,
+	WORD = 5,
+	NEW_LINE = 6,
+	PIPE = 7,
 } token_type;
 
 typedef struct s_token
 {
-  char token;
-  char *val;
-  int len;
-  struct s_token *prev;
-  struct s_token *next;
+	char token;
+	char *val;
+	int len;
+	struct s_token *prev;
+	struct s_token *next;
 } t_token;
 
 typedef struct s_cmd
 {
-  int count;
-  char **val;
-  char *redir;
-  struct s_cmd *next;
+	int count;
+	char **val;
+	char *redir;
+	struct s_cmd *next;
 } t_cmd;
 
 typedef struct s_env
@@ -69,18 +69,31 @@ typedef struct s_env
 typedef struct s_global
 {
 	char **env;
-  t_env   *head_env;
+	t_env   *head_env;
 	t_token *head;
-  t_cmd   *headcmd;
+	t_cmd   *headcmd;
 }	t_global;
-
 
 /* PARSING */
 int	count_option(char *line);
 void	analize_cmd(t_token **head, t_cmd **comd);
 void	ft_print_cmd(t_cmd **cmd);
 t_cmd *ft_init_cmd();
-void check_global_pipe(t_token **head);
+
+// PIPE
+int	check_pipe_position(t_token *token, t_cmd *cmd);
+
+//REDIR
+int check_redir_o_position(t_token *token, t_cmd *cmd);
+int check_redir_i_position(t_token *token, t_cmd *cmd);
+int check_append_o(t_token *token, t_cmd *cmd);
+int check_append_i(t_token *token, t_cmd *cmd);
+
+//QUOTE
+int			is_doble_quotes(char c);
+int			is_simple_quotes(char c);
+void		trim_doble_quotes(t_token *token);
+void		trim_simple_quotes(t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
