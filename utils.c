@@ -200,3 +200,9 @@ char *ft_strdup_bis(const char *s1, int len)
 	}
 	return (str);
 }
+
+int	ft_wrong(char *str)
+{
+	printf("%s\n", str);
+	return(1);
+}

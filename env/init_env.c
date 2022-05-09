@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_init_env(t_global *global, char **envp)
 {
@@ -98,60 +98,32 @@ char *edit_name(char *str, char c)
 	res[i++] = '\0';
 	while (--i >= 0)
 		res[i] = str[i];
-	free(str);
-	return (res);
-}
-
-char *init_var_name(char *str, char c)
-{
-	int i;
-	char *res;
-
-	i = 0;
-	res = NULL;
-	while (str[i] != c)
-	{
-		i++;
-		if (str[i] == '\0')
-			return (str);
-	}
-	res = (char *)malloc(sizeof(char) * (i + 1));
-	if (!res)
-		return (NULL);
-	res[i++] = '\0';
-	while (--i >= 0)
-		res[i] = str[i];
 	return (res);
 }
 
 char *init_sign(char *name)
 {
 	size_t i;
+	size_t j;
 	int size;
 	char *res;
 
-	i = ft_strlen(name);
-	size = 0;
-	if (name[--i] == '=')
+	i = 0;
+	while (name[i] != '=' && name[i] != '\0')
+		i++;
+	j = i;
+	if (name[j] == '=')
 	{
-		size++;
-		if (name[--i] == '+')
-		{
-			size++;
-			i--;
-		}
+		j--;
+		if (name[j] == '+')
+			j--;
 	}
-	res = (char *)malloc(sizeof(char) * (size + 1));
+	res = (char *)malloc(sizeof(char) * (i - j + 1));
 	if (!res)
 		return (NULL);
 	size = 0;
-	i++;
-	while (i < ft_strlen(name))
-	{
-		res[size] = name[i];
-		size++;
-		i++;
-	}
+	while (j++ < i)
+		res[size++] = name[j];
 	res[size] = '\0';
 	return (res);
 }
@@ -168,11 +140,11 @@ void	ft_init_list_env(t_env **head_env, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		value = ft_strchr(envp[i], '=');
-		name = init_var_name(envp[i], '=');
-		sign = init_sign(name);
-		name = edit_name(name, '=');
-		new_var_env = create_var_env(name, &value[1], sign);
+		value = check_value(envp[i]);
+		sign = init_sign(envp[i]);
+		if (!check_name(envp[i], 0))
+			name = edit_name(envp[i], '=');
+		new_var_env = create_var_env(name, value, sign);
 		ft_lstaddback3(head_env, new_var_env);
 		i++;
 	}

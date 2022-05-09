@@ -39,8 +39,8 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
-		trim_doble_quotes(global.head);
-		trim_simple_quotes(global.head);
+		// trim_doble_quotes(global.head);
+		// trim_simple_quotes(global.head);
 		ft_signal(0);
 		ft_execution(&global);
 	}

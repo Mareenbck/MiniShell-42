@@ -44,6 +44,7 @@ typedef struct s_token
 	char token;
 	char *val;
 	int len;
+	int expand;
 	struct s_token *prev;
 	struct s_token *next;
 } t_token;
@@ -108,6 +109,7 @@ t_cmd	*lstlast2(t_cmd *lst);
 void ft_lst_clear2(t_cmd **head, void (*del)(void *));
 void ft_lst_clear3(t_global *head, void (*del)(void *));
 void  ft_lst_insert(t_env **head_env, t_env *new);
+int	ft_wrong(char *str);
 
 // INIT_ENV
 void	ft_init_list_env(t_env **head_env, char **envp);
@@ -145,10 +147,14 @@ int	ft_search_builtin(t_token *token, t_global *global);
 
 
 // BUILTIN
-int	ft_echo(t_token *token);
+int	ft_echo(t_token *token, t_env **head_env);
 int	ft_pwd(void);
 int	ft_cd(t_token *token, t_global *global);
 int	ft_env(t_global *global);
-void	ft_export(t_token *token, t_env **head_env);
+int	ft_export(t_token *token, t_env **head_env);
+
+// EXPAND ENV
+int check_name(char *token);
+char *check_value(char *token);
 
 #endif
