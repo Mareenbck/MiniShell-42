@@ -10,34 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	check_s_quotes_positon(t_token *token)
-{
-	int	i;
+// int	check_s_quotes_positon(t_token *token)
+// {
+// 	int	i;
 
-	i = 0;
-	while (token->val[i])
-	{
-		if (is_simple_quotes(token->val[i]))
-		{
+// 	i = 0;
+// 	while (token->val[i])
+// 	{
+// 		if (is_simple_quotes(token->val[i]))
+// 		{
 
-		}
+// 		}
 
-	}
-}
+// 	}
+// }
 
-/*pour le plan :
-	examiner si quote dans le token WORD.
-	OUI ?
-		si prev est un mot -> c'est une string a afficher>
-		chercher la derniere quote.
-		si quote % 2 == 0 la string est entre les deux
-		sinon soit erreur si 1 soit elle fait partie de la string
+// pour le plan :
+// 	examiner si quote dans le token WORD.
+// 	OUI ?
+// 		si prev est un mot -> c'est une string a afficher>
+// 		chercher la derniere quote.
+// 		si quote % 2 == 0 la string est entre les deux
+// 		sinon soit erreur si 1 soit elle fait partie de la string
 
-	NON ?
-		si precede d'un pipe, errror.
+// 	NON ?
+// 		si precede d'un pipe, errror.
 
-	si precede dun chevron
-		peut etre ok.
+// 	si precede dun chevron
+// 		peut etre ok.
 
