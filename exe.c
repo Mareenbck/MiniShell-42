@@ -33,22 +33,19 @@ void	ft_exe(t_global *global)
 {
 	char	**split_path;
 	t_cmd *cmd;
-	int i = 1;
+	int i = 0;
 
 	cmd = global->headcmd;
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
 		ft_error("Variable not found");
-	if (cmd->expand[0])
+	if (cmd->expand[i])
 		ft_expand_cmd(global, cmd, split_path);
 	else
-		cmd->path = ft_join_envp(split_path, cmd->val[0]);
-	while (cmd->val[i])
-	{
+		cmd->path = ft_join_envp(split_path, cmd->val[i]);
+	while (cmd->val[++i])
 		if (cmd->expand[i])
 			ft_expand_args(global, cmd, i);
-		i++;
-	}
 	if (!cmd->path)
 		ft_error("command not found");
 	ft_free_tab(split_path);
