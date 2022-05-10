@@ -142,7 +142,7 @@ void	ft_init_list_env(t_env **head_env, char **envp)
 	{
 		value = check_value(envp[i]);
 		sign = init_sign(envp[i]);
-		if (!check_name(envp[i], 0))
+		if (!check_name(envp[i]))
 			name = edit_name(envp[i], '=');
 		new_var_env = create_var_env(name, value, sign);
 		ft_lstaddback3(head_env, new_var_env);

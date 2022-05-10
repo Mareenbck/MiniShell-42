@@ -41,7 +41,7 @@ int	ft_export(t_token *token, t_env **head_env)
 	while (token->next != NULL && token->token == WORD)
 	{
 		value = check_value(token->val);
-		if (!check_name(token->val, token->expand))
+		if (!check_name(token->val))
 		{
 			sign = init_sign(token->val);
 			env = find_name(head_env, edit_name(token->val, '='));

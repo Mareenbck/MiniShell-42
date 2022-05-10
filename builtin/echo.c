@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-//RASSEMBLER - ET N DANS MEME TOKEN
 int	ft_echo(t_token *token, t_env **head_env)
 {
 	int option;
@@ -24,7 +23,7 @@ int	ft_echo(t_token *token, t_env **head_env)
 	{
 		if (token->expand)
 		{
-			env = find_name(head_env, edit_name(token->val, '='));
+			env = find_name(head_env, edit_name(&token->val[1], '='));
 			printf("%s",env->var_value);
 		}
 		if (token->val == NULL)

@@ -48,7 +48,7 @@ void ft_print(t_token **head)
 
 	while (tmp != NULL)
 	{
-		printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
+		printf("%d > token : %d, size : %d, value : %s expand : %d\n", i, tmp->token, tmp->len, tmp->val, tmp->expand);
 		i++;
 		tmp = tmp->next;
 	}
@@ -123,10 +123,7 @@ int	ft_lex(char *str, t_token *token)
 				i++;
 			token->len = i;
 			if (str[0] == '$')
-			{
-				token->len -= 1;
 				token->expand = 1;
-			}
 			token->val = ft_strdup_bis(&str[i - token->len], token->len);
 			return (WORD);
 		}
