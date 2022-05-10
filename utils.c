@@ -188,16 +188,12 @@ char *ft_strdup_bis(const char *s1, int len)
 {
 	char *str;
 
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)malloc(sizeof(char) * len + 1);
 	if (!str)
 		return (NULL);
 	str[len] = '\0';
-	len--;
-	while (s1[len])
-	{
+	while (--len >= 0)
 		str[len] = s1[len];
-		len--;
-	}
 	return (str);
 }
 

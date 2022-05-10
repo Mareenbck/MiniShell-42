@@ -26,16 +26,15 @@ t_env	*find_name(t_env **head_env, char *var)
 	return (NULL);
 }
 
-char	**ft_split_envp(t_env **head_env)
+char	**ft_split_envp(t_env **head_env, char *str)
 {
 	char	**split_path;
 	t_env	*env;
 
-	env = find_name(head_env, "PATH=");
+	env = find_name(head_env, str);
 	if (env != NULL)
 	{
 		split_path = ft_split(env->var_value, ':');
-		printf("split_path :%s\n", split_path[0]);
 		if (!split_path)
 			ft_error("Split error");
 		return (split_path);
