@@ -22,7 +22,10 @@ void	ft_exe(t_global *global)
 	split_path = ft_split_envp(&global->head_env);
 	if (!split_path)
 		ft_error("Variable not found");
-	cmd_path = ft_join_envp(split_path, cmd_args[0]);
+	if (global->head->expand)
+		cmd_path = ft_join_envp(split_path, &global->head->val[1]);
+	else
+		cmd_path = ft_join_envp(split_path, cmd_args[0]);
 	if (!cmd_path)
 		ft_error("command not found");
 	ft_free_tab(split_path);

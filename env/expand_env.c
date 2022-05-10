@@ -28,6 +28,8 @@ int check_name(char *token)
 	return (0);
 }
 
+//Trim ttes les quotes mais l'affichage est gere avec le signe.
+//si sign est = alors on entoure la value de quotes
 char *check_value(char *token)
 {
 	char *value;

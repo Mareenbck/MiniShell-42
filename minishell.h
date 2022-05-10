@@ -54,6 +54,7 @@ typedef struct s_cmd
 	int count;
 	char **val;
 	char *redir;
+	int expand;
 	struct s_cmd *next;
 } t_cmd;
 

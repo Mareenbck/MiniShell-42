@@ -35,6 +35,7 @@ char	**ft_split_envp(t_env **head_env)
 	if (env != NULL)
 	{
 		split_path = ft_split(env->var_value, ':');
+		printf("split_path :%s\n", split_path[0]);
 		if (!split_path)
 			ft_error("Split error");
 		return (split_path);

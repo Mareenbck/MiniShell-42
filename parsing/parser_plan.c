@@ -72,7 +72,13 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		i = 0;
 		while (token->token == WORD && token->token != PIPE)
 		{
-			cmd->val[i] = ft_strdup(token->val);
+			if (token->expand)
+			{
+				cmd->val[i] = ft_strdup(&token->val[1]);
+				cmd->expand = 1;
+			}
+			else
+				cmd->val[i] = ft_strdup(token->val);
 			i++;
 			token = token->next;
 		}
