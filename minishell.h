@@ -54,6 +54,8 @@ typedef struct s_cmd
 	int count;
 	char **val;
 	char *redir;
+	int *expand;
+	char *path;
 	struct s_cmd *next;
 } t_cmd;
 
@@ -124,7 +126,7 @@ char *edit_name(char *str, char c);
 
 // PARSE ENV
 char	*search_envp(t_env **head_env, char *str);
-char	**ft_split_envp(t_env **head_env);
+char	**ft_split_envp(t_env **head_env, char *str);
 char	*ft_join_envp(char **split_path, char *av);
 t_env	*find_name(t_env **head_env, char *var);
 

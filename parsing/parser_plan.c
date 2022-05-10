@@ -20,6 +20,8 @@ t_cmd *ft_init_cmd()
 	if (!new_cmd)
 		return (NULL);
 	new_cmd->val = (char **)malloc(sizeof(char *));
+	new_cmd->expand = malloc(sizeof(int));
+	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
@@ -34,7 +36,7 @@ void	ft_print_cmd(t_cmd **cmd)
 	while (tmp->next != NULL)
 	{
 		i = 0;
-		while (tmp->val[i] != NULL)
+		while (tmp->val[i])
 		{
 			printf("mot[%d] = %s\n", i, tmp->val[i]);
 			i++;
@@ -72,11 +74,17 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		i = 0;
 		while (token->token == WORD && token->token != PIPE)
 		{
-			cmd->val[i] = ft_strdup(token->val);
-			i++;
+			if (token->expand)
+			{
+				cmd->val[i] = ft_strdup(&token->val[1]);
+				cmd->expand[i] = 1;
+			}
+			else
+				cmd->val[i] = ft_strdup(token->val);
 			token = token->next;
+			i++;
 		}
-		cmd->val[i] = NULL;
+		// cmd->val[i] = NULL;
 		ft_lstaddback2(comd, cmd);
 		if (token->token == REDIR_OUT || token->token == REDIR_IN)
 			analize_redir(token, cmd);
@@ -90,5 +98,5 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd());
-	ft_print_cmd(comd);
+	// ft_print_cmd(comd);
 }

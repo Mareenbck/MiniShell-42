@@ -78,5 +78,6 @@ int ft_isspace(int c);
 int	ft_strcmp(const char *s1, const char *s2);
 char	**ft_sort_tab(char **tab);
 char	*ft_strcat(char *dest, char *src);
+char	*ft_strcpy(char *dest, char *src);
 
 #endif
