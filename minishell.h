@@ -109,7 +109,7 @@ void ft_lstaddback2(t_cmd **alst, t_cmd *new);
 void ft_lstaddback3(t_env **alst, t_env *new);
 t_cmd	*lstlast2(t_cmd *lst);
 void ft_lst_clear2(t_cmd **head, void (*del)(void *));
-void ft_lst_clear3(t_global *head, void (*del)(void *));
+void ft_lst_clear3(t_env **head, void (*del)(void *));
 void  ft_lst_insert(t_env **head_env, t_env *new);
 int	ft_wrong(char *str);
 

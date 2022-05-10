@@ -17,7 +17,7 @@ void	ft_print_export(t_env **head)
 	t_env *tmp;
 
 	tmp = *head;
-	while (tmp->next != NULL )
+	while (tmp->next != NULL)
 	{
 		if (*tmp->var_value == '\0' && *tmp->var_sign == '\0')
 			printf("%s %s%s\n", tmp->declare, tmp->var_name, tmp->var_sign);
