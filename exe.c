@@ -39,7 +39,7 @@ int	ft_search_builtin(t_token *token, t_global *global)
 	if (token->val == NULL)
 		return (1);
 	if (!ft_strncmp(token->val, "echo", 4))
-		ft_echo(token->next);
+		ft_echo(token->next, &global->head_env);
 	else if (!ft_strncmp(token->val, "cd", 2))
 		ft_cd(token->next, global);
 	else if (!ft_strncmp(token->val, "env", 3))

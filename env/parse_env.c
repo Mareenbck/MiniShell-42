@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_env	*find_name(t_env **head_env, char *var)
 {
@@ -19,12 +19,8 @@ t_env	*find_name(t_env **head_env, char *var)
 	env = *head_env;
 	while (env->next != NULL)
 	{
-		// printf("var : %s, len : %d\n", var, len);
 		if (ft_strnstr(env->var_name, var, ft_strlen(var)))
-		{
-			printf("var name : %s\n", env->var_name);
 			return (env);
-		}
 		env = env->next;
 	}
 	return (NULL);

@@ -12,19 +12,25 @@
 
 #include "../minishell.h"
 
-//RASSEMBLER - ET N DANS MEME TOKEN
-int	ft_echo(t_token *token)
+int	ft_echo(t_token *token, t_env **head_env)
 {
 	int option;
+	t_env *env;
 
+	env = *head_env;
 	option = 0;
 	while (token != NULL)
 	{
+		if (token->expand)
+		{
+			env = find_name(head_env, edit_name(&token->val[1], '='));
+			printf("%s",env->var_value);
+		}
 		if (token->val == NULL)
 			printf(" ");
 		else if (!ft_strncmp(token->val, "-n", 2))
 			option = 1;
-		else if (token->next != NULL)
+		else if (token->next != NULL && !token->expand)
 		{
 			printf("%s",token->val);
 			if (token->next->next != NULL)

@@ -22,6 +22,7 @@ t_token *ft_init_token()
   new_token->val = NULL;
   new_token->len = 0;
   new_token->token = 0;
+  new_token->expand = 0;
   new_token->next = NULL;
   new_token->prev = NULL;
   return (new_token);
@@ -47,7 +48,7 @@ void ft_print(t_token **head)
 
 	while (tmp != NULL)
 	{
-		printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
+		printf("%d > token : %d, size : %d, value : %s expand : %d\n", i, tmp->token, tmp->len, tmp->val, tmp->expand);
 		i++;
 		tmp = tmp->next;
 	}
@@ -69,6 +70,8 @@ void init_line(char *line, t_token **head)
 		if (line[i] == '\0')
 			break ;
 		new = create_token(&line[i]);
+		if (new->expand)
+			i++;
 		ft_lstaddback(head, new);
 		i += new->len;
 	}
@@ -119,6 +122,8 @@ int	ft_lex(char *str, t_token *token)
 			while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
 				i++;
 			token->len = i;
+			if (str[0] == '$')
+				token->expand = 1;
 			token->val = ft_strdup_bis(&str[i - token->len], token->len);
 			return (WORD);
 		}

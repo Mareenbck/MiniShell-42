@@ -27,70 +27,42 @@ void	ft_print_export(t_env **head)
 	}
 }
 
-// A FINIR
-int check_name(char *name)
-{
-	int i;
-
-	i = 0;
-	if (ft_isdigit(name[i]))
-		printf("wrong arg\n");
-	while (ft_isalnum(name[i]) || name[i] == '_')
-		i++;
-	return (0);
-}
-
-char *check_value(char *value)
-{
-	value = ft_strtrim(&value[0], "=");
-	if (!value)
-		value = "\0";
-	else if (value[0] == '\"')
-	{
-		value = ft_strtrim(value, "\"");
-		printf("value : %s\n", value);
-	}
-	else if (value[0] == '\'')
-		value = ft_strtrim(value, "\'");
-	return (value);
-}
-
-void	ft_export(t_token *token, t_env **head_env)
+//FAIRE UEN STRUCT TMP POUR ENREGISTRER NOM ET SIGNE FORMATE
+int	ft_export(t_token *token, t_env **head_env)
 {
 	t_env *env;
 	t_env *new_env;
 	char *value;
-	char *name;
 	char *sign;
 
 	env = NULL;
 	if (token->val == NULL)
 		ft_print_export(head_env);
-	while (token->next != NULL)
+	while (token->next != NULL && token->token == WORD)
 	{
-		if (token->token == WORD)
+		value = check_value(token->val);
+		if (!check_name(token->val))
 		{
-			value = ft_strchr(token->val, '=');
-			value = check_value(value);
-			name = init_var_name(token->val, '=');
-			check_name(name);
-			sign = init_sign(name);
-			name = edit_name(name, '=');
-			env = find_name(head_env, name);
-			if (env != NULL)
+			sign = init_sign(token->val);
+			env = find_name(head_env, edit_name(token->val, '='));
+			if (env)
 			{
 				if (sign[0] == '+')
 					env->var_value = ft_strjoin(env->var_value, value);
 				else
+				{
+					env->var_sign = sign;
 					env->var_value = value;
+				}
 			}
 			else
 			{
-				new_env = create_var_env(name, value, sign);
+				new_env = create_var_env(edit_name(token->val, '='), value, sign);
 				ft_lst_insert(head_env, new_env);
 			}
 		}
 		token = token->next;
 	}
 	// ft_print_env(head_env);
+	return (0);
 }

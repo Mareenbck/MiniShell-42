@@ -43,7 +43,6 @@ void	ft_print_cmd(t_cmd **cmd)
 	}
 }
 
-
 void	analize_redir(t_token *token, t_cmd *cmd)
 {
 	if (token->token == REDIR_OUT)
