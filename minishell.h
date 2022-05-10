@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/10 10:44:02 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:37:59 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,19 @@ typedef struct s_global
 }	t_global;
 
 /* PARSING */
-int	count_option(char *line);
-void	analize_cmd(t_token **head, t_cmd **comd);
-void	ft_print_cmd(t_cmd **cmd);
-t_cmd *ft_init_cmd();
+int			count_option(char *line);
+void		analize_cmd(t_token **head, t_cmd **comd);
+void		ft_print_cmd(t_cmd **cmd);
+t_cmd		*ft_init_cmd();
 
 // PIPE
-int	check_pipe_position(t_token *token, t_cmd *cmd);
+int			check_pipe_position(t_token *token, t_cmd *cmd);
 
 //REDIR
-int check_redir_o_position(t_token *token, t_cmd *cmd);
-int check_redir_i_position(t_token *token, t_cmd *cmd);
-int check_append_o(t_token *token, t_cmd *cmd);
-int check_append_i(t_token *token, t_cmd *cmd);
+int			check_redir_o_position(t_token *token, t_cmd *cmd);
+int			check_redir_i_position(t_token *token, t_cmd *cmd);
+int			check_append_o(t_token *token, t_cmd *cmd);
+int			check_append_i(t_token *token, t_cmd *cmd);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
@@ -97,8 +97,10 @@ void		trim_doble_quotes(t_token *token);
 void		trim_simple_quotes(t_token *token);
 
 //QUOTE - PARSE
-int			check_nb_d_quotes(t_token *token);
-int     check_nb_s_quotes(t_token *token);
+int			count_d_quotes(t_token *token);
+int			count_s_quotes(t_token *token);
+void		recup_count_d_quotes(t_token *token);
+void		recup_count_s_quotes(t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
