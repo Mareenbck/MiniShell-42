@@ -17,6 +17,7 @@ void	ft_init_minishell(t_global *global, char **envp)
 	global->head = NULL;
 	global->headcmd = NULL;
 	global->head_env = NULL;
+	global->exit = 0;
 	ft_init_env(global, envp);
 	ft_init_list_env(&global->head_env, envp);
 }
@@ -39,16 +40,18 @@ int	main(int ac, char **av, char **envp)
 	ft_init_minishell(&global, envp);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	while (1)
+	while (!global.exit)
 	{
 		line = readline("\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
 		if (!line)
 		{
 			printf("exit\n");
-			break ;
+			global.exit_status = SUCCESS;
+			global.exit = 1;
+			return (1);
 		}
-		if (line && ft_strncmp(line, "exit", 4) == 0)
-			break ;
+		// if (line && ft_strncmp(line, "exit", 4) == 0)
+		// 	break ;
 		add_history(line);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
@@ -59,6 +62,7 @@ int	main(int ac, char **av, char **envp)
 		free(line);
 	}
 	ft_free_list(&global);
+	exit(global.exit_status);
 }
 
 

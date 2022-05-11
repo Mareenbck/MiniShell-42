@@ -70,14 +70,11 @@ void init_line(char *line, t_token **head)
 		if (line[i] == '\0')
 			break ;
 		new = create_token(&line[i]);
-		if (new->expand)
-			i++;
 		ft_lstaddback(head, new);
 		i += new->len;
 	}
 	ft_lstaddback(head, ft_init_token());
 	ft_print(head);
-	// return (0);
 }
 
 int	ft_find_operator(char c, char c1)

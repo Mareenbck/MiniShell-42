@@ -26,6 +26,7 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 # include "libft/libft.h"
 
 typedef enum
@@ -38,6 +39,25 @@ typedef enum
 	NEW_LINE = 6,
 	PIPE = 7,
 } token_type;
+
+typedef enum
+{
+	SUCCESS = 0,
+	PIPE_FAIL = 3,
+	FORK_FAIL = 4,
+	ALLOCATION_FAIL = 5,
+	SYNTAX_QUOTES = 6,
+	SYNTAX_REDIR = 7,
+	AMBIGUOUS_REDIR = 8,
+	TOOMANY = 24,
+	ERROR = 1,
+	MISUSE = 2,
+	CANTEXEC = 126,
+	NOTFOUND = 127,
+	CSIGINT = 130
+} exit_status;
+
+
 
 typedef struct s_token
 {
@@ -71,7 +91,9 @@ typedef struct s_env
 
 typedef struct s_global
 {
+	int	exit;
 	char **env;
+	int exit_status;
 	t_env   *head_env;
 	t_token *head;
 	t_cmd   *headcmd;
@@ -139,7 +161,7 @@ void	ft_test_lex(char *line, t_global *global);
 void init_line(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
 
-void		ft_signal(int i);
+void	ft_signal(int i);
 void	handle_sigint(int sig);
 
 // EXE
@@ -149,11 +171,12 @@ int	ft_search_builtin(t_token *token, t_global *global);
 
 
 // BUILTIN
-int	ft_echo(t_token *token, t_env **head_env);
+int	ft_echo(t_token *token, t_global *global);
 int	ft_pwd(void);
 int	ft_cd(t_token *token, t_global *global);
 int	ft_env(t_global *global);
 int	ft_export(t_token *token, t_env **head_env);
+int	ft_exit(t_global *global, t_token *token);
 
 // EXPAND ENV
 int check_name(char *token);

@@ -47,7 +47,11 @@ void	ft_exe(t_global *global)
 		if (cmd->expand[i])
 			ft_expand_args(global, cmd, i);
 	if (!cmd->path)
-		ft_error("command not found");
+		ft_error("Variable not found");
+	// {
+	// 	global->exit_status = NOTFOUND;
+	// 	global->exit = 1;
+	// }
 	ft_free_tab(split_path);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
@@ -61,7 +65,7 @@ int	ft_search_builtin(t_token *token, t_global *global)
 	if (token->val == NULL)
 		return (1);
 	if (!ft_strncmp(token->val, "echo", 4))
-		ft_echo(token->next, &global->head_env);
+		ft_echo(token->next, global);
 	else if (!ft_strncmp(token->val, "cd", 2))
 		ft_cd(token->next, global);
 	else if (!ft_strncmp(token->val, "env", 3))
@@ -70,6 +74,8 @@ int	ft_search_builtin(t_token *token, t_global *global)
 		ft_pwd();
 	else if (!ft_strncmp(token->val, "export", 6))
 		ft_export(token->next, &global->head_env);
+	else if (!ft_strncmp(token->val, "exit", 4))
+		ft_exit(global, token->next);
 	else
 		return (1);
 	return (0);
@@ -79,7 +85,6 @@ void	ft_execution(t_global *global)
 {
 	pid_t	pid;
 
-	// ft_signal(0);
 	if (ft_search_builtin(global->head, global) == 1)
 	{
 		pid = fork();
