@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:26:05 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/10 17:23:11 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/11 10:42:59 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,12 @@ void	parse_final_quotes(t_token *token)
 	i = 0;
 	while (token->token == WORD)
 	{
-		printf("token->val : %c\n", token->val[i]);
+		printf("token->val : %c   i = %d\n", token->val[i], i);
 		i = 0;
 		while (token->val[i])
 		{
-			if (is_doble_quotes(token->val[i]))
-			{
-				recup_count_d_quotes(token);
-				printf("ok\n");
-			}
+			// if (is_doble_quotes(token->val[i]))
+			// 	recup_count_d_quotes(token);
 			if (is_simple_quotes(token->val[i]))
 			{
 				printf("coucou\n");
@@ -99,3 +96,16 @@ void	parse_final_quotes(t_token *token)
 	}
 }
 
+// void	parse_final_quotes(t_token *token)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (token->token == WORD)
+// 	{
+// 		i = 0;
+// 		while (token->val[i] && token->val[i] != "\'")
+// 			i++;
+
+// 	}
+// }
