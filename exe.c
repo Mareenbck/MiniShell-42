@@ -12,24 +12,49 @@
 
 #include "minishell.h"
 
+void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
+{
+	t_env *env;
+
+	env = find_name(&global->head_env, cmd->val[0]);
+	ft_strcpy(cmd->val[0], env->var_value);
+	cmd->path = ft_join_envp(split_path, env->var_value);
+}
+
+void	ft_expand_args(t_global *global, t_cmd *cmd, int i)
+{
+	t_env *env;
+
+	env = find_name(&global->head_env, cmd->val[i]);
+	ft_strcpy(cmd->val[i], env->var_value);
+}
+
 void	ft_exe(t_global *global)
 {
-	char	*cmd_path;
 	char	**split_path;
-	char	**cmd_args;
+	t_cmd *cmd;
+	int i = 1;
 
-	cmd_args = global->headcmd->val;
-	split_path = ft_split_envp(&global->head_env);
+	cmd = global->headcmd;
+	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
 		ft_error("Variable not found");
-	cmd_path = ft_join_envp(split_path, cmd_args[0]);
-	if (!cmd_path)
+	if (cmd->expand[0])
+		ft_expand_cmd(global, cmd, split_path);
+	else
+		cmd->path = ft_join_envp(split_path, cmd->val[0]);
+	while (cmd->val[i])
+	{
+		if (cmd->expand[i])
+			ft_expand_args(global, cmd, i);
+		i++;
+	}
+	if (!cmd->path)
 		ft_error("command not found");
 	ft_free_tab(split_path);
-	printf("cmd path %s\n", cmd_path);
-	if (execve(cmd_path, cmd_args, global->env) == -1)
+	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
-		ft_free_tab(cmd_args);
+		// ft_free_tab(cmd_args);
 		ft_error("Error of execution");
 	}
 }

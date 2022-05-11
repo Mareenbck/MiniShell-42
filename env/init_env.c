@@ -19,7 +19,7 @@ void	ft_init_env(t_global *global, char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	global->env = (char **)malloc(sizeof(char *) * i + 1);
+	global->env = (char **)malloc(sizeof(t_env) * i + 1);
 	if(!global->env)
 		ft_error("Error\n");
 	i = 0;
