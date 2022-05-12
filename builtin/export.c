@@ -60,7 +60,7 @@ int	ft_export(t_token *token, t_global *global)
 			}
 			else
 			{
-				// ft_insert_tab(global->env, token->val, value);
+				ft_insert_tab(global->env, token->val, value);
 				new_env = create_var_env(edit_name(token->val, '='), value, sign);
 				ft_lst_insert(&global->head_env, new_env);
 			}

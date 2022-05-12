@@ -19,7 +19,7 @@ t_env	*find_name(t_env **head_env, char *var)
 	env = *head_env;
 	while (env->next != NULL)
 	{
-		if (!ft_strncmp(env->var_name, var, (ft_strlen(var))))
+		if (!ft_strncmp(env->var_name, var, (ft_strlen(var) + 1)))
 			return (env);
 		env = env->next;
 	}
