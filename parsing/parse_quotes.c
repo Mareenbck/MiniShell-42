@@ -6,39 +6,63 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:26:05 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/06 14:31:57 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:25:40 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// int	check_s_quotes_positon(t_token *token)
-// {
-// 	int	i;
+int	count_d_quotes(t_token *token)
+{
+	int	i;
+	int count;
 
-// 	i = 0;
-// 	while (token->val[i])
-// 	{
-// 		if (is_simple_quotes(token->val[i]))
-// 		{
+	count = 0;
+	while (token->token == WORD)
+	{
+		i = 0;
+		while (token->val[i])
+		{
+			if (is_doble_quotes(token->val[i]))
+				count++;
+			i++;
+		}
+		token = token->next;
+	}
+	return (count);
+}
 
-// 		}
+int	count_s_quotes(t_token *token)
+{
+	int	i;
+	int count;
 
-// 	}
-// }
+	count = 0;
+	while (token->token == WORD)
+	{
+		i = 0;
+		while (token->val[i])
+		{
+			if (is_simple_quotes(token->val[i]))
+				count++;
+			i++;
+		}
+		token = token->next;
+	}
+	return (count);
+}
 
-// pour le plan :
-// 	examiner si quote dans le token WORD.
-// 	OUI ?
-// 		si prev est un mot -> c'est une string a afficher>
-// 		chercher la derniere quote.
-// 		si quote % 2 == 0 la string est entre les deux
-// 		sinon soit erreur si 1 soit elle fait partie de la string
+void	recup_count_d_quotes(t_token *token)
+{
+	int	countd;
+	int	counts;
 
-// 	NON ?
-// 		si precede d'un pipe, errror.
-
-// 	si precede dun chevron
-// 		peut etre ok.
-
+	countd = count_d_quotes(token);
+	counts = count_s_quotes(token);
+	if (countd % 2 == 0 || counts % 2 == 0)
+		trim_global_quotes(token);
+	else
+		ft_error("Command not found\n");
+	printf("countd = %d\n", countd);
+}
 
