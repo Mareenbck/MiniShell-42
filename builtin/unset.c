@@ -34,6 +34,7 @@ int	ft_unset(t_token *token, t_global *global)
 		}
 		i++;
 	}
-	ft_init_list_env(&global->head_env, global->env);
+	ft_lst_clear3(&global->head_env, free);
+	ft_init_list_env(&global->head_env, global);
 	return (0);
 }

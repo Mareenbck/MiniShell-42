@@ -93,6 +93,7 @@ typedef struct s_global
 {
 	bool	exit;
 	char **env;
+	char **sorted_env;
 	int exit_status;
 	t_env   *head_env;
 	t_token *head;
@@ -137,7 +138,7 @@ int	ft_wrong(char *str);
 void ft_lst_delone3(t_env *env, void (*del)(void *));
 
 // INIT_ENV
-void	ft_init_list_env(t_env **head_env, char **envp);
+void	ft_init_list_env(t_env **head_env, t_global *global);
 void	ft_init_env(t_global *global, char **envp);
 t_env  *create_var_env(char *envp, char *value, char *sign);
 t_env *ft_init_var_env();
@@ -146,6 +147,7 @@ void	ft_print_export(t_env **head);
 char *init_sign(char *name);
 void ft_print_env(t_env **head);
 char *edit_name(char *str, char c);
+void	ft_init_sorted_env(t_global *global);
 
 // PARSE ENV
 char	*search_envp(t_env **head_env, char *str);

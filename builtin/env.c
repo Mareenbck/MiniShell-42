@@ -12,18 +12,17 @@
 
 #include "../minishell.h"
 
-void ft_insert_tab(char **tab, char *name, char *value)
-{
-	int i;
-	i = 0;
-	(void)value;
-	while (tab[i])
-		i++;
-	tab[i] = ft_strdup(name);
-	// ft_strjoin(tab[i], value);
-	i++;
-	tab[i] = NULL;
-}
+// void ft_insert_tab(char **tab, char *name, char *value)
+// {
+// 	int i;
+// 	i = 0;
+// 	(void)value;
+// 	while (tab[i])
+// 		i++;
+// 	tab[i] = ft_strdup(name);
+// 	i++;
+// 	tab[i] = NULL;
+// }
 
 int	ft_env(t_global *global)
 {

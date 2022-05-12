@@ -37,6 +37,8 @@ int	ft_export(t_token *token, t_global *global)
 	char *sign;
 
 	env = NULL;
+	// ft_lst_clear3(&global->head_env, free);
+	// ft_init_list_env(&global->head_env, global->env);
 	if (token->val == NULL)
 		ft_print_export(&global->head_env);
 	while (token->next != NULL && token->token == WORD)
@@ -58,7 +60,7 @@ int	ft_export(t_token *token, t_global *global)
 			}
 			else
 			{
-				ft_insert_tab(global->env, token->val, value);
+				// ft_insert_tab(global->env, token->val, value);
 				new_env = create_var_env(edit_name(token->val, '='), value, sign);
 				ft_lst_insert(&global->head_env, new_env);
 			}

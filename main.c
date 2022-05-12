@@ -14,13 +14,13 @@
 
 void	ft_init_minishell(t_global *global, char **envp)
 {
-	(void)envp;
 	global->head = NULL;
 	global->headcmd = NULL;
 	global->head_env = NULL;
 	global->exit = false;
 	ft_init_env(global, envp);
-	ft_init_list_env(&global->head_env, global->env);
+	ft_init_list_env(&global->head_env, global);
+	// printf("COUCOU\n");
 }
 
 void	ft_free_list(t_global *global)
@@ -28,6 +28,7 @@ void	ft_free_list(t_global *global)
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
 	ft_lst_clear3(&global->head_env, free);
+	// ft_free_tab(global->sorted_env);
 	ft_free_tab(global->env);
 }
 

@@ -64,19 +64,19 @@ int	ft_search_builtin(t_token *token, t_global *global)
 {
 	if (token->val == NULL)
 		return (1);
-	if (!ft_strncmp(token->val, "echo", 5))
+	if (!ft_strncmp(token->val, "echo", 4))
 		ft_echo(token->next, global);
-	else if (!ft_strncmp(token->val, "cd", 3))
+	else if (!ft_strncmp(token->val, "cd", 2))
 		ft_cd(token->next, global);
-	else if (!ft_strncmp(token->val, "env", 4))
+	else if (!ft_strncmp(token->val, "env", 3))
 		ft_env(global);
-	else if (!ft_strncmp(token->val, "pwd", 4))
+	else if (!ft_strncmp(token->val, "pwd", 3))
 		ft_pwd();
-	else if (!ft_strncmp(token->val, "export", 7))
+	else if (!ft_strncmp(token->val, "export", 6))
 		ft_export(token->next, global);
-	else if (!ft_strncmp(token->val, "unset", 5))
+	else if (!ft_strncmp(token->val, "unset", 4))
 		ft_unset(token->next, global);
-	else if (!ft_strncmp(token->val, "exit", 5))
+	else if (!ft_strncmp(token->val, "exit", 4))
 		ft_exit(global, token->next);
 	else
 	{

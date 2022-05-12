@@ -54,33 +54,6 @@ void ft_print(t_token **head)
 	}
 }
 
-int    is_inquotes(char *line, char c)
-{
-    int    i;
-
-    i = 0;
-
-        while (line[i])
-        {
-            if (is_doble_quotes(line[i]) && line[i])
-            {
-                printf("ok line[i] : %c\n", line[i]);
-                while (line[i])
-                {
-                    printf("while line[i] : %c\n", line[i]);
-                    if (is_doble_quotes(line[i]))
-                    {
-                        // token->inquotes = true;
-                        return (1);
-                    }
-                    i++;
-                }
-            }
-            i++;
-        }
-        return (0);
-    // printf("token->inquotes = %d\n", token->inquotes);
-}
 
 void init_line(char *line, t_token **head)
 {
@@ -90,7 +63,7 @@ void init_line(char *line, t_token **head)
 	i = 0;
 	while (line[i])
 	{
-		while (ft_isspace(line[i]) && !is_inquotes(&line[i], line[i]))
+		while (ft_isspace(line[i]))
 		{
 			i++;
 		}
