@@ -73,11 +73,16 @@ int	ft_search_builtin(t_token *token, t_global *global)
 	else if (!ft_strncmp(token->val, "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(token->val, "export", 6))
-		ft_export(token->next, &global->head_env);
+		ft_export(token->next, global);
+	// else if (!ft_strncmp(token->val, "unset", 5))
+	// 	ft_unset(token->next, global);
 	else if (!ft_strncmp(token->val, "exit", 4))
 		ft_exit(global, token->next);
 	else
+	{
+		global->exit_status = 127;
 		return (1);
+	}
 	return (0);
 }
 
@@ -90,12 +95,12 @@ void	ft_execution(t_global *global)
 		pid = fork();
 		if (pid == 0)
 		{
-			ft_signal(1);
+			ft_signal(1, global);
 			ft_exe(global);
 		}
 		wait(&pid);
 	}
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
-	ft_signal(2);
+	ft_signal(2, global);
 }

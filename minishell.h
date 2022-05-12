@@ -91,7 +91,7 @@ typedef struct s_env
 
 typedef struct s_global
 {
-	int	exit;
+	bool	exit;
 	char **env;
 	int exit_status;
 	t_env   *head_env;
@@ -134,6 +134,7 @@ void ft_lst_clear2(t_cmd **head, void (*del)(void *));
 void ft_lst_clear3(t_env **head, void (*del)(void *));
 void  ft_lst_insert(t_env **head_env, t_env *new);
 int	ft_wrong(char *str);
+void ft_lst_delone3(t_env *env, void (*del)(void *));
 
 // INIT_ENV
 void	ft_init_list_env(t_env **head_env, char **envp);
@@ -153,16 +154,17 @@ char	*ft_join_envp(char **split_path, char *av);
 t_env	*find_name(t_env **head_env, char *var);
 
 // SIGNAL
-void siginthandler();
-void signalslash();
+// void siginthandler();
+// void signalslash();
+void	ft_signal(int i, t_global *global);
+void	handle_sigint(int sig);
+
 
 //LEXER
 void	ft_test_lex(char *line, t_global *global);
 void init_line(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
 
-void	ft_signal(int i);
-void	handle_sigint(int sig);
 
 // EXE
 void	ft_execution(t_global *global);
@@ -175,8 +177,10 @@ int	ft_echo(t_token *token, t_global *global);
 int	ft_pwd(void);
 int	ft_cd(t_token *token, t_global *global);
 int	ft_env(t_global *global);
-int	ft_export(t_token *token, t_env **head_env);
+int	ft_export(t_token *token, t_global *global);
 int	ft_exit(t_global *global, t_token *token);
+int	ft_unset(t_token *token, t_global *global);
+void ft_insert_tab(char **tab, char *name, char *value);
 
 // EXPAND ENV
 int check_name(char *token);

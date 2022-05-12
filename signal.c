@@ -23,10 +23,11 @@ void	handle_sigint(int sig)
 	}
 }
 
-void	ft_signal(int i)
+void	ft_signal(int i, t_global *global)
 {
 	if (i == 0)
 	{
+		global->exit_status = 130;
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}

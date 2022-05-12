@@ -28,7 +28,7 @@ void	ft_print_export(t_env **head)
 }
 
 //FAIRE UEN STRUCT TMP POUR ENREGISTRER NOM ET SIGNE FORMATE
-int	ft_export(t_token *token, t_env **head_env)
+int	ft_export(t_token *token, t_global *global)
 {
 	t_env *env;
 	t_env *new_env;
@@ -37,14 +37,16 @@ int	ft_export(t_token *token, t_env **head_env)
 
 	env = NULL;
 	if (token->val == NULL)
-		ft_print_export(head_env);
+		ft_print_export(&global->head_env);
 	while (token->next != NULL && token->token == WORD)
 	{
 		value = check_value(token->val);
 		if (!check_name(token->val))
 		{
 			sign = init_sign(token->val);
-			env = find_name(head_env, edit_name(token->val, '='));
+			printf("edit name : %s\n", edit_name(token->val, '='));
+			env = find_name(&global->head_env, edit_name(token->val, '='));
+			printf("env apres find name : %s\n", env->var_name);
 			if (env)
 			{
 				if (sign[0] == '+')
@@ -57,8 +59,9 @@ int	ft_export(t_token *token, t_env **head_env)
 			}
 			else
 			{
+				ft_insert_tab(global->env, token->val, value);
 				new_env = create_var_env(edit_name(token->val, '='), value, sign);
-				ft_lst_insert(head_env, new_env);
+				ft_lst_insert(&global->head_env, new_env);
 			}
 		}
 		token = token->next;

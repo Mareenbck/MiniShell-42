@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_is_valid_num(char *s)
+bool	ft_is_valid_num(char *s)
 {
 	int	sign;
 	int i;
@@ -20,7 +20,7 @@ int	ft_is_valid_num(char *s)
 	i = 0;
 	sign = 0;
 	if (!s[i])
-		return (0);
+		return (false);
 	while (s[i] == 43 || s[i] == 45)
 	{
 		sign++;
@@ -29,14 +29,13 @@ int	ft_is_valid_num(char *s)
 	while (ft_isdigit(s[i]))
 		i++;
 	if (sign > 1 || s[i])
-		return (0);
-	return (1);
+		return (false);
+	return (true);
 }
 
 int	ft_exit(t_global *global, t_token *token)
 {
-	global->exit = 1;
-	printf("exit token: %s\n", token->val);
+	global->exit = true;
 	if (token->val == NULL)
 	{
 		global->exit_status = SUCCESS;
@@ -55,7 +54,7 @@ int	ft_exit(t_global *global, t_token *token)
 	}
 	if (token->next->val != NULL)
 	{
-		global->exit = 0;
+		global->exit = false;
 		global->exit_status = 1;
 		printf("exit: too many arguments\n");
 	}

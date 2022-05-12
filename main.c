@@ -17,7 +17,7 @@ void	ft_init_minishell(t_global *global, char **envp)
 	global->head = NULL;
 	global->headcmd = NULL;
 	global->head_env = NULL;
-	global->exit = 0;
+	global->exit = false;
 	ft_init_env(global, envp);
 	ft_init_list_env(&global->head_env, envp);
 }
@@ -46,18 +46,16 @@ int	main(int ac, char **av, char **envp)
 		if (!line)
 		{
 			printf("exit\n");
-			global.exit_status = SUCCESS;
-			global.exit = 1;
-			return (1);
+			global.exit = true;
+			ft_free_list(&global);
+			exit(0);
 		}
-		// if (line && ft_strncmp(line, "exit", 4) == 0)
-		// 	break ;
 		add_history(line);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
 		// trim_doble_quotes(global.head);
 		// trim_simple_quotes(global.head);
-		ft_signal(0);
+		ft_signal(0, &global);
 		ft_execution(&global);
 		free(line);
 	}

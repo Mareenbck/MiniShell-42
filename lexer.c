@@ -64,7 +64,6 @@ void init_line(char *line, t_token **head)
 	{
 		while (ft_isspace(line[i]))
 		{
-			ft_strtrim(line, &line[i]);
 			i++;
 		}
 		if (line[i] == '\0')
