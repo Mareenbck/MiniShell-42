@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/04 14:51:02 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/12 18:07:45 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_token *ft_init_token()
   new_token->len = 0;
   new_token->token = 0;
   new_token->expand = 0;
+  new_token->inquotes = false;
   new_token->next = NULL;
   new_token->prev = NULL;
   return (new_token);
@@ -63,21 +64,16 @@ void init_line(char *line, t_token **head)
 	while (line[i])
 	{
 		while (ft_isspace(line[i]))
-		{
-			ft_strtrim(line, &line[i]);
 			i++;
-		}
 		if (line[i] == '\0')
 			break ;
+		//while (!space_in_quotes(line))
 		new = create_token(&line[i]);
-		if (new->expand)
-			i++;
 		ft_lstaddback(head, new);
 		i += new->len;
 	}
 	ft_lstaddback(head, ft_init_token());
 	ft_print(head);
-	// return (0);
 }
 
 int	ft_find_operator(char c, char c1)
@@ -113,14 +109,26 @@ int    ft_operator(char c)
 int	ft_lex(char *str, t_token *token)
 {
 	int	i;
+	int quotes = 0;
 
 	i = 0;
 	while (str[i])
 	{
 		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && ft_operator(str[i]))
 		{
-			while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
+			while (str[i] && ft_isprint(str[i]))
+			{
+				if (is_doble_quotes(str[i]))
+				{
+					if (quotes == 1)
+						quotes = 0;
+					else
+						quotes = 1;
+				}
+				if (quotes == 0 && ft_isspace(str[i]))
+					break ;
 				i++;
+			}
 			token->len = i;
 			if (str[0] == '$')
 				token->expand = 1;
@@ -141,3 +149,62 @@ int	ft_lex(char *str, t_token *token)
 	}
 	return (0);
 }
+
+// int	space_in_quotes(char *line)
+// {
+// 	int i = 0;
+// 	while (line[i])
+// 	{
+// 		if (is_doble_quotes(line[i]) && line[i])
+// 		{
+// 			while (line[i])
+// 			{
+// 				//printf("line[i] = '%c' i = %d\n", line[i], i);
+// 				// while (line[i])
+// 				// {
+// 				if (is_doble_quotes(line[i]))
+// 				{
+// 					//printf("coucou\n");
+// 					return (1);
+// 				}
+// 				// }
+// 				i++;
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+// int    space_in_quotes(char *line, int i)
+// {
+//     int    j;
+//     int count = 0;
+
+//     j = -1;
+//     printf("i : %d\n", i);
+//     while(++j < i)
+//     {
+//         if (is_doble_quotes(line[j]))
+//         {
+//             printf("premiere boucle : %c\n", line[j]);
+//             count++;
+//         }
+//         else
+//         {
+//             printf("pas de quote\n");
+//             return (0);
+//         }
+//     }
+//     j = i;
+//     while (line[j++])
+//     {
+//         if (is_doble_quotes(line[j]))
+//         {
+//             printf("deuxieme boucle : %c\n", line[j]);
+//             count++;
+//             return (1);
+//         }
+//     }
+//     return (0);
+// }

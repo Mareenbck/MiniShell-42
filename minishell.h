@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/11 16:57:28 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/12 17:54:33 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -26,6 +27,7 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 # include "libft/libft.h"
 
 typedef enum
@@ -39,12 +41,32 @@ typedef enum
 	PIPE = 7,
 } token_type;
 
+typedef enum
+{
+	SUCCESS = 0,
+	PIPE_FAIL = 3,
+	FORK_FAIL = 4,
+	ALLOCATION_FAIL = 5,
+	SYNTAX_QUOTES = 6,
+	SYNTAX_REDIR = 7,
+	AMBIGUOUS_REDIR = 8,
+	TOOMANY = 24,
+	ERROR = 1,
+	MISUSE = 2,
+	CANTEXEC = 126,
+	NOTFOUND = 127,
+	CSIGINT = 130
+} exit_status;
+
+
+
 typedef struct s_token
 {
-	char token;
-	char *val;
-	int len;
-	int expand;
+	char	token;
+	char	*val;
+	int	len;
+	int	expand;
+	bool	inquotes;
 	struct s_token *prev;
 	struct s_token *next;
 } t_token;
@@ -71,7 +93,9 @@ typedef struct s_env
 
 typedef struct s_global
 {
+	int	exit;
 	char **env;
+	int exit_status;
 	t_env   *head_env;
 	t_token *head;
 	t_cmd   *headcmd;
@@ -105,8 +129,6 @@ int			count_d_quotes(t_token *token);
 int			count_s_quotes(t_token *token);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
-//void		parse_final_quotes(t_token *token);
-void	parso(t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
@@ -119,7 +141,7 @@ void ft_lstaddback2(t_cmd **alst, t_cmd *new);
 void ft_lstaddback3(t_env **alst, t_env *new);
 t_cmd	*lstlast2(t_cmd *lst);
 void ft_lst_clear2(t_cmd **head, void (*del)(void *));
-void ft_lst_clear3(t_global *head, void (*del)(void *));
+void ft_lst_clear3(t_env **head, void (*del)(void *));
 void  ft_lst_insert(t_env **head_env, t_env *new);
 int	ft_wrong(char *str);
 
@@ -149,7 +171,9 @@ void	ft_test_lex(char *line, t_global *global);
 void init_line(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
 
-void		ft_signal(int i);
+//int	space_in_quotes(char *line, int i);
+// int    space_in_quotes(char *line);
+void	ft_signal(int i);
 void	handle_sigint(int sig);
 
 // EXE
@@ -159,11 +183,12 @@ int	ft_search_builtin(t_token *token, t_global *global);
 
 
 // BUILTIN
-int	ft_echo(t_token *token, t_env **head_env);
+int	ft_echo(t_token *token, t_global *global);
 int	ft_pwd(void);
 int	ft_cd(t_token *token, t_global *global);
 int	ft_env(t_global *global);
 int	ft_export(t_token *token, t_env **head_env);
+int	ft_exit(t_global *global, t_token *token);
 
 // EXPAND ENV
 int check_name(char *token);

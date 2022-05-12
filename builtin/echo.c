@@ -12,20 +12,33 @@
 
 #include "../minishell.h"
 
-int	ft_echo(t_token *token, t_env **head_env)
+void	ft_expand_echo(t_token *token, t_global *global)
 {
-	int option;
 	t_env *env;
 
-	env = *head_env;
+	env = global->head_env;
+	if (token->val[1] == '?')
+	{
+		ft_strcpy(token->val, ft_itoa(global->exit_status));
+		printf("%s", token->val);
+	}
+	else
+	{
+		env = find_name(&global->head_env, edit_name(&token->val[1], '='));
+		printf("%s",env->var_value);
+	}
+
+}
+
+int	ft_echo(t_token *token, t_global *global)
+{
+	int option;
+
 	option = 0;
 	while (token != NULL)
 	{
 		if (token->expand)
-		{
-			env = find_name(head_env, edit_name(&token->val[1], '='));
-			printf("%s",env->var_value);
-		}
+			ft_expand_echo(token, global);
 		if (token->val == NULL)
 			printf(" ");
 		else if (!ft_strncmp(token->val, "-n", 2))

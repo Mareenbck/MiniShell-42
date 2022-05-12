@@ -19,12 +19,25 @@ t_cmd *ft_init_cmd()
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
-	new_cmd->val = (char **)malloc(sizeof(char *));
-	new_cmd->expand = malloc(sizeof(int));
+	new_cmd->val = (char **)malloc(sizeof(t_token));
+	new_cmd->expand = (int *)malloc(sizeof(t_token));
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
+
+t_cmd *create_cmd()
+{
+	t_cmd *new_cmd;
+
+	new_cmd = ft_init_cmd();
+	*new_cmd->val = NULL;
+	*new_cmd->expand = 0;
+	new_cmd->path = NULL;
+	new_cmd->next = NULL;
+	return (new_cmd);
+}
+
 
 
 void	ft_print_cmd(t_cmd **cmd)
@@ -38,7 +51,7 @@ void	ft_print_cmd(t_cmd **cmd)
 		i = 0;
 		while (tmp->val[i])
 		{
-			printf("mot[%d] = %s\n", i, tmp->val[i]);
+			printf("cmd[%d] = %s , -> expand : %d\n", i, tmp->val[i], tmp->expand[i]);
 			i++;
 		}
 		tmp = tmp->next;
@@ -68,12 +81,13 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 	token = *head;
 	int	i;
 
-	cmd = ft_init_cmd();
+	cmd = create_cmd();
 	while (token != NULL)
 	{
 		i = 0;
-		while (token->token == WORD && token->token != PIPE)
+		while (token->token == WORD && token->token != PIPE && token != NULL)
 		{
+			cmd->expand[i] = 0;
 			if (token->expand)
 			{
 				cmd->val[i] = ft_strdup(&token->val[1]);
@@ -84,19 +98,19 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 			token = token->next;
 			i++;
 		}
-		// cmd->val[i] = NULL;
+		cmd->val[i] = NULL;
 		ft_lstaddback2(comd, cmd);
 		if (token->token == REDIR_OUT || token->token == REDIR_IN)
 			analize_redir(token, cmd);
 		if (token->token == PIPE)
 		{
-			cmd = ft_init_cmd();
+			cmd = create_cmd();
 			check_pipe_position(token, cmd);
 		}
 		if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
 		token = token->next;
 	}
-	ft_lstaddback2(comd, ft_init_cmd());
+	ft_lstaddback2(comd, create_cmd());
 	// ft_print_cmd(comd);
 }

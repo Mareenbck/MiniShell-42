@@ -145,6 +145,7 @@ void	ft_init_list_env(t_env **head_env, char **envp)
 		if (!check_name(envp[i]))
 			name = edit_name(envp[i], '=');
 		new_var_env = create_var_env(name, value, sign);
+		free(value);
 		ft_lstaddback3(head_env, new_var_env);
 		i++;
 	}
