@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/12 13:52:10 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/12 14:18:06 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/12 14:18:13 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -118,9 +120,9 @@ int			check_append_i(t_token *token, t_cmd *cmd);
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
 int			is_simple_quotes(char c);
-//void		trim_doble_quotes(t_token *token);
-//void		trim_simple_quotes(t_token *token);
-void		trim_global_quotes(t_token *token);
+void		trim_doble_quotes(t_token *token);
+void		trim_simple_quotes(t_token *token);
+//void		trim_global_quotes(t_token *token);
 
 
 //QUOTE - PARSE
@@ -128,7 +130,6 @@ int			count_d_quotes(t_token *token);
 int			count_s_quotes(t_token *token);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
-void		parso(t_token *token, t_cmd *cmd);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);

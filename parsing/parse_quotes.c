@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/06 13:26:05 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/12 11:11:36 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/12 14:17:17 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/12 14:17:45 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../minishell.h"
 
@@ -31,6 +33,7 @@
 // 	}
 // 	return (count);
 // }
+
 
 // int	count_s_quotes(t_token *token)
 // {
@@ -66,28 +69,80 @@
 // 	printf("countd = %d\n", countd);
 // }
 
-void	parso(t_token *token, t_cmd *cmd)
+void	recup_count_d_quotes(t_token *token)
+{
+	int countd;
+
+	countd = count_d_quotes(token);
+	if (countd % 2 == 0)
+		trim_doble_quotes(token);
+	else
+		ft_error("Command not found\n");
+}
+
+int	count_s_quotes(t_token *token)
 {
 	int	i;
-	int	j;
+	int count;
+	//printf("coucu\n");
+	count = 0;
+	i = 0;
+	while (token->val[i])
+	{
+		if (is_simple_quotes(token->val[i]))
+			count++;
+		i++;
+	}
+	printf("count = %d\n", count);
+	return (count);
+}
+
+void	recup_count_s_quotes(t_token *token)
+{
+	int counts;
+
+	counts = count_s_quotes(token);
+	if (counts % 2 == 0)
+		token->val = ft_strtrim(token->val, "\'");
+	else
+		ft_error("Command not found bogoss");
+}
+
+void	parse_final_quotes(t_token *token)
+{
+	int	i;
+
 
 	i = 0;
 	while (token->token == WORD)
 	{
-		j = 0;
-		while (cmd->val[i][j])
+		printf("token->val : %c   i = %d\n", token->val[i], i);
+		i = 0;
+		while (token->val[i])
 		{
-			while (cmd->val[i][j] && cmd->val[i][j] != '\'')
+			// if (is_doble_quotes(token->val[i]))
+			// 	recup_count_d_quotes(token);
+			if (is_simple_quotes(token->val[i]))
 			{
-				j++;
+				printf("coucou\n");
+				recup_count_s_quotes(token);
 			}
-			printf("coucou\n");
-			token->len = j;
-			cmd->val[i] = ft_strdup_bis(&cmd->val[i][j - token->len], token->len);
-			j++;
 			i++;
 		}
 		token = token->next;
 	}
-	printf("len = %d\n", token->len);
 }
+
+// void	parse_final_quotes(t_token *token)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (token->token == WORD)
+// 	{
+// 		i = 0;
+// 		while (token->val[i] && token->val[i] != "\'")
+// 			i++;
+
+// 	}
+
