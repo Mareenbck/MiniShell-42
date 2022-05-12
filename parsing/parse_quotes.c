@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:26:05 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/11 10:42:59 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/11 17:26:53 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	parse_final_quotes(t_token *token)
 	i = 0;
 	while (token->token == WORD)
 	{
-		printf("token->val : %c   i = %d\n", token->val[i], i);
+		printf("token->val : %s   i = %d\n", token->val, i);
 		i = 0;
 		while (token->val[i])
 		{
@@ -96,16 +96,30 @@ void	parse_final_quotes(t_token *token)
 	}
 }
 
-// void	parse_final_quotes(t_token *token)
-// {
-// 	int	i;
+void	parso(t_token *token)
+{
+	int	i;
+	int	j;
+	int	len;
 
-// 	i = 0;
-// 	while (token->token == WORD)
-// 	{
-// 		i = 0;
-// 		while (token->val[i] && token->val[i] != "\'")
-// 			i++;
-
-// 	}
-// }
+	len = 0;
+	while (token->token == WORD)
+	{
+		i = 0;
+		while (token->val[i])
+		{
+			while (token->val[i] != '\'')
+			{
+				i++;
+				if (token->val[i] == '\'')
+					j = 0;
+				while (token->val[j] != '\'')
+					j++;
+			}
+			len = j;
+			i++;
+		}
+		token = token->next;
+	}
+	printf("len = %d\n", len);
+}
