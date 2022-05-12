@@ -12,20 +12,28 @@
 
 #include "../minishell.h"
 
-
 int	ft_unset(t_token *token, t_global *global)
 {
-	t_env	*env;
-	t_env *tmp;
+	int i;
+	char *name;
 
-	printf("token val : %s\n", token->val);
-	env = find_name(&global->head_env, token->val);
-	if (env)
+	i = -1;
+	while (global->env[++i])
 	{
-		tmp = (env)->next;
-		ft_lst_delone3(env, free);
-		env = tmp;
-		printf("env name : %s, env value : %s\n",env->var_name, env->var_value);
+		name = edit_name(global->env[i], '=');
+		printf("name : %s\n", name);
+		if (!ft_strncmp(name, token->val, (ft_strlen(token->val) + 1)))
+		{
+			while (global->env[i] && global->env[i + 1])
+			{
+				global->env[i] = ft_strdup(global->env[i + 1]);
+				i++;
+			}
+			free(global->env[i]);
+			global->env[i] = NULL;
+		}
+		i++;
 	}
+	ft_init_list_env(&global->head_env, global->env);
 	return (0);
 }

@@ -14,12 +14,13 @@
 
 void	ft_init_minishell(t_global *global, char **envp)
 {
+	(void)envp;
 	global->head = NULL;
 	global->headcmd = NULL;
 	global->head_env = NULL;
 	global->exit = false;
 	ft_init_env(global, envp);
-	ft_init_list_env(&global->head_env, envp);
+	ft_init_list_env(&global->head_env, global->env);
 }
 
 void	ft_free_list(t_global *global)

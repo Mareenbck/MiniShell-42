@@ -27,6 +27,7 @@ void	ft_print_export(t_env **head)
 	}
 }
 
+
 //FAIRE UEN STRUCT TMP POUR ENREGISTRER NOM ET SIGNE FORMATE
 int	ft_export(t_token *token, t_global *global)
 {
@@ -44,9 +45,7 @@ int	ft_export(t_token *token, t_global *global)
 		if (!check_name(token->val))
 		{
 			sign = init_sign(token->val);
-			printf("edit name : %s\n", edit_name(token->val, '='));
 			env = find_name(&global->head_env, edit_name(token->val, '='));
-			printf("env apres find name : %s\n", env->var_name);
 			if (env)
 			{
 				if (sign[0] == '+')
