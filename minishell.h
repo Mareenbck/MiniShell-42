@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/10 12:22:03 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:52:10 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ typedef enum
 
 typedef struct s_token
 {
-	char token;
-	char *val;
-	int len;
-	int expand;
+	char	token;
+	char	*val;
+	int	len;
+	int	expand;
+	bool	inquotes;
 	struct s_token *prev;
 	struct s_token *next;
 } t_token;
@@ -127,6 +128,7 @@ int			count_d_quotes(t_token *token);
 int			count_s_quotes(t_token *token);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
+void		parso(t_token *token, t_cmd *cmd);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
@@ -168,6 +170,8 @@ void signalslash();
 void	ft_test_lex(char *line, t_global *global);
 void init_line(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
+
+int	is_inquotes(char *line);
 
 void	ft_signal(int i);
 void	handle_sigint(int sig);

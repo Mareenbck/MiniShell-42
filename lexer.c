@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/12 09:51:15 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:12:30 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_token *ft_init_token()
   new_token->len = 0;
   new_token->token = 0;
   new_token->expand = 0;
+  new_token->inquotes = false;
   new_token->next = NULL;
   new_token->prev = NULL;
   return (new_token);
@@ -62,11 +63,8 @@ void init_line(char *line, t_token **head)
 	i = 0;
 	while (line[i])
 	{
-		while (ft_isspace(line[i]))
-		{
-			ft_strtrim(line, &line[i]);
+		while (ft_isspace(line[i]) && is_inquotes(&line[i]))
 			i++;
-		}
 		if (line[i] == '\0')
 			break ;
 		new = create_token(&line[i]);
@@ -114,27 +112,56 @@ int	ft_lex(char *str, t_token *token)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && ft_operator(str[i]))
+		if (is_inquotes(str))
 		{
-			while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
-				i++;
-			token->len = i;
-			if (str[0] == '$')
-				token->expand = 1;
-			token->val = ft_strdup_bis(&str[i - token->len], token->len);
-			return (WORD);
-		}
-		else if (ft_strchr("><|\n", str[i]))
-		{
-			token->token = ft_find_operator(str[i], str[i + 1]);
-			if (token->token == APPEND_IN || token->token == APPEND_OUT)
-				token->len = 2;
-			else
-				token->len = 1;
-			token->val = ft_strdup_bis(&str[i], token->len);
-			return (token->token);
+			if (ft_isprint(str[i]) && !ft_isspace(str[i]) && ft_operator(str[i]))
+			{
+				while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
+					i++;
+				token->len = i;
+				if (str[0] == '$')
+					token->expand = 1;
+				token->val = ft_strdup_bis(&str[i - token->len], token->len);
+				return (WORD);
+			}
+			else if (ft_strchr("><|\n", str[i]))
+			{
+				token->token = ft_find_operator(str[i], str[i + 1]);
+				if (token->token == APPEND_IN || token->token == APPEND_OUT)
+					token->len = 2;
+				else
+					token->len = 1;
+				token->val = ft_strdup_bis(&str[i], token->len);
+				return (token->token);
+			}
 		}
 		i++;
 	}
 	return (0);
 }
+
+int	is_inquotes(char *line)
+{
+	int	i;
+
+	i = 0;
+
+		while (line[i])
+		{
+			if (is_doble_quotes(line[i]) && line[i])
+			{
+				printf("ok\n");
+				while (line[i])
+				{
+					printf("while line[i] : %c\n", line[i]);
+					if (is_doble_quotes(line[i]))
+						return (1);
+					i++;
+				}
+			}
+			i++;
+		}
+		return (0);
+	// printf("token->inquotes = %d\n", token->inquotes);
+}
+

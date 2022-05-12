@@ -26,21 +26,21 @@ int		is_simple_quotes(char c)
 	return (0);
 }
 
-void	trim_global_quotes(t_token *token)
-{
-	int	i;
+// void	trim_global_quotes(t_token *token)
+// {
+// 	int	i;
 
-	while (token->token == WORD)
-	{
-		i = 0;
-		while (token->val[i])
-		{
-			if (is_simple_quotes(token->val[i]))
-				token->val = ft_strtrim(token->val, "\'");
-			if (is_doble_quotes(token->val[i]))
-				token->val = ft_strtrim(token->val, "\"");
-			i++;
-		}
-		token = token -> next;
-	}
-}
+// 	while (token->token == WORD)
+// 	{
+// 		i = 0;
+// 		while (token->val[i])
+// 		{
+// 			if (is_simple_quotes(token->val[i]))
+// 				token->val = ft_strtrim(token->val, "\'");
+// 			if (is_doble_quotes(token->val[i]))
+// 				token->val = ft_strtrim(token->val, "\"");
+// 			i++;
+// 		}
+// 		token = token -> next;
+// 	}
+// }
