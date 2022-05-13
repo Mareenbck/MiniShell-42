@@ -29,6 +29,8 @@
 # include <stdbool.h>
 # include "libft/libft.h"
 
+extern int g_exit_status;
+
 typedef enum
 {
 	REDIR_IN = 1,
@@ -56,7 +58,6 @@ typedef enum
 	NOTFOUND = 127,
 	CSIGINT = 130
 } exit_status;
-
 
 
 typedef struct s_token
@@ -100,6 +101,7 @@ typedef struct s_global
 	t_cmd   *headcmd;
 }	t_global;
 
+
 /* PARSING */
 int	count_option(char *line);
 void	analize_cmd(t_token **head, t_cmd **comd);
@@ -123,7 +125,7 @@ void		trim_simple_quotes(t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
-void	ft_error(char *msg);
+void	ft_error(char *msg, int exit_status);
 t_token *lstlast(t_token *lst);
 void ft_lst_clear(t_token **lst, void (*del)(void *));
 char *ft_strdup_bis(const char *s1, int len);
@@ -153,12 +155,12 @@ void	ft_init_sorted_env(t_global *global);
 char	*search_envp(t_env **head_env, char *str);
 char	**ft_split_envp(t_env **head_env, char *str);
 char	*ft_join_envp(char **split_path, char *av);
-t_env	*find_name(t_env **head_env, char *var);
+t_env	*find_name(t_env **head_env, char *var, int len);
 
 // SIGNAL
 // void siginthandler();
 // void signalslash();
-void	ft_signal(int i, t_global *global);
+void	ft_signal(int i);
 void	handle_sigint(int sig);
 
 

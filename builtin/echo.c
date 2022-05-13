@@ -15,16 +15,18 @@
 void	ft_expand_echo(t_token *token, t_global *global)
 {
 	t_env *env;
+	char *name;
 
 	env = global->head_env;
 	if (token->val[1] == '?')
 	{
-		ft_strcpy(token->val, ft_itoa(global->exit_status));
+		ft_strcpy(token->val, ft_itoa(g_exit_status));
 		printf("%s", token->val);
 	}
 	else
 	{
-		env = find_name(&global->head_env, edit_name(&token->val[1], '='));
+		name = edit_name(&token->val[1], '=');
+		env = find_name(&global->head_env, name, ft_strlen(name));
 		printf("%s",env->var_value);
 	}
 

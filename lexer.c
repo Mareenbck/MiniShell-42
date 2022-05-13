@@ -110,14 +110,26 @@ int    ft_operator(char c)
 int	ft_lex(char *str, t_token *token)
 {
 	int	i;
+	int quotes = 0;
 
 	i = 0;
 	while (str[i])
 	{
 		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && ft_operator(str[i]))
 		{
-			while (str[i] && ft_isprint(str[i]) && !ft_isspace(str[i]))
+			while (str[i] && ft_isprint(str[i]))
+			{
+				if (is_doble_quotes(str[i]))
+				{
+					if (quotes == 1)
+						quotes = 0;
+					else
+						quotes = 1;
+				}
+				if (quotes == 0 && ft_isspace(str[i]))
+					break ;
 				i++;
+			}
 			token->len = i;
 			if (str[0] == '$')
 				token->expand = 1;

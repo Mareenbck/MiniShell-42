@@ -35,6 +35,7 @@ int	ft_export(t_token *token, t_global *global)
 	t_env *new_env;
 	char *value;
 	char *sign;
+	char *name;
 
 	env = NULL;
 	// ft_lst_clear3(&global->head_env, free);
@@ -47,7 +48,8 @@ int	ft_export(t_token *token, t_global *global)
 		if (!check_name(token->val))
 		{
 			sign = init_sign(token->val);
-			env = find_name(&global->head_env, edit_name(token->val, '='));
+			name = edit_name(token->val, '=');
+			env = find_name(&global->head_env, name, (ft_strlen(name) + 1));
 			if (env)
 			{
 				if (sign[0] == '+')

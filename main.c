@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int g_exit_status;
+
 void	ft_init_minishell(t_global *global, char **envp)
 {
 	global->head = NULL;
@@ -20,7 +22,6 @@ void	ft_init_minishell(t_global *global, char **envp)
 	global->exit = false;
 	ft_init_env(global, envp);
 	ft_init_list_env(&global->head_env, global);
-	// printf("COUCOU\n");
 }
 
 void	ft_free_list(t_global *global)
@@ -39,6 +40,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 
+	g_exit_status = 0;
 	ft_init_minishell(&global, envp);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
@@ -57,12 +59,12 @@ int	main(int ac, char **av, char **envp)
 		analize_cmd(&global.head, &global.headcmd);
 		// trim_doble_quotes(global.head);
 		// trim_simple_quotes(global.head);
-		ft_signal(0, &global);
+		ft_signal(0);
 		ft_execution(&global);
 		free(line);
 	}
 	ft_free_list(&global);
-	exit(global.exit_status);
+	exit(g_exit_status);
 }
 
 

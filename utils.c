@@ -26,10 +26,10 @@ void	**ft_free_tab(char **tab)
 	return (NULL);
 }
 
-void	ft_error(char *msg)
+void	ft_error(char *msg, int exit_status)
 {
 	perror(msg);
-	exit(EXIT_FAILURE);
+	exit(exit_status);
 }
 
 t_token	*lstlast(t_token *lst)

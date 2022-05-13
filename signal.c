@@ -16,6 +16,7 @@ void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_exit_status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
@@ -23,11 +24,10 @@ void	handle_sigint(int sig)
 	}
 }
 
-void	ft_signal(int i, t_global *global)
+void	ft_signal(int i)
 {
 	if (i == 0)
 	{
-		global->exit_status = 130;
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}

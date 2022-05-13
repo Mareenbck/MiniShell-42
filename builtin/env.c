@@ -31,7 +31,7 @@ int	ft_env(t_global *global)
 	i = 0;
 	while (global->env[i])
 	{
-		printf("MINI : %s\n", global->env[i]);
+		printf("%s\n", global->env[i]);
 		i++;
 	}
 	return (0);

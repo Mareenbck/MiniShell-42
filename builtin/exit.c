@@ -38,25 +38,27 @@ int	ft_exit(t_global *global, t_token *token)
 	global->exit = true;
 	if (token->val == NULL)
 	{
-		global->exit_status = SUCCESS;
+		g_exit_status= SUCCESS;
 		printf("exit\n");
+		return (1);
+		// ft_error("exit\n", SUCCESS);
 	}
 	if (!ft_is_valid_num(token->val))
 	{
-		global->exit_status = 2;
+		g_exit_status= 2;
 		printf("exit: %s: numeric argument required\n", token->val);
 		return (1);
 	}
 	if (ft_is_valid_num(token->val))
 	{
-		global->exit_status = (unsigned)ft_atoi(token->val);
+		g_exit_status= ft_atoi(token->val);
 		printf("exit\n");
 	}
 	if (token->next->val != NULL)
 	{
 		global->exit = false;
-		global->exit_status = 1;
+		g_exit_status= 1;
 		printf("exit: too many arguments\n");
 	}
-	return (0);
+	return (global->exit);
 }

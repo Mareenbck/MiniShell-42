@@ -16,17 +16,17 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 {
 	t_env *env;
 
-	env = find_name(&global->head_env, cmd->val[0]);
+	env = find_name(&global->head_env, cmd->val[0], ft_strlen(cmd->val[0]));
 	ft_strcpy(cmd->val[0], env->var_value);
 	cmd->path = ft_join_envp(split_path, env->var_value);
 }
 
-void	ft_expand_args(t_global *global, t_cmd *cmd, int i)
+void	ft_expand_args(t_global *global, char *cmd)
 {
 	t_env *env;
 
-	env = find_name(&global->head_env, cmd->val[i]);
-	ft_strcpy(cmd->val[i], env->var_value);
+	env = find_name(&global->head_env, cmd, ft_strlen(cmd));
+	ft_strcpy(cmd, env->var_value);
 }
 
 void	ft_exe(t_global *global)
@@ -37,26 +37,22 @@ void	ft_exe(t_global *global)
 
 	cmd = global->headcmd;
 	split_path = ft_split_envp(&global->head_env, "PATH");
-	if (!split_path)
-		ft_error("Variable not found");
+	// if (!split_path)
+	// 	ft_error("Variable not found");
 	if (cmd->expand[i])
 		ft_expand_cmd(global, cmd, split_path);
 	else
 		cmd->path = ft_join_envp(split_path, cmd->val[i]);
 	while (cmd->val[++i])
 		if (cmd->expand[i])
-			ft_expand_args(global, cmd, i);
+			ft_expand_args(global, cmd->val[i]);
 	if (!cmd->path)
-		ft_error("Variable not found");
-	// {
-	// 	global->exit_status = NOTFOUND;
-	// 	global->exit = 1;
-	// }
+		ft_error("Command not found", NOTFOUND);
 	ft_free_tab(split_path);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
 		// ft_free_tab(cmd_args);
-		ft_error("Error of execution");
+		ft_error("Error of execution", CANTEXEC);
 	}
 }
 
@@ -80,7 +76,7 @@ int	ft_search_builtin(t_token *token, t_global *global)
 		ft_exit(global, token->next);
 	else
 	{
-		global->exit_status = 127;
+		g_exit_status = 127;
 		return (1);
 	}
 	return (0);
@@ -95,12 +91,12 @@ void	ft_execution(t_global *global)
 		pid = fork();
 		if (pid == 0)
 		{
-			ft_signal(1, global);
+			ft_signal(1);
 			ft_exe(global);
 		}
 		wait(&pid);
 	}
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
-	ft_signal(2, global);
+	ft_signal(2);
 }
