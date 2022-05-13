@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:33:53 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/12 15:33:29 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/13 13:40:32 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ int	main(int ac, char **av, char **envp)
 		// if (line && ft_strncmp(line, "exit", 4) == 0)
 		// 	break ;
 		add_history(line);
-		//space_in_quotes(line);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
+		//parse_final_quotes(global.head);
+		delete_quotes(global.headcmd);
 		ft_signal(0);
 		ft_execution(&global);
 		free(line);

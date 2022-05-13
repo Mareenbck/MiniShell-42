@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/12 18:07:45 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/13 11:56:41 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,62 +149,3 @@ int	ft_lex(char *str, t_token *token)
 	}
 	return (0);
 }
-
-// int	space_in_quotes(char *line)
-// {
-// 	int i = 0;
-// 	while (line[i])
-// 	{
-// 		if (is_doble_quotes(line[i]) && line[i])
-// 		{
-// 			while (line[i])
-// 			{
-// 				//printf("line[i] = '%c' i = %d\n", line[i], i);
-// 				// while (line[i])
-// 				// {
-// 				if (is_doble_quotes(line[i]))
-// 				{
-// 					//printf("coucou\n");
-// 					return (1);
-// 				}
-// 				// }
-// 				i++;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-// int    space_in_quotes(char *line, int i)
-// {
-//     int    j;
-//     int count = 0;
-
-//     j = -1;
-//     printf("i : %d\n", i);
-//     while(++j < i)
-//     {
-//         if (is_doble_quotes(line[j]))
-//         {
-//             printf("premiere boucle : %c\n", line[j]);
-//             count++;
-//         }
-//         else
-//         {
-//             printf("pas de quote\n");
-//             return (0);
-//         }
-//     }
-//     j = i;
-//     while (line[j++])
-//     {
-//         if (is_doble_quotes(line[j]))
-//         {
-//             printf("deuxieme boucle : %c\n", line[j]);
-//             count++;
-//             return (1);
-//         }
-//     }
-//     return (0);
-// }

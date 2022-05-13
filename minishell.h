@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/12 17:54:33 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:47:16 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ int			is_simple_quotes(char c);
 void		trim_doble_quotes(t_token *token);
 void		trim_simple_quotes(t_token *token);
 //void		trim_global_quotes(t_token *token);
+//void		parse_final_quotes(t_token *token);
+void		delete_quotes(t_cmd *cmd);
+void		error_quotes(t_token *token);
 
 
 //QUOTE - PARSE
@@ -171,8 +174,6 @@ void	ft_test_lex(char *line, t_global *global);
 void init_line(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
 
-//int	space_in_quotes(char *line, int i);
-// int    space_in_quotes(char *line);
 void	ft_signal(int i);
 void	handle_sigint(int sig);
 
