@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 17:35:25 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/06 13:33:55 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/13 15:47:16 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -62,10 +63,11 @@ typedef enum
 
 typedef struct s_token
 {
-	char token;
-	char *val;
-	int len;
-	int expand;
+	char	token;
+	char	*val;
+	int	len;
+	int	expand;
+	bool	inquotes;
 	struct s_token *prev;
 	struct s_token *next;
 } t_token;
@@ -82,12 +84,12 @@ typedef struct s_cmd
 
 typedef struct s_env
 {
-  char *declare;
-  char *var_name;
-  char *var_value;
-  char *var_sign;
-  struct s_env *prev;
-  struct s_env *next;
+	char *declare;
+	char *var_name;
+	char *var_value;
+	char *var_sign;
+	struct s_env *prev;
+	struct s_env *next;
 } t_env;
 
 typedef struct s_global
@@ -103,25 +105,36 @@ typedef struct s_global
 
 
 /* PARSING */
-int	count_option(char *line);
-void	analize_cmd(t_token **head, t_cmd **comd);
-void	ft_print_cmd(t_cmd **cmd);
-t_cmd *ft_init_cmd();
+int			count_option(char *line);
+void		analize_cmd(t_token **head, t_cmd **comd);
+void		ft_print_cmd(t_cmd **cmd);
+t_cmd		*ft_init_cmd();
 
 // PIPE
-int	check_pipe_position(t_token *token, t_cmd *cmd);
+int			check_pipe_position(t_token *token, t_cmd *cmd);
 
 //REDIR
-int check_redir_o_position(t_token *token, t_cmd *cmd);
-int check_redir_i_position(t_token *token, t_cmd *cmd);
-int check_append_o(t_token *token, t_cmd *cmd);
-int check_append_i(t_token *token, t_cmd *cmd);
+int			check_redir_o_position(t_token *token, t_cmd *cmd);
+int			check_redir_i_position(t_token *token, t_cmd *cmd);
+int			check_append_o(t_token *token, t_cmd *cmd);
+int			check_append_i(t_token *token, t_cmd *cmd);
 
-//QUOTE
+//QUOTE - TRIM
 int			is_doble_quotes(char c);
 int			is_simple_quotes(char c);
 void		trim_doble_quotes(t_token *token);
 void		trim_simple_quotes(t_token *token);
+//void		trim_global_quotes(t_token *token);
+//void		parse_final_quotes(t_token *token);
+void		delete_quotes(t_cmd *cmd);
+void		error_quotes(t_token *token);
+
+
+//QUOTE - PARSE
+int			count_d_quotes(t_token *token);
+int			count_s_quotes(t_token *token);
+void		recup_count_d_quotes(t_token *token);
+void		recup_count_s_quotes(t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/04 14:51:02 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/13 11:56:41 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_token *ft_init_token()
   new_token->len = 0;
   new_token->token = 0;
   new_token->expand = 0;
+  new_token->inquotes = false;
   new_token->next = NULL;
   new_token->prev = NULL;
   return (new_token);
@@ -64,9 +65,7 @@ void init_line(char *line, t_token **head)
 	while (line[i])
 	{
 		while (ft_isspace(line[i]))
-		{
 			i++;
-		}
 		if (line[i] == '\0')
 			break ;
 		new = create_token(&line[i]);

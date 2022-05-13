@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 10:26:07 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/06 13:18:56 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/12 14:33:53 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/13 13:40:32 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "minishell.h"
 
@@ -57,8 +59,8 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
-		// trim_doble_quotes(global.head);
-		// trim_simple_quotes(global.head);
+		//parse_final_quotes(global.head);
+		delete_quotes(global.headcmd);
 		ft_signal(0);
 		ft_execution(&global);
 		free(line);
@@ -66,5 +68,3 @@ int	main(int ac, char **av, char **envp)
 	ft_free_list(&global);
 	exit(g_exit_status);
 }
-
-
