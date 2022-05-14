@@ -190,7 +190,7 @@ int	ft_search_builtin(t_token *token, t_global *global);
 
 
 // BUILTIN
-int	ft_echo(t_token *token, t_global *global);
+int	ft_echo(t_cmd * cmd, t_global *global);
 int	ft_pwd(void);
 int	ft_cd(t_token *token, t_global *global);
 int	ft_env(t_global *global);

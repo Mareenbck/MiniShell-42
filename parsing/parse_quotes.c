@@ -32,23 +32,23 @@ int	count_d_quotes(t_token *token)
 	return (count);
 }
 
-int	count_s_quotes(t_cmd *cmd)
-{
-	int	i;
-	int count;
+// int	count_s_quotes(t_cmd *cmd)
+// {
+// 	int	i;
+// 	int count;
 
-	count = 0;
-	i = 0;
-	while (cmd->val[i])
-	{
-		j = 0;
-		if (is_simple_quotes(cmd->val[i][j]))
-			count++;
-		i++;
-		j++;
-	}
-	return (count);
-}
+// 	count = 0;
+// 	i = 0;
+// 	while (cmd->val[i])
+// 	{
+// 		j = 0;
+// 		if (is_simple_quotes(cmd->val[i][j]))
+// 			count++;
+// 		i++;
+// 		j++;
+// 	}
+// 	return (count);
+// }
 
 int	start_with_simple(t_cmd *cmd)
 {
@@ -132,14 +132,14 @@ void	delete_quotes(t_cmd *cmd)
 	}
 }
 
-void	error_quotes(t_cmd *cmd)
-{
-	int	count;
+// void	error_quotes(t_cmd *cmd)
+// {
+// 	int	count;
 
-	counts = count_s_quotes(cmd);
-	countd = count_d_quotes(cmd);
-	if (counts % 2 != 0)
-		ft_error("Erreur bogoss\n");
-	else if (countd % 2 != 0)
-		ft_error("Erreur bogoss\n");
-}
+// 	counts = count_s_quotes(cmd);
+// 	countd = count_d_quotes(cmd);
+// 	if (counts % 2 != 0)
+// 		ft_error("Erreur bogoss\n");
+// 	else if (countd % 2 != 0)
+// 		ft_error("Erreur bogoss\n");
+// }
