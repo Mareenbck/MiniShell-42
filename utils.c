@@ -28,8 +28,9 @@ void	**ft_free_tab(char **tab)
 
 void	ft_error(char *msg, int exit_status)
 {
-	perror(msg);
-	exit(exit_status);
+	printf("%s\n", msg);
+	g_exit_status = exit_status;
+	// exit(exit_status);
 }
 
 t_token	*lstlast(t_token *lst)
