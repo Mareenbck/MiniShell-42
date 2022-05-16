@@ -32,23 +32,23 @@ int	count_d_quotes(t_token *token)
 	return (count);
 }
 
-int	count_s_quotes(t_cmd *cmd)
-{
-	int	i;
-	int count;
+// int	count_s_quotes(t_cmd *cmd)
+// {
+// 	int	i;
+// 	int count;
 
-	count = 0;
-	i = 0;
-	while (cmd->val[i])
-	{
-		j = 0;
-		if (is_simple_quotes(cmd->val[i][j]))
-			count++;
-		i++;
-		j++;
-	}
-	return (count);
-}
+// 	count = 0;
+// 	i = 0;
+// 	while (cmd->val[i])
+// 	{
+// 		j = 0;
+// 		if (is_simple_quotes(cmd->val[i][j]))
+// 			count++;
+// 		i++;
+// 		j++;
+// 	}
+// 	return (count);
+// }
 
 int	start_with_simple(t_cmd *cmd)
 {
@@ -83,6 +83,14 @@ int	start_with_dobles(t_cmd *cmd)
 	return (0);
 }
 
+int is_empty_string(char *str)
+{
+	if (is_doble_quotes(str[0]) && is_doble_quotes(str[1]))
+		return (1);
+	else
+		return (0);
+}
+
 char	*new_string(char *str, char c)
 {
 	char	*s;
@@ -106,6 +114,17 @@ char	*new_string(char *str, char c)
 	return (s);
 }
 
+void	check_if_expand(t_cmd *cmd, int i)
+{
+	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0')
+	{
+		cmd->expand[i] = 1;
+		ft_strcpy(cmd->val[i], &cmd->val[i][1]);
+	}
+	else
+		cmd->expand[i] = 0;
+}
+
 void	delete_quotes(t_cmd *cmd)
 {
 	int	i;
@@ -121,25 +140,29 @@ void	delete_quotes(t_cmd *cmd)
 		}
 		else if (start_with_dobles(cmd))
 		{
+			if (is_empty_string(cmd->val[i]))
+				cmd->val[i] = ft_strdup("");
 			//printf("hello\n");
-			printf("avant trimage = %s\n", cmd->val[i]);
+			// printf("avant trimage = %s\n", cmd->val[i]);
 			cmd->val[i] = ft_strtrim(cmd->val[i], "\"");
-			printf("apres trimage = %s\n", cmd->val[i]);
-			cmd->val[i] = new_string(cmd->val[i], '\"');
-			printf("apres new_string = %s\n", cmd->val[i]);
+			check_if_expand(cmd, i);
+			// printf("apres trimage = %s\n", cmd->val[i]);
+			// cmd->val[i] = new_string(cmd->val[i], '\"');
+			// printf("apres new_string = %s\n", cmd->val[i]);
 		}
+		// printf("cmd val : %s\n", cmd->val[i]);
 		i++;
 	}
 }
 
-void	error_quotes(t_cmd *cmd)
-{
-	int	count;
+// void	error_quotes(t_cmd *cmd)
+// {
+// 	int	count;
 
-	counts = count_s_quotes(cmd);
-	countd = count_d_quotes(cmd);
-	if (counts % 2 != 0)
-		ft_error("Erreur bogoss\n");
-	else if (countd % 2 != 0)
-		ft_error("Erreur bogoss\n");
-}
+// 	counts = count_s_quotes(cmd);
+// 	countd = count_d_quotes(cmd);
+// 	if (counts % 2 != 0)
+// 		ft_error("Erreur bogoss\n");
+// 	else if (countd % 2 != 0)
+// 		ft_error("Erreur bogoss\n");
+// }

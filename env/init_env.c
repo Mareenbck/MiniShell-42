@@ -21,7 +21,7 @@ void	ft_init_env(t_global *global, char **envp)
 		i++;
 	global->env = (char **)malloc(sizeof(t_env) * i + 1);
 	if(!global->env)
-		ft_error("Error\n",ALLOCATION_FAIL);
+		ft_error("Error\n", ALLOCATION_FAIL);
 	i = 0;
 	while (envp[i])
 	{
@@ -41,7 +41,7 @@ void	ft_init_sorted_env(t_global *global)
 		i++;
 	global->sorted_env = (char **)malloc(sizeof(t_env) * i + 1);
 	if(!global->sorted_env)
-		ft_error("Error\n",ALLOCATION_FAIL);
+		ft_error("Error\n", ALLOCATION_FAIL);
 	i = 0;
 	while (global->env[i])
 	{
@@ -113,11 +113,12 @@ char *edit_name(char *str, char c)
 	}
 	while (ft_strchr("=+", str[i]))
 		i--;
+	i++;
 	res = (char *)malloc(sizeof(char) * (i + 1));
 	if (!res)
 		return (NULL);
-	res[i++] = '\0';
-	while (--i >= 0)
+	res[i] = '\0';
+	while (i-- >= 0)
 		res[i] = str[i];
 	return (res);
 }

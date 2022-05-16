@@ -61,6 +61,7 @@ int	main(int ac, char **av, char **envp)
 		analize_cmd(&global.head, &global.headcmd);
 		//parse_final_quotes(global.head);
 		delete_quotes(global.headcmd);
+		ft_print_cmd(&global.headcmd);
 		ft_signal(0);
 		ft_execution(&global);
 		free(line);

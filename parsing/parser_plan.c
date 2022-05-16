@@ -99,6 +99,7 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 			i++;
 		}
 		cmd->val[i] = NULL;
+		cmd->count = i;
 		ft_lstaddback2(comd, cmd);
 		if (token->token == REDIR_OUT || token->token == REDIR_IN)
 			analize_redir(token, cmd);
