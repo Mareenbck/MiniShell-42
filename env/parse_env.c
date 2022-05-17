@@ -12,14 +12,14 @@
 
 #include "../minishell.h"
 
-t_env	*find_name(t_env **head_env, char *var)
+t_env	*find_name(t_env **head_env, char *var, int len)
 {
 	t_env *env;
 
 	env = *head_env;
 	while (env->next != NULL)
 	{
-		if (ft_strnstr(env->var_name, var, ft_strlen(var)))
+		if (!ft_strncmp(env->var_name, var, len))
 			return (env);
 		env = env->next;
 	}
@@ -31,12 +31,12 @@ char	**ft_split_envp(t_env **head_env, char *str)
 	char	**split_path;
 	t_env	*env;
 
-	env = find_name(head_env, str);
+	env = find_name(head_env, str, ft_strlen(str));
 	if (env != NULL)
 	{
 		split_path = ft_split(env->var_value, ':');
 		if (!split_path)
-			ft_error("Split error");
+			ft_error("Error\n",ALLOCATION_FAIL);
 		return (split_path);
 	}
 	return (NULL);

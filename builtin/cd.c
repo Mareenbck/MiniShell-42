@@ -21,14 +21,14 @@ int	ft_cd(t_token *token, t_global *global)
 
 	if (token->next && token->next->val != NULL)
 		printf("cd : too many arguments\n");
-	oldpwd = find_name(&global->head_env, "OLDPWD");
+	oldpwd = find_name(&global->head_env, "OLDPWD", 6);
 	if (oldpwd != NULL)
 		oldpwd->var_value = getcwd(NULL, 0);
 	printf("oldpwd name : %s, value %s\n", oldpwd->var_name, oldpwd->var_value);
-	if (token->val == NULL || !ft_strncmp(token->val, "~", 1))
+	if (token->val == NULL || !ft_strncmp(token->val, "~", 2) || !ft_strncmp(token->val, "/", 2))
 	{
 		// DOIT RETOURNER A HOME OU RACINE DU MINISHELL ??
-		home = find_name(&global->head_env, "HOME");
+		home = find_name(&global->head_env, "HOME", 4);
 		chdir(home->var_value);
 	}
 	else
@@ -37,7 +37,7 @@ int	ft_cd(t_token *token, t_global *global)
 		new = ft_strjoin(new, token->val);
 		chdir(new);
 	}
-	newpwd = find_name(&global->head_env, "PATH");
+	newpwd = find_name(&global->head_env, "PWD", 4);
 	if (newpwd != NULL)
 		newpwd->var_value = getcwd(NULL, 0);
 	printf("new path %s\n", newpwd->var_value);

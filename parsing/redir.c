@@ -16,9 +16,9 @@ int	check_redir_o_position(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
-		ft_error("error syntax 2\n");
+		ft_error("error syntax 2\n", ERROR);
 	if (token->prev == NULL)
-		ft_error("error syntax \n");
+		ft_error("error syntax \n", ERROR);
 	return (0);
 }
 
@@ -26,9 +26,9 @@ int	check_redir_i_position(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
-		ft_error("error syntax 2\n");
+		ft_error("error syntax 2\n", ERROR);
 	if (token->prev == NULL)
-		ft_error("error syntax \n");
+		ft_error("error syntax \n", ERROR);
 	return (0);
 }
 
@@ -36,9 +36,9 @@ int check_append_o(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
-		ft_error("syntax error2 \n");
+		ft_error("syntax error2 \n", ERROR);
 	if (token->prev == NULL)
-		ft_error("syntax error \n");
+		ft_error("syntax error \n", ERROR);
 	return (0);
 }
 
@@ -46,8 +46,8 @@ int check_append_i(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
-		ft_error("syntax error2 \n");
+		ft_error("syntax error2 \n", ERROR);
 	if (token->prev == NULL)
-		ft_error("syntax error \n");
+		ft_error("syntax error \n", ERROR);
 	return (0);
 }
