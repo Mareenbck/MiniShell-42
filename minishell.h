@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/13 15:47:16 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/17 11:40:17 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,17 +127,20 @@ int			is_doble_quotes(char c);
 int			is_simple_quotes(char c);
 void		trim_doble_quotes(t_token *token);
 void		trim_simple_quotes(t_token *token);
-//void		trim_global_quotes(t_token *token);
+void		trim_global_quotes(t_token *token);
 //void		parse_final_quotes(t_token *token);
-void		delete_quotes(t_cmd *cmd);
-void		error_quotes(t_token *token);
-
 
 //QUOTE - PARSE
 int			count_d_quotes(t_token *token);
 int			count_s_quotes(t_token *token);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
+int			start_with_simple(t_cmd *cmd);
+int			start_with_dobles(t_cmd *cmd);
+int 		is_empty_string(char *str);
+void		delete_quotes(t_cmd *cmd);
+int			error_quotes(t_token *token);
+void		last_call_quotes(t_cmd *cmd, t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);

@@ -48,6 +48,7 @@ void		trim_doble_quotes(t_token *token)
 
 void		trim_simple_quotes(t_token *token)
 {
+	printf("hello\n");
 	int	i;
 
 	while (token->token == WORD)
@@ -67,20 +68,3 @@ void		trim_simple_quotes(t_token *token)
 	}
 }
 
-
-// 	while (token->token == WORD)
-// 	{
-// 		i = 0;
-// 		while (token->val[i])
-// 		{
-// 			if (is_simple_quotes(token->val[i]))
-// 			{
-// 				//printf("i = %d\n", i);
-// 				token->val = ft_strtrim(token->val, "\'");
-// 				//printf("token->val[i] = %c\n", token->val[i]);
-// 			}
-// 			i++;
-// 		}
-// 		token = token->next;
-// 	}
-// }
