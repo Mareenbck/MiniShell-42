@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_unset(t_token *token, t_global *global)
+int	ft_unset(t_cmd *cmd, t_global *global)
 {
 	int i;
 	char *name;
@@ -21,8 +21,7 @@ int	ft_unset(t_token *token, t_global *global)
 	while (global->env[++i])
 	{
 		name = edit_name(global->env[i], '=');
-		printf("name : %s\n", name);
-		if (!ft_strncmp(name, token->val, (ft_strlen(token->val) + 1)))
+		if (!ft_strncmp(name, cmd->val[1], (ft_strlen(cmd->val[1]) + 1)))
 		{
 			while (global->env[i] && global->env[i + 1])
 			{

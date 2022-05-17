@@ -12,20 +12,21 @@
 
 #include "../minishell.h"
 
-int	ft_cd(t_token *token, t_global *global)
+int	ft_cd(t_cmd *cmd, t_global *global)
 {
 	char *new;
 	t_env *oldpwd;
 	t_env *newpwd;
 	t_env *home;
 
-	if (token->next && token->next->val != NULL)
+	// VOIR UNE CONDITION AVEC NB ARGS
+	if (cmd->val[2] != NULL)
 		printf("cd : too many arguments\n");
 	oldpwd = find_name(&global->head_env, "OLDPWD", 6);
 	if (oldpwd != NULL)
 		oldpwd->var_value = getcwd(NULL, 0);
 	printf("oldpwd name : %s, value %s\n", oldpwd->var_name, oldpwd->var_value);
-	if (token->val == NULL || !ft_strncmp(token->val, "~", 2) || !ft_strncmp(token->val, "/", 2))
+	if (cmd->val[1] == NULL || !ft_strncmp(cmd->val[1], "~", 2) || !ft_strncmp(cmd->val[1], "/", 2))
 	{
 		// DOIT RETOURNER A HOME OU RACINE DU MINISHELL ??
 		home = find_name(&global->head_env, "HOME", 4);
@@ -34,8 +35,9 @@ int	ft_cd(t_token *token, t_global *global)
 	else
 	{
 		new = ft_strjoin(getcwd(NULL,0), "/");
-		new = ft_strjoin(new, token->val);
+		new = ft_strjoin(new, cmd->val[1]);
 		chdir(new);
+		// free new ??
 	}
 	newpwd = find_name(&global->head_env, "PWD", 4);
 	if (newpwd != NULL)

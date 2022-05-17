@@ -81,6 +81,7 @@ typedef struct s_cmd
 	char *path;
 	int output;
 	int input;
+	bool	pipe;
 	pid_t	pid;
 	struct s_cmd *next;
 } t_cmd;
@@ -188,22 +189,24 @@ int ft_lex(char *str, t_token *token);
 
 // EXE
 void	ft_execution(t_global *global);
-void	ft_exe(t_global *global);
-int	ft_search_builtin(t_token *token, t_global *global);
+void	ft_exe(t_global *global, t_cmd *cmd);
+int	ft_search_builtin(t_cmd *cmd, t_global *global);
 
 
 // BUILTIN
 int	ft_echo(t_cmd * cmd, t_global *global);
 int	ft_pwd(void);
-int	ft_cd(t_token *token, t_global *global);
+int	ft_cd(t_cmd *cmd, t_global *global);
 int	ft_env(t_global *global);
-int	ft_export(t_token *token, t_global *global);
-int	ft_exit(t_global *global, t_token *token);
-int	ft_unset(t_token *token, t_global *global);
+int	ft_export(t_cmd *cmd, t_global *global);
+int	ft_exit(t_global *global, t_cmd *cmd);
+int	ft_unset(t_cmd *cmd, t_global *global);
 void ft_insert_tab(char **tab, char *name, char *value);
 
 // EXPAND ENV
 int check_name(char *token);
 char *check_value(char *token);
+
+void	parse_execution(t_global *global);
 
 #endif

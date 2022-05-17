@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **envp)
 		delete_quotes(global.headcmd);
 		ft_print_cmd(&global.headcmd);
 		ft_signal(0);
-		ft_execution(&global);
+		parse_execution(&global);
 		free(line);
 	}
 	ft_free_list(&global);
