@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:41:37 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/13 16:09:02 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/17 08:35:23 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	delete_quotes(t_cmd *cmd)
 			cmd->val[i] = ft_strtrim(cmd->val[i], "\"");
 			check_if_expand(cmd, i);
 			// printf("apres trimage = %s\n", cmd->val[i]);
-			// cmd->val[i] = new_string(cmd->val[i], '\"');
+			cmd->val[i] = new_string(cmd->val[i], '\"');
 			// printf("apres new_string = %s\n", cmd->val[i]);
 		}
 		// printf("cmd val : %s\n", cmd->val[i]);
