@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/17 11:40:17 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/17 16:38:14 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ typedef enum
 
 typedef struct s_token
 {
+	int redir_in;
+	int redir_out;
+	char	*out;
 	char	token;
 	char	*val;
 	int	len;
@@ -76,13 +79,14 @@ typedef struct s_cmd
 {
 	int count;
 	char **val;
-	char *redir;
+	// char *redir;
 	int *expand;
 	char *path;
 	int output;
 	int input;
 	pid_t	pid;
 	struct s_cmd *next;
+	bool pipe;
 } t_cmd;
 
 typedef struct s_env
@@ -121,6 +125,7 @@ int			check_redir_o_position(t_token *token, t_cmd *cmd);
 int			check_redir_i_position(t_token *token, t_cmd *cmd);
 int			check_append_o(t_token *token, t_cmd *cmd);
 int			check_append_i(t_token *token, t_cmd *cmd);
+void		create_file(t_token *token, int type);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
@@ -128,7 +133,6 @@ int			is_simple_quotes(char c);
 void		trim_doble_quotes(t_token *token);
 void		trim_simple_quotes(t_token *token);
 void		trim_global_quotes(t_token *token);
-//void		parse_final_quotes(t_token *token);
 
 //QUOTE - PARSE
 int			count_d_quotes(t_token *token);

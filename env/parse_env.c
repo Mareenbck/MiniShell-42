@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 12:55:02 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/01/13 14:49:33 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/05/17 13:05:57 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ t_env	*find_name(t_env **head_env, char *var, int len)
 	while (env->next != NULL)
 	{
 		if (!ft_strncmp(env->var_name, var, len))
+		{
+			// printf("hello\n");
 			return (env);
+		}
 		env = env->next;
 	}
 	return (NULL);

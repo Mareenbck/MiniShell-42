@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/29 12:05:39 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/05/17 12:34:33 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,30 @@ void	ft_exe(t_global *global)
 
 int	ft_search_builtin(t_token *token, t_global *global)
 {
-	if (token->val == NULL)
-		return (1);
-	if (!ft_strncmp(token->val, "echo", 4))
-		ft_echo(global->headcmd, global);
-	else if (!ft_strncmp(token->val, "cd", 2))
-		ft_cd(token->next, global);
-	else if (!ft_strncmp(token->val, "env", 3))
-		ft_env(global);
-	else if (!ft_strncmp(token->val, "pwd", 3))
-		ft_pwd();
-	else if (!ft_strncmp(token->val, "export", 6))
-		ft_export(token->next, global);
-	else if (!ft_strncmp(token->val, "unset", 4))
-		ft_unset(token->next, global);
-	else if (!ft_strncmp(token->val, "exit", 4))
-		ft_exit(global, token->next);
-	else
+	while (token->next != NULL)
 	{
-		g_exit_status = NOTFOUND;
-		return (1);
+		if (token->val == NULL)
+			return (1);
+		if (!ft_strncmp(token->val, "echo", 4))
+			ft_echo(global->headcmd, global);
+		else if (!ft_strncmp(token->val, "cd", 2))
+			ft_cd(token->next, global);
+		else if (!ft_strncmp(token->val, "env", 3))
+			ft_env(global);
+		else if (!ft_strncmp(token->val, "pwd", 3))
+			ft_pwd();
+		else if (!ft_strncmp(token->val, "export", 6))
+			ft_export(token->next, global);
+		else if (!ft_strncmp(token->val, "unset", 4))
+			ft_unset(token->next, global);
+		else if (!ft_strncmp(token->val, "exit", 4))
+			ft_exit(global, token->next);
+		else
+		{
+			g_exit_status = NOTFOUND;
+			return (1);
+		}
+		token = token->next;
 	}
 	return (0);
 }
@@ -159,7 +163,7 @@ void	ft_execution(t_global *global)
 			}
 			// wait(&pid);
 		}
-		// cmd = cmd->next;
+	// 	cmd = cmd->next;
 	// }
 	ft_parent_process(fd_pipe);
 	ft_lst_clear(&global->head, free);
