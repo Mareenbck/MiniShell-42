@@ -80,24 +80,6 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 	return (0);
 }
 
-// void	handle_pipes(t_cmd *cmd)
-// {
-// 	dup2(cmd->output, STDOUT_FILENO);
-// 	dup2(cmd->input, STDIN_FILENO);
-// 	if (cmd->next)
-// 	{
-// 		close(cmd->pipes[0]);
-// 		dup2(cmd->pipes[1], cmd->output);
-// 		close(cmd->pipes[1]);
-// 	}
-// 	// if (cmd->prev)
-// 	// {
-// 	// 	dup2(cmd->prev->pipes[0], cmd->input);
-// 	// 	close(cmd->prev->pipes[0]);
-// 	// }
-// }
-
-
 void	ft_child1_process(t_cmd *cmd, int *fd_pipe)
 {
 	close(fd_pipe[0]);

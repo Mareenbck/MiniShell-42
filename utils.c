@@ -30,7 +30,6 @@ void	ft_error(char *msg, int exit_status)
 {
 	printf("%s\n", msg);
 	g_exit_status = exit_status;
-	// exit(exit_status);
 }
 
 t_token	*lstlast(t_token *lst)
@@ -158,7 +157,6 @@ void ft_lst_delone2(t_cmd *cmd, void (*del)(void *))
 		return;
 	if (cmd)
 	{
-		// ft_free_tab(cmd->val);
 		free(cmd->expand);
 		(*del)(cmd);
 	}
@@ -191,7 +189,6 @@ void ft_lst_clear(t_token **head, void (*del)(void *))
 		ft_lst_delone(*head, del);
 		(*head) = tmp;
 	}
-	printf("clear token list\n");
 }
 
 void ft_lst_clear2(t_cmd **head, void (*del)(void *))
@@ -208,7 +205,6 @@ void ft_lst_clear2(t_cmd **head, void (*del)(void *))
 		ft_lst_delone2(*head, del);
 		(*head) = tmp;
 	}
-	printf("clear cmd list\n");
 }
 
 void ft_lst_clear3(t_env **head, void (*del)(void *))
