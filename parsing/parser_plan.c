@@ -12,26 +12,26 @@
 
 #include "../minishell.h"
 
-t_cmd *ft_init_cmd()
+t_cmd *ft_init_cmd(int len)
 {
 	t_cmd *new_cmd;
 
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
-	new_cmd->val = (char **)malloc(sizeof(t_token));
-	new_cmd->expand = (int *)malloc(sizeof(t_token));
+	new_cmd->val = (char **)malloc(sizeof(t_token) * len + 1);
+	new_cmd->expand = (int *)malloc(sizeof(t_token) * len + 1);
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	new_cmd->pipe = false;
 	return (new_cmd);
 }
 
-t_cmd *create_cmd()
+t_cmd *create_cmd(int len)
 {
 	t_cmd *new_cmd;
 
-	new_cmd = ft_init_cmd();
+	new_cmd = ft_init_cmd(len);
 	*new_cmd->val = NULL;
 	*new_cmd->expand = 0;
 	new_cmd->path = NULL;
@@ -47,7 +47,7 @@ void	ft_print_cmd(t_cmd **cmd)
 	int i = 0;
 
 	tmp = *cmd;
-	while (tmp->next != NULL)
+	while (tmp != NULL)
 	{
 		i = 0;
 		while (tmp->val[i])
@@ -81,17 +81,33 @@ void	initialize_io(t_cmd *cmd)
 		cmd->output = dup(STDOUT_FILENO);
 }
 
+int	list_len(t_token **head)
+{
+	t_token *token;
+	token = *head;
+	int len = 0;
+
+	while (token)
+	{
+		len++;
+		token = token->next;
+	}
+	return (len);
+}
+
 void	analize_cmd(t_token **head, t_cmd **comd)
 {
 	t_token *token;
 	t_cmd	*cmd;
 	token = *head;
 	int	i;
+	int len;
 
+	len = list_len(head);
 	while (token != NULL)
 	{
 		i = 0;
-		cmd = create_cmd();
+		cmd = create_cmd(len);
 		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
@@ -121,6 +137,6 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}
-	ft_lstaddback2(comd, create_cmd());
+	ft_lstaddback2(comd, ft_init_cmd(len));
 	// ft_print_cmd(comd);
 }
