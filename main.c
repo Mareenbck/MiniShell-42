@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **envp)
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
 		//parse_final_quotes(global.head);
-		delete_quotes(global.headcmd);
+		// delete_quotes(global.headcmd);
 		ft_signal(0);
 		parse_execution(&global);
 		free(line);

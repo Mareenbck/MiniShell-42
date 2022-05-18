@@ -20,7 +20,7 @@ t_cmd *ft_init_cmd(int len)
 	if (!new_cmd)
 		return (NULL);
 	new_cmd->val = (char **)malloc(sizeof(t_token) * len + 1);
-	new_cmd->expand = (int *)malloc(sizeof(t_token) * len + 1);
+	new_cmd->expand = (int *)malloc(sizeof(t_token) * len);
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	new_cmd->pipe = false;
@@ -38,8 +38,6 @@ t_cmd *create_cmd(int len)
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
-
-
 
 void	ft_print_cmd(t_cmd **cmd)
 {
@@ -77,8 +75,8 @@ void	analize_append(t_token *token, t_cmd *cmd)
 
 void	initialize_io(t_cmd *cmd)
 {
-		cmd->input = dup(STDIN_FILENO);
-		cmd->output = dup(STDOUT_FILENO);
+		cmd->input = STDIN_FILENO;
+		cmd->output = STDOUT_FILENO;
 }
 
 int	list_len(t_token **head)
