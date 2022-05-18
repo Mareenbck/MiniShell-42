@@ -12,25 +12,26 @@
 
 #include "../minishell.h"
 
-t_cmd *ft_init_cmd()
+t_cmd *ft_init_cmd(int len)
 {
 	t_cmd *new_cmd;
 
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
-	new_cmd->val = (char **)malloc(sizeof(t_token));
-	new_cmd->expand = (int *)malloc(sizeof(t_token));
+	new_cmd->val = (char **)malloc(sizeof(t_token) * len + 1);
+	new_cmd->expand = (int *)malloc(sizeof(t_token) * len);
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
+	new_cmd->pipe = false;
 	return (new_cmd);
 }
 
-t_cmd *create_cmd()
+t_cmd *create_cmd(int len)
 {
 	t_cmd *new_cmd;
 
-	new_cmd = ft_init_cmd();
+	new_cmd = ft_init_cmd(len);
 	*new_cmd->val = NULL;
 	*new_cmd->expand = 0;
 	new_cmd->path = NULL;
@@ -38,20 +39,18 @@ t_cmd *create_cmd()
 	return (new_cmd);
 }
 
-
-
 void	ft_print_cmd(t_cmd **cmd)
 {
 	t_cmd *tmp;
 	int i = 0;
 
 	tmp = *cmd;
-	while (tmp->next != NULL)
+	while (tmp != NULL)
 	{
 		i = 0;
 		while (tmp->val[i])
 		{
-			printf("cmd[%d] = %s , -> expand : %d\n", i, tmp->val[i], tmp->expand[i]);
+			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe);
 			i++;
 		}
 		tmp = tmp->next;
@@ -74,18 +73,40 @@ void	analize_append(t_token *token, t_cmd *cmd)
 		check_append_i(token, cmd);
 }
 
+void	initialize_io(t_cmd *cmd)
+{
+		cmd->input = STDIN_FILENO;
+		cmd->output = STDOUT_FILENO;
+}
+
+int	list_len(t_token **head)
+{
+	t_token *token;
+	token = *head;
+	int len = 0;
+
+	while (token)
+	{
+		len++;
+		token = token->next;
+	}
+	return (len);
+}
+
 void	analize_cmd(t_token **head, t_cmd **comd)
 {
 	t_token *token;
 	t_cmd	*cmd;
 	token = *head;
 	int	i;
+	int len;
 
-	cmd = create_cmd();
+	len = list_len(head);
 	while (token != NULL)
 	{
 		i = 0;
-		while (token->token == WORD && token->token != PIPE && token != NULL)
+		cmd = create_cmd(len);
+		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
 			if (token->expand)
@@ -100,18 +121,20 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		}
 		cmd->val[i] = NULL;
 		cmd->count = i;
-		ft_lstaddback2(comd, cmd);
-		if (token->token == REDIR_OUT || token->token == REDIR_IN)
-			analize_redir(token, cmd);
 		if (token->token == PIPE)
 		{
-			cmd = create_cmd();
 			check_pipe_position(token, cmd);
+			cmd->pipe = true;
+
 		}
-		if (token->token == APPEND_OUT || token->token == APPEND_IN)
+		else if (token->token == REDIR_OUT || token->token == REDIR_IN)
+			analize_redir(token, cmd);
+		else if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
+		initialize_io(cmd);
+		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}
-	ft_lstaddback2(comd, create_cmd());
+	ft_lstaddback2(comd, ft_init_cmd(len));
 	// ft_print_cmd(comd);
 }

@@ -29,26 +29,28 @@ void	ft_print_export(t_env **head)
 
 
 //FAIRE UEN STRUCT TMP POUR ENREGISTRER NOM ET SIGNE FORMATE
-int	ft_export(t_token *token, t_global *global)
+int	ft_export(t_cmd *cmd, t_global *global)
 {
 	t_env *env;
 	t_env *new_env;
 	char *value;
 	char *sign;
 	char *name;
+	int i = 1;
 
 	env = NULL;
 	// ft_lst_clear3(&global->head_env, free);
 	// ft_init_list_env(&global->head_env, global->env);
-	if (token->val == NULL)
+	if (cmd->val[i] == NULL)
 		ft_print_export(&global->head_env);
-	while (token->next != NULL && token->token == WORD)
+	// VERIFICATION DU TOKEN SI WORD AVANT
+	while (cmd->val[i] != NULL)
 	{
-		value = check_value(token->val);
-		if (!check_name(token->val))
+		value = check_value(cmd->val[i]);
+		if (!check_name(cmd->val[i]))
 		{
-			sign = init_sign(token->val);
-			name = edit_name(token->val, '=');
+			sign = init_sign(cmd->val[i]);
+			name = edit_name(cmd->val[i], '=');
 			env = find_name(&global->head_env, name, (ft_strlen(name) + 1));
 			if (env)
 			{
@@ -62,12 +64,12 @@ int	ft_export(t_token *token, t_global *global)
 			}
 			else
 			{
-				ft_insert_tab(global->env, token->val, value);
-				new_env = create_var_env(edit_name(token->val, '='), value, sign);
+				ft_insert_tab(global->env, cmd->val[i], value);
+				new_env = create_var_env(edit_name(cmd->val[i], '='), value, sign);
 				ft_lst_insert(&global->head_env, new_env);
 			}
 		}
-		token = token->next;
+		i++;;
 	}
 	// ft_print_env(head_env);
 	return (0);
