@@ -113,7 +113,7 @@ typedef struct s_global
 
 /* PARSING */
 int			count_option(char *line);
-void		analize_cmd(t_token **head, t_cmd **comd);
+int		analize_cmd(t_token **head, t_cmd **comd);
 void		ft_print_cmd(t_cmd **cmd);
 t_cmd		*ft_init_cmd();
 
@@ -144,7 +144,7 @@ int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
 int			error_quotes(t_token *token);
-void		last_call_quotes(t_cmd *cmd, t_token *token);
+int	last_call_quotes(t_cmd *cmd, t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);

@@ -39,7 +39,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	// g_exit_status = SUCCESS;
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
-		ft_error("Variable not found", NOTFOUND);
+		ft_error("Command not found", NOTFOUND);
 	if (cmd->expand[i])
 		ft_expand_cmd(global, cmd, split_path);
 	else

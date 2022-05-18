@@ -103,7 +103,7 @@ int	list_len(t_token **head)
 	return (len);
 }
 
-void	analize_cmd(t_token **head, t_cmd **comd)
+int	analize_cmd(t_token **head, t_cmd **comd)
 {
 	t_token *token;
 	t_cmd	*cmd;
@@ -133,9 +133,13 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		cmd->count = i;
 		if (token->token == PIPE)
 		{
-			check_pipe_position(token, cmd);
-			cmd->pipe = true;
-
+			if (!check_pipe_position(token, cmd))
+				cmd->pipe = true;
+			else
+			{
+				ft_error("syntax error near unexpected token `|'", 2);
+				return (1);
+			}
 		}
 		else if (token->token == REDIR_OUT || token->token == REDIR_IN)
 			analize_redir(token, cmd);
@@ -147,4 +151,5 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 	}
 	ft_lstaddback2(comd, ft_init_cmd(len));
 	// ft_print_cmd(comd);
+	return (0);
 }

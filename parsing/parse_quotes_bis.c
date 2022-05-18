@@ -87,14 +87,18 @@ void	delete_quotes(t_cmd *cmd)
 	}
 }
 
-void	last_call_quotes(t_cmd *cmd, t_token *token)
+int	last_call_quotes(t_cmd *cmd, t_token *token)
 {
 	if (error_quotes(token) == 1)
+	{
 		ft_error("Syntax error", 1);
+		return(1);
+	}
 	else
 	{
 		trim_simple_quotes(token);
 		trim_doble_quotes(token);
 		delete_quotes(cmd);
 	}
+	return (0);
 }

@@ -57,9 +57,21 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		ft_signal(0);
 		init_line(line, &global.head);
-		analize_cmd(&global.head, &global.headcmd);
-		last_call_quotes(global.headcmd, global.head);
-		parse_execution(&global);
+		if (!analize_cmd(&global.head, &global.headcmd))
+		{
+			if (!last_call_quotes(global.headcmd, global.head))
+				parse_execution(&global);
+			else
+			{
+				ft_lst_clear(&global.head, free);
+				ft_lst_clear2(&global.headcmd, free);
+			}
+		}
+		else
+		{
+			ft_lst_clear(&global.head, free);
+			ft_lst_clear2(&global.headcmd, free);
+		}
 		free(line);
 	}
 	ft_free_list(&global);
