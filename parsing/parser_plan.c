@@ -63,7 +63,6 @@ void	ft_print_cmd(t_cmd **cmd)
 
 void	analize_redir(t_token *token, t_cmd *cmd)
 {
-	//printf("coucou\n");
 	int	type;
 
 	type = 0;
@@ -121,10 +120,9 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 		{
 			cmd->expand[i] = 0;
 			if (token->expand)
-
 			{
-                cmd->val[i] = ft_strdup(token->val);
-				cmd->expand[i] = 0;
+                cmd->val[i] = ft_strdup(&token->val[1]);
+				cmd->expand[i] = 1;
 			}
 			else
 				cmd->val[i] = ft_strdup(token->val);

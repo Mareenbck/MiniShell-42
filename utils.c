@@ -30,6 +30,7 @@ void	ft_error(char *msg, int exit_status)
 {
 	printf("%s\n", msg);
 	g_exit_status = exit_status;
+	// exit(exit_status);
 }
 
 t_token	*lstlast(t_token *lst)

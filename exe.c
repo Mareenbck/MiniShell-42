@@ -17,6 +17,8 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 	t_env *env;
 
 	env = find_name(&global->head_env, cmd->val[0], ft_strlen(cmd->val[0]));
+	if (!env)
+		ft_error("Command not found", NOTFOUND);
 	ft_strcpy(cmd->val[0], env->var_value);
 	cmd->path = ft_join_envp(split_path, env->var_value);
 }
@@ -34,6 +36,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	char	**split_path;
 	int i = 0;
 
+	// g_exit_status = SUCCESS;
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
 		ft_error("Variable not found", NOTFOUND);
@@ -68,7 +71,7 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 		ft_pwd();
 	else if (!ft_strncmp(cmd->val[0], "export", 6))
 		ft_export(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "unset", 4))
+	else if (!ft_strncmp(cmd->val[0], "unset", 5))
 		ft_unset(cmd, global);
 	else if (!ft_strncmp(cmd->val[0], "exit", 4))
 		ft_exit(global, cmd);
@@ -116,9 +119,9 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 			ft_signal(1);
 			ft_exe(global, cmd);
 		}
+		ft_signal(2);
 		wait(&cmd->pid);
 	}
-	// ft_signal(2);
 }
 
 void	parse_execution(t_global *global)
@@ -140,6 +143,7 @@ void	parse_execution(t_global *global)
 				ft_child1_process(cmd, fd_pipe);
 				if (ft_search_builtin(cmd, global) == 1)
 					ft_exe(global, cmd);
+				ft_signal(2);
 			}
 			cmd = cmd->next;
 			cmd->pid = fork();
@@ -149,6 +153,7 @@ void	parse_execution(t_global *global)
 				ft_child2_process(cmd, fd_pipe);
 				if (ft_search_builtin(cmd, global) == 1)
 					ft_exe(global, cmd);
+				ft_signal(2);
 			}
 			ft_parent_process(fd_pipe, cmd);
 			// ft_signal(2);
@@ -159,5 +164,5 @@ void	parse_execution(t_global *global)
 	}
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
-	ft_signal(2);
+	// ft_signal(2);
 }

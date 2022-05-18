@@ -87,7 +87,6 @@ typedef struct s_cmd
 	bool	pipe;
 	pid_t	pid;
 	struct s_cmd *next;
-	bool pipe;
 } t_cmd;
 
 typedef struct s_env

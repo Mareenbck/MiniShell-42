@@ -55,10 +55,10 @@ int	main(int ac, char **av, char **envp)
 			exit(0);
 		}
 		add_history(line);
+		ft_signal(0);
 		init_line(line, &global.head);
 		analize_cmd(&global.head, &global.headcmd);
 		last_call_quotes(global.headcmd, global.head);
-		ft_signal(0);
 		parse_execution(&global);
 		free(line);
 	}
