@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/17 16:38:14 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:15:36 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include "libft/libft.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 extern int g_exit_status;
 
@@ -63,9 +67,6 @@ typedef enum
 
 typedef struct s_token
 {
-	int redir_in;
-	int redir_out;
-	char	*out;
 	char	token;
 	char	*val;
 	int	len;
@@ -75,20 +76,32 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
+typedef struct s_redir
+{
+	char *out;
+	char *in;
+	char *append_in;
+	char *append_out;
+	int err;
+	int stdin;
+	int stdout;
+	int fd;
+}	t_redir;
+
 typedef struct s_cmd
 {
 	int count;
 	char **val;
-	// char *redir;
 	int *expand;
 	char *path;
 	int output;
 	int input;
-	bool	pipe;
 	pid_t	pid;
+	t_redir redir;
 	struct s_cmd *next;
 	bool pipe;
 } t_cmd;
+
 
 typedef struct s_env
 {
@@ -126,7 +139,8 @@ int			check_redir_o_position(t_token *token, t_cmd *cmd);
 int			check_redir_i_position(t_token *token, t_cmd *cmd);
 int			check_append_o(t_token *token, t_cmd *cmd);
 int			check_append_i(t_token *token, t_cmd *cmd);
-void		create_file(t_token *token, int type);
+int			redir_out();
+int			append_out(t_cmd *cmd);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);

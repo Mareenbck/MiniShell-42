@@ -6,63 +6,104 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:53:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/17 16:32:15 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/18 15:48:49 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_redir_o_position(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("error syntax 2\n", ERROR);
-	if (token->prev == NULL)
-		ft_error("error syntax \n", ERROR);
-	return (0);
-}
+// int    main(void){
+//     int fd[10];
 
-int	check_redir_i_position(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("error syntax 2\n", ERROR);
-	if (token->prev == NULL)
-		ft_error("error syntax \n", ERROR);
-	return (0);
-}
 
-int check_append_o(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("syntax error2 \n", ERROR);
-	if (token->prev == NULL)
-		ft_error("syntax error \n", ERROR);
-	return (0);
-}
+// 	<
+// 	int fd_main;
+// 	char in[] = "maine.c";
 
-int check_append_i(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("syntax error2 \n", ERROR);
-	if (token->prev == NULL)
-		ft_error("syntax error \n", ERROR);
-	return (0);
-}
+// 	 fd_main = open(in, O_RDONLY);
+// 	if (fd_main == -1)
+// 	{
+// 		perror(in);
+// 		dprintf(2, "Erreur trouve avec main.c \n");
+// 		return (EXIT_FAILURE);
+// 	}
+// 	printf("Le fd de main.c = %d\n", fd_main);
+// 	close(fd_main);
 
-void	create_file(t_token *token, int type)
+
+// 	>
+// 	int fd_out;
+// 	char out[] = "out.txt";
+
+// 	fd_out = open(out, O_WRONLY | O_CREAT, 0644);
+// 	if (fd_out == -1)
+// 	{
+// 		perror(out);
+// 		dprintf(2, "Erreur trouve avec main.c \n");
+// 		return (EXIT_FAILURE);
+// 	}
+// 	write(fd_out, "Salut a tous les amigo", 23);
+// 	printf("Le fd de %s = %d\n", out, fd_out);
+// 	close(fd_out);
+
+// 	>>
+// 	int fd_out;
+// 	char out[] = "append.txt";
+
+// 	fd_out = open(out, O_WRONLY | O_APPEND | O_CREAT, 0644);
+// 	if (fd_out == -1)
+// 	{
+// 		perror(out);
+// 		dprintf(2, "Erreur trouve avec main.c \n");
+// 		return (EXIT_FAILURE);
+// 	}
+// 	write(fd_out, "Salut a tous les amigo\n", 24);
+// 	printf("Le fd de %s = %d\n", out, fd_out);
+// 	close(fd_out);
+
+// 	return (EXIT_SUCCESS);
+// }d
+
+int	redir_out(t_cmd *cmd)
 {
-	while (token->next != NULL)
+	cmd->redir.out = "ok.txt";
+	cmd->redir.stdout = open(cmd->redir.out, O_WRONLY | O_CREAT, 0644);
+	if (cmd->redir.stdout == -1)
 	{
-		if (token->token == REDIR_OUT)
-		{
-			if (type == 0)
-				token->redir_out = open(token->out, O_CREAT, 00700);
-			else if (type == 1)
-				token->redir_out = open(token->out, O_APPEND, 00700);
-		}
-		token = token->next;
+		perror(cmd->redir.out);
+		return (EXIT_FAILURE);
 	}
+	write(cmd->redir.stdout, "hellolescopsabcd\n", 20);
+	close (cmd->redir.stdout);
+	return (EXIT_SUCCESS);
+}
+
+// / 	>
+// 	int fd_out;
+// 	char out[] = "out.txt";
+
+// 	fd_out = open(out, O_WRONLY | O_CREAT, 0644);
+// 	if (fd_out == -1)
+// 	{
+// 		perror(out);
+// 		dprintf(2, "Erreur trouve avec main.c \n");
+// 		return (EXIT_FAILURE);
+// 	}
+// 	write(fd_out, "Salut a tous les amigo", 23);
+// 	printf("Le fd de %s = %d\n", out, fd_out);
+// 	close(fd_out);
+
+int	append_out(t_cmd *cmd)
+{
+	int	fd_out;
+
+	fd_out = open(cmd->redir.append_out, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (fd_out == -1)
+	{
+		perror(cmd->redir.append_out);
+		return (EXIT_FAILURE);
+	}
+	printf("Le fd de %s = %d\n", cmd->redir.append_out, fd_out);
+	close(fd_out);
+	return (EXIT_SUCCESS);
 }
