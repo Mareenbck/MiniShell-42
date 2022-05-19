@@ -24,6 +24,7 @@ t_cmd *ft_init_cmd(int len)
 	new_cmd->index = (int *)malloc(sizeof(t_token) * len);
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
+	new_cmd->prev = NULL;
 	new_cmd->pipe = false;
 	return (new_cmd);
 }
@@ -38,8 +39,9 @@ t_cmd *create_cmd(int len)
 	*new_cmd->index = 0;
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
-	new_cmd->output = 0;
-	new_cmd->input = 0;
+	new_cmd->prev = NULL;
+	new_cmd->output = STDOUT_FILENO;
+	new_cmd->input = STDIN_FILENO;
 	new_cmd->pipe = false;
 	new_cmd->count = 0;
 	return (new_cmd);
@@ -85,12 +87,6 @@ void	analize_append(t_token *token, t_cmd *cmd)
 		check_append_i(token, cmd);
 }
 
-void	initialize_io(t_cmd *cmd)
-{
-		cmd->input = STDIN_FILENO;
-		cmd->output = STDOUT_FILENO;
-}
-
 int	list_len(t_token **head)
 {
 	t_token *token;
@@ -112,13 +108,15 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 	token = *head;
 	int	i;
 	int len;
+	int j;
 
+	j = 0;
 	len = list_len(head);
 	while (token != NULL)
 	{
 		i = 0;
 		cmd = create_cmd(len);
-		cmd->index[i] = i;
+		cmd->index[j] = j;
 		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
@@ -129,12 +127,14 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 			}
 			else
 				cmd->val[i] = ft_strdup(token->val);
+			if (token->prev && token->prev->token == PIPE)
+				cmd->pipe = true;
 			token = token->next;
 			i++;
 		}
 		cmd->val[i] = NULL;
 		cmd->count = i;
-		if (token->token == PIPE || token->prev->token == PIPE)
+		if (token->token == PIPE)
 		{
 			if (!check_pipe_position(token, cmd))
 			{
@@ -150,10 +150,9 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 			analize_redir(token, cmd);
 		else if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
-		initialize_io(cmd);
-		cmd->index++;
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
+		j++;
 	}
 	ft_lstaddback2(comd, ft_init_cmd(len));
 	// ft_print_cmd(comd);

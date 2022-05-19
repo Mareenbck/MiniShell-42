@@ -26,11 +26,11 @@ void	**ft_free_tab(char **tab)
 	return (NULL);
 }
 
-int	ft_error(char *msg, int exit_status)
+void	ft_error(char *msg, int exit_status)
 {
 	printf("%s\n", msg);
 	g_exit_status = exit_status;
-	return (1);
+	// return (1);
 	// exit(exit_status);
 }
 
@@ -55,6 +55,25 @@ t_cmd	*lstlast2(t_cmd *lst)
 void ft_lstaddback(t_token **alst, t_token *new)
 {
 	t_token	*tmp;
+  	if (alst)
+  	{
+    	if (*alst != NULL)
+		{
+      		tmp = *alst;
+			while (tmp->next)
+            	tmp = tmp->next;
+        	tmp->next = new;
+        	new->prev = tmp;
+        	new->next = NULL;
+		}
+    	else
+      		(*alst) = new;
+  	}
+}
+
+void ft_lstaddback2(t_cmd **alst, t_cmd *new)
+{
+	t_cmd	*tmp;
   	if (alst)
   	{
     	if (*alst != NULL)
@@ -131,16 +150,6 @@ void	ft_lst_insert(t_env **head_env, t_env *new)
 	}
 }
 
-void ft_lstaddback2(t_cmd **alst, t_cmd *new)
-{
-  if (alst)
-  {
-    if (*alst != NULL)
-      lstlast2(*alst)->next = new;
-    else
-      (*alst) = new;
-  }
-}
 
 void ft_lst_delone(t_token *token, void (*del)(void *))
 {

@@ -89,7 +89,9 @@ typedef struct s_cmd
 	bool	pipe;
 	pid_t	pid;
 	struct s_cmd *next;
+	struct s_cmd *prev;
 } t_cmd;
+
 
 typedef struct s_env
 {
@@ -150,7 +152,7 @@ int	last_call_quotes(t_cmd *cmd, t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
-int	ft_error(char *msg, int exit_status);
+void	ft_error(char *msg, int exit_status);
 t_token *lstlast(t_token *lst);
 void ft_lst_clear(t_token **lst, void (*del)(void *));
 char *ft_strdup_bis(const char *s1, int len);
@@ -163,6 +165,7 @@ void ft_lst_clear3(t_env **head, void (*del)(void *));
 void  ft_lst_insert(t_env **head_env, t_env *new);
 int	ft_wrong(char *str);
 void ft_lst_delone3(t_env *env, void (*del)(void *));
+void	ft_close(t_global *global);
 
 // INIT_ENV
 void	ft_init_list_env(t_env **head_env, t_global *global);
@@ -215,6 +218,6 @@ void ft_insert_tab(char **tab, char *name, char *value);
 int check_name(char *token);
 char *check_value(char *token);
 
-int	parse_execution(t_global *global);
+void	parse_execution(t_global *global);
 
 #endif

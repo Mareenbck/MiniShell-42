@@ -9,13 +9,11 @@
 /*   Updated: 2022/05/18 09:55:30 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 {
 	t_env *env;
-
 	env = find_name(&global->head_env, cmd->val[0], ft_strlen(cmd->val[0]));
 	if (!env)
 		ft_error("Command not found", NOTFOUND);
@@ -26,7 +24,6 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 void	ft_expand_args(t_global *global, char *cmd)
 {
 	t_env *env;
-
 	env = find_name(&global->head_env, cmd, ft_strlen(cmd));
 	ft_strcpy(cmd, env->var_value);
 }
@@ -35,7 +32,6 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 {
 	char	**split_path;
 	int i = 0;
-
 	// g_exit_status = SUCCESS;
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
@@ -83,77 +79,16 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 	return (0);
 }
 
-int	cmd_list_len(t_cmd **head)
-{
-	t_cmd *cmd;
-	cmd = *head;
-	int len = 0;
-
-	while (cmd)
-	{
-		len++;
-		cmd = cmd->next;
-	}
-	return (len);
-}
-
-void	ft_child1_process(t_cmd *cmd, int *fd_pipe, t_global *global)
-{
-	int i;
-	int len;
-
-	i = 0;
-	len = cmd_list_len(&global->headcmd);
-	// while (i < len)
-	// {
-		// if (*cmd->index != i)
-	close(cmd->fd_pipe[0]);
-		// if (*cmd->index + 1 != i)
-	close(cmd->next->fd_pipe[1]);
-	// }
-	// close(fd_pipe[*cmd->index][0]);
-	if (dup2(cmd->fd_pipe[1], cmd->output) == -1)
-		ft_error("Error", ERROR);
-	close(fd_pipe[*cmd->index + 1][1]);
-}
 
 // void	ft_child2_process(t_cmd *cmd, int *fd_pipe)
 // {
-// 	close(fd_pipe[1]);
-// 	if (dup2(fd_pipe[0], cmd->input) == -1)
+// 	close(cmd->next->fd_pipe[1]);
+// 	if (dup2(cmd->next->fd_pipe[0], cmd->next->input) == -1)
 // 		ft_error("Error", ERROR);
-// 	close(fd_pipe[0]);
+// 	close(cmd->next->fd_pipe[0]);
 // }
 
 
-void	ft_parent_process(int *fd_pipe, t_cmd *cmd, t_global *global)
-{
-	int len;
-	int i;
-
-	i = 0;
-	len = cmd_list_len(&global->headcmd);
-	(void)cmd;
-	while (i <= len)
-	{
-		if (i != len -1)
-			close(fd_pipe[i][0]);
-		if (i != 0)
-			close(fd_pipe[i][1]);
-		i++;
-	}
-	close(fd_pipe[0][1]);
-	close(fd_pipe[len][0]);
-	// wait(&cmd->pid);
-	i = 0;
-	while (i < len)
-	{
-		if (wait(NULL) == -1)
-			ft_error("Error waitpid", ERROR);
-		i++;
-
-	}
-}
 
 void	ft_simple_exe(t_cmd *cmd, t_global *global)
 {
@@ -163,62 +98,117 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 		if (cmd->pid == 0)
 		{
 			ft_signal(1);
+			if (cmd->input != 0)
+			{
+				dup2(cmd->input, 0);
+				close(cmd->input);
+			}
+			if (cmd->output != 1)
+			{
+				dup2(cmd->output, 1);
+				close(cmd->output);
+			}
 			ft_exe(global, cmd);
 		}
-		ft_signal(2);
 		wait(&cmd->pid);
+		ft_signal(2);
+		// waitpid(cmd->pid, NULL, 0);
 	}
 }
 
+// void	ft_child1_process(t_cmd *cmd)
+// {
+// 	close(cmd->fd_pipe[0]);
+// 	if (dup2(cmd->fd_pipe[1], cmd->output) == -1)
+// 		ft_error("Error", ERROR);
+// 	close(cmd->fd_pipe[1]);
+// 	close(cmd->next->fd_pipe[1]);
+// 	if (dup2(cmd->next->fd_pipe[0], cmd->next->input) == -1)
+// 		ft_error("Error", ERROR);
+// 	close(cmd->next->fd_pipe[0]);
+// }
 
-int	parse_execution(t_global *global)
+void	handle_pipes(t_cmd *cmd)
 {
-	t_cmd *cmd;
-	int len;
-	int i;
-	len = cmd_list_len(&global->headcmd);
-	// int fd_pipe[len][2];
-	i = 0;
+	if (cmd->fd_pipe[1] != 1)
+	{
+		close(cmd->fd_pipe[0]);
+		dup2(cmd->fd_pipe[1], cmd->output);
+		close(cmd->fd_pipe[1]);
+	}
+	if (cmd->fd_pipe[0] != 0)
+	{
+		close(cmd->fd_pipe[1]);
+		dup2(cmd->fd_pipe[0], cmd->next->input);
+		close(cmd->fd_pipe[0]);
+	}
+	dprintf(2, "cmd input : %d, cmd output : %d\n", cmd->input, cmd->output);
+}
 
-	cmd = global->headcmd;
-	while (i <= len)
+int	child_process(t_cmd *cmd, t_global *global)
+{
+	printf("input : %d, output : %d, fd[0] : %d fd[1] : %d\n", cmd->input, cmd->output, cmd->fd_pipe[0], cmd->fd_pipe[1]);
+	cmd->pid = fork();
+	if (cmd->pid < 0)
+		ft_error("Error fork", ERROR);
+	if (cmd->pid == 0)
+	{
+		ft_signal(1);
+		handle_pipes(cmd);
+		if (ft_search_builtin(cmd, global) == 1)
+			ft_exe(global, cmd);
+		ft_signal(2);
+	}
+	return (0);
+}
+
+int	open_pipes(t_cmd *cmd)
+{
+	if (cmd->next != NULL)
 	{
 		if (pipe(cmd->fd_pipe) == -1)
-			ft_error("Pipe Failed", PIPE_FAIL);
-		i++;
+			ft_error("Error Pipe", ERROR);
 	}
-	while (cmd->next != NULL)
+	return (0);
+}
+
+void	ft_parent_process(t_global *global)
+{
+	t_cmd *cmd;
+
+	cmd = global->headcmd;
+	while (cmd->next)
 	{
-		if (cmd->pipe)
+		close(cmd->fd_pipe[0]);
+		close(cmd->fd_pipe[1]);
+		// cmd->output = STDOUT_FILENO;
+		// cmd->input = STDIN_FILENO;
+		waitpid(cmd->pid, NULL, 0);
+		cmd = cmd->next;
+	}
+}
+
+void	parse_execution(t_global *global)
+{
+	t_cmd *cmd;
+	// int fd_pipe[2];
+
+	cmd = global->headcmd;
+	while (cmd)
+	{
+		if (cmd->next != NULL)
 		{
-			cmd->pid = fork();
-			if (cmd->pid == 0)
-			{
-				ft_signal(1);
-				ft_child1_process(cmd, cmd->fd_pipe, global);
-				if (ft_search_builtin(cmd, global) == 1)
-					ft_exe(global, cmd);
-				ft_signal(2);
-			}
-			// cmd = cmd->next;
-			// cmd->pid = fork();
-			// if (cmd->pid == 0)
-			// {
-			// 	ft_signal(1);
-			// 	ft_child2_process(cmd, fd_pipe);
-			// 	if (ft_search_builtin(cmd, global) == 1)
-			// 		ft_exe(global, cmd);
-			// 	ft_signal(2);
-			// }
-			ft_parent_process(cmd->fd_pipe, cmd, global);
-			// ft_signal(2);
+			open_pipes(cmd);
+			child_process(cmd, global);
+			// close_pipes(cmd);
+			ft_parent_process(global);
 		}
 		else
 			ft_simple_exe(cmd, global);
 		cmd = cmd->next;
 	}
+	// ft_close(global);
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
-	// ft_signal(2);
-	return (0);
+	ft_signal(2);
 }
