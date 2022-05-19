@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:53:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/19 15:42:50 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:32:20 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	redir_out(t_cmd *cmd, char *file_name)
 	if (cmd->output != STDOUT_FILENO)
 	{
 		dup2(cmd->output, fd);
-		close(fd);
-		cmd->output = fd;
+		close(cmd->output);
 	}
+	cmd->output = fd;
 	return (EXIT_SUCCESS);
 }
 
@@ -44,8 +44,8 @@ int	redir_in(t_cmd *cmd, char *file_name)
 	if (cmd->input != STDIN_FILENO)
 	{
 		dup2(cmd->input, fd);
-		close(fd);
-		cmd->input = fd;
+		close(cmd->input);
 	}
+	cmd->input = fd;
 	return (EXIT_SUCCESS);
 }

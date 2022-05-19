@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/18 09:55:30 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:24:00 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	if (!cmd->path)
 		ft_error("Command not found", NOTFOUND);
 	ft_free_tab(split_path);
+	// if (cmd->input != 0)
+	// {
+	// 	dup2(cmd->input, 0);
+	// 	close(cmd->input);
+	// }
+	// if (cmd->output != 1)
+	// {
+	// 	dup2(cmd->output, 1);
+	// 	close(cmd->output);
+	// }
+	// si in != 0 -- > dup2 close
+	// si out != 1 -- > dup2 close
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
 		// ft_free_tab(cmd_args);
@@ -114,9 +126,21 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 		if (cmd->pid == 0)
 		{
 			ft_signal(1);
+			if (cmd->input != 0)
+			{
+				dup2(cmd->input, 0);
+				close(cmd->input);
+			}
+			if (cmd->output != 1)
+			{
+				dup2(cmd->output, 1);
+				close(cmd->output);
+			}
+			dprintf(2, "les fd %d %d\n", cmd->input, cmd->output);
 			ft_exe(global, cmd);
 		}
 		wait(&cmd->pid);
+		ft_signal(0);
 	}
 	// ft_signal(2);
 }
