@@ -83,30 +83,76 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 	return (0);
 }
 
-void	ft_child1_process(t_cmd *cmd, int *fd_pipe)
+int	cmd_list_len(t_cmd **head)
 {
-	close(fd_pipe[0]);
-	if (dup2(fd_pipe[1], cmd->output) == -1)
-		ft_error("Error", ERROR);
-	close(fd_pipe[1]);
+	t_cmd *cmd;
+	cmd = *head;
+	int len = 0;
+
+	while (cmd)
+	{
+		len++;
+		cmd = cmd->next;
+	}
+	return (len);
 }
 
-void	ft_child2_process(t_cmd *cmd, int *fd_pipe)
+void	ft_child1_process(t_cmd *cmd, int *fd_pipe, t_global *global)
 {
-	close(fd_pipe[1]);
-	if (dup2(fd_pipe[0], cmd->input) == -1)
+	int i;
+	int len;
+
+	i = 0;
+	len = cmd_list_len(&global->headcmd);
+	// while (i < len)
+	// {
+		// if (*cmd->index != i)
+	close(cmd->fd_pipe[0]);
+		// if (*cmd->index + 1 != i)
+	close(cmd->next->fd_pipe[1]);
+	// }
+	// close(fd_pipe[*cmd->index][0]);
+	if (dup2(cmd->fd_pipe[1], cmd->output) == -1)
 		ft_error("Error", ERROR);
-	close(fd_pipe[0]);
+	close(fd_pipe[*cmd->index + 1][1]);
 }
 
+// void	ft_child2_process(t_cmd *cmd, int *fd_pipe)
+// {
+// 	close(fd_pipe[1]);
+// 	if (dup2(fd_pipe[0], cmd->input) == -1)
+// 		ft_error("Error", ERROR);
+// 	close(fd_pipe[0]);
+// }
 
-void	ft_parent_process(int *fd_pipe, t_cmd *cmd)
+
+void	ft_parent_process(int *fd_pipe, t_cmd *cmd, t_global *global)
 {
-	close(fd_pipe[0]);
-	close(fd_pipe[1]);
-	wait(&cmd->pid);
-	if (wait(NULL) == -1)
-		ft_error("Error waitpid", ERROR);
+	int len;
+	int i;
+
+	i = 0;
+	len = cmd_list_len(&global->headcmd);
+	(void)cmd;
+	while (i <= len)
+	{
+		if (i != len -1)
+			close(fd_pipe[i][0]);
+		if (i != 0)
+			close(fd_pipe[i][1]);
+		i++;
+	}
+	close(fd_pipe[0][1]);
+	close(fd_pipe[len][0]);
+	// wait(&cmd->pid);
+	i = 0;
+	while (i < len)
+	{
+		if (wait(NULL) == -1)
+			ft_error("Error waitpid", ERROR);
+		i++;
+
+	}
 }
 
 void	ft_simple_exe(t_cmd *cmd, t_global *global)
@@ -124,14 +170,23 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 	}
 }
 
-void	parse_execution(t_global *global)
+
+int	parse_execution(t_global *global)
 {
 	t_cmd *cmd;
-	int fd_pipe[2];
+	int len;
+	int i;
+	len = cmd_list_len(&global->headcmd);
+	// int fd_pipe[len][2];
+	i = 0;
 
 	cmd = global->headcmd;
-	if (pipe(fd_pipe) == -1)
-		ft_error("Pipe Failed", PIPE_FAIL);
+	while (i <= len)
+	{
+		if (pipe(cmd->fd_pipe) == -1)
+			ft_error("Pipe Failed", PIPE_FAIL);
+		i++;
+	}
 	while (cmd->next != NULL)
 	{
 		if (cmd->pipe)
@@ -140,22 +195,22 @@ void	parse_execution(t_global *global)
 			if (cmd->pid == 0)
 			{
 				ft_signal(1);
-				ft_child1_process(cmd, fd_pipe);
+				ft_child1_process(cmd, cmd->fd_pipe, global);
 				if (ft_search_builtin(cmd, global) == 1)
 					ft_exe(global, cmd);
 				ft_signal(2);
 			}
-			cmd = cmd->next;
-			cmd->pid = fork();
-			if (cmd->pid == 0)
-			{
-				ft_signal(1);
-				ft_child2_process(cmd, fd_pipe);
-				if (ft_search_builtin(cmd, global) == 1)
-					ft_exe(global, cmd);
-				ft_signal(2);
-			}
-			ft_parent_process(fd_pipe, cmd);
+			// cmd = cmd->next;
+			// cmd->pid = fork();
+			// if (cmd->pid == 0)
+			// {
+			// 	ft_signal(1);
+			// 	ft_child2_process(cmd, fd_pipe);
+			// 	if (ft_search_builtin(cmd, global) == 1)
+			// 		ft_exe(global, cmd);
+			// 	ft_signal(2);
+			// }
+			ft_parent_process(cmd->fd_pipe, cmd, global);
 			// ft_signal(2);
 		}
 		else
@@ -165,4 +220,5 @@ void	parse_execution(t_global *global)
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
 	// ft_signal(2);
+	return (0);
 }

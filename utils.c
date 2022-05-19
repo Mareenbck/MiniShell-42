@@ -26,10 +26,11 @@ void	**ft_free_tab(char **tab)
 	return (NULL);
 }
 
-void	ft_error(char *msg, int exit_status)
+int	ft_error(char *msg, int exit_status)
 {
 	printf("%s\n", msg);
 	g_exit_status = exit_status;
+	return (1);
 	// exit(exit_status);
 }
 

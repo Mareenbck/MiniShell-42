@@ -78,6 +78,8 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int count;
+	int *index;
+	int fd_pipe[2];
 	char **val;
 	// char *redir;
 	int *expand;
@@ -148,7 +150,7 @@ int	last_call_quotes(t_cmd *cmd, t_token *token);
 
 /* UTILS */
 void	**ft_free_tab(char **tab);
-void	ft_error(char *msg, int exit_status);
+int	ft_error(char *msg, int exit_status);
 t_token *lstlast(t_token *lst);
 void ft_lst_clear(t_token **lst, void (*del)(void *));
 char *ft_strdup_bis(const char *s1, int len);
@@ -213,6 +215,6 @@ void ft_insert_tab(char **tab, char *name, char *value);
 int check_name(char *token);
 char *check_value(char *token);
 
-void	parse_execution(t_global *global);
+int	parse_execution(t_global *global);
 
 #endif

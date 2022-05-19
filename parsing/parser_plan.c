@@ -21,6 +21,7 @@ t_cmd *ft_init_cmd(int len)
 		return (NULL);
 	new_cmd->val = (char **)malloc(sizeof(t_token) * len + 1);
 	new_cmd->expand = (int *)malloc(sizeof(t_token) * len);
+	new_cmd->index = (int *)malloc(sizeof(t_token) * len);
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	new_cmd->pipe = false;
@@ -34,6 +35,7 @@ t_cmd *create_cmd(int len)
 	new_cmd = ft_init_cmd(len);
 	*new_cmd->val = NULL;
 	*new_cmd->expand = 0;
+	*new_cmd->index = 0;
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	new_cmd->output = 0;
@@ -116,6 +118,7 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 	{
 		i = 0;
 		cmd = create_cmd(len);
+		cmd->index[i] = i;
 		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
@@ -131,10 +134,12 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 		}
 		cmd->val[i] = NULL;
 		cmd->count = i;
-		if (token->token == PIPE)
+		if (token->token == PIPE || token->prev->token == PIPE)
 		{
 			if (!check_pipe_position(token, cmd))
+			{
 				cmd->pipe = true;
+			}
 			else
 			{
 				ft_error("syntax error near unexpected token `|'", 2);
@@ -146,6 +151,7 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 		else if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
 		initialize_io(cmd);
+		cmd->index++;
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}

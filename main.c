@@ -33,6 +33,12 @@ void	ft_free_list(t_global *global)
 	ft_free_tab(global->env);
 }
 
+void	free_token_cmd(t_global *global)
+{
+	ft_lst_clear(&global->head, free);
+	ft_lst_clear2(&global->headcmd, free);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char *line;
@@ -62,16 +68,10 @@ int	main(int ac, char **av, char **envp)
 			if (!last_call_quotes(global.headcmd, global.head))
 				parse_execution(&global);
 			else
-			{
-				ft_lst_clear(&global.head, free);
-				ft_lst_clear2(&global.headcmd, free);
-			}
+				free_token_cmd(&global);
 		}
 		else
-		{
-			ft_lst_clear(&global.head, free);
-			ft_lst_clear2(&global.headcmd, free);
-		}
+			free_token_cmd(&global);
 		free(line);
 	}
 	ft_free_list(&global);
