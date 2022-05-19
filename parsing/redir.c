@@ -6,104 +6,46 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:53:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/18 15:48:49 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:42:50 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// int    main(void){
-//     int fd[10];
-
-
-// 	<
-// 	int fd_main;
-// 	char in[] = "maine.c";
-
-// 	 fd_main = open(in, O_RDONLY);
-// 	if (fd_main == -1)
-// 	{
-// 		perror(in);
-// 		dprintf(2, "Erreur trouve avec main.c \n");
-// 		return (EXIT_FAILURE);
-// 	}
-// 	printf("Le fd de main.c = %d\n", fd_main);
-// 	close(fd_main);
-
-
-// 	>
-// 	int fd_out;
-// 	char out[] = "out.txt";
-
-// 	fd_out = open(out, O_WRONLY | O_CREAT, 0644);
-// 	if (fd_out == -1)
-// 	{
-// 		perror(out);
-// 		dprintf(2, "Erreur trouve avec main.c \n");
-// 		return (EXIT_FAILURE);
-// 	}
-// 	write(fd_out, "Salut a tous les amigo", 23);
-// 	printf("Le fd de %s = %d\n", out, fd_out);
-// 	close(fd_out);
-
-// 	>>
-// 	int fd_out;
-// 	char out[] = "append.txt";
-
-// 	fd_out = open(out, O_WRONLY | O_APPEND | O_CREAT, 0644);
-// 	if (fd_out == -1)
-// 	{
-// 		perror(out);
-// 		dprintf(2, "Erreur trouve avec main.c \n");
-// 		return (EXIT_FAILURE);
-// 	}
-// 	write(fd_out, "Salut a tous les amigo\n", 24);
-// 	printf("Le fd de %s = %d\n", out, fd_out);
-// 	close(fd_out);
-
-// 	return (EXIT_SUCCESS);
-// }d
-
-int	redir_out(t_cmd *cmd)
+int	redir_out(t_cmd *cmd, char *file_name)
 {
-	cmd->redir.out = "ok.txt";
-	cmd->redir.stdout = open(cmd->redir.out, O_WRONLY | O_CREAT, 0644);
-	if (cmd->redir.stdout == -1)
+	int	fd;
+
+	fd = open(file_name, O_CREAT | O_WRONLY, 0644);
+	if (cmd->output == -1)
 	{
-		perror(cmd->redir.out);
+		perror(file_name);
 		return (EXIT_FAILURE);
 	}
-	write(cmd->redir.stdout, "hellolescopsabcd\n", 20);
-	close (cmd->redir.stdout);
+	if (cmd->output != STDOUT_FILENO)
+	{
+		dup2(cmd->output, fd);
+		close(fd);
+		cmd->output = fd;
+	}
 	return (EXIT_SUCCESS);
 }
 
-// / 	>
-// 	int fd_out;
-// 	char out[] = "out.txt";
-
-// 	fd_out = open(out, O_WRONLY | O_CREAT, 0644);
-// 	if (fd_out == -1)
-// 	{
-// 		perror(out);
-// 		dprintf(2, "Erreur trouve avec main.c \n");
-// 		return (EXIT_FAILURE);
-// 	}
-// 	write(fd_out, "Salut a tous les amigo", 23);
-// 	printf("Le fd de %s = %d\n", out, fd_out);
-// 	close(fd_out);
-
-int	append_out(t_cmd *cmd)
+int	redir_in(t_cmd *cmd, char *file_name)
 {
-	int	fd_out;
+	int	fd;
 
-	fd_out = open(cmd->redir.append_out, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (fd_out == -1)
+	fd = open(file_name, O_RDONLY, 0644);
+	if (cmd->input == -1)
 	{
-		perror(cmd->redir.append_out);
+		perror(file_name);
 		return (EXIT_FAILURE);
 	}
-	printf("Le fd de %s = %d\n", cmd->redir.append_out, fd_out);
-	close(fd_out);
+	if (cmd->input != STDIN_FILENO)
+	{
+		dup2(cmd->input, fd);
+		close(fd);
+		cmd->input = fd;
+	}
 	return (EXIT_SUCCESS);
 }
