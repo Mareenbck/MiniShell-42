@@ -32,21 +32,21 @@ void	ft_free_list(t_global *global)
 	ft_free_tab(global->env);
 }
 
-void	ft_close(t_global *global)
-{
-	t_cmd *cmd;
+// void	ft_close(t_global *global)
+// {
+// 	t_cmd *cmd;
 
-	cmd = global->headcmd;
-	while (cmd)
-	{
-		if (cmd->pipe)
-		{
-			close(cmd->fd_pipe[0]);
-			close(cmd->fd_pipe[1]);
-		}
-		cmd = cmd->next;
-	}
-}
+// 	cmd = global->headcmd;
+// 	while (cmd)
+// 	{
+// 		if (cmd->pipe)
+// 		{
+// 			close(fd_pipe[0]);
+// 			close(fd_pipe[1]);
+// 		}
+// 		cmd = cmd->next;
+// 	}
+// }
 
 int	main(int ac, char **av, char **envp)
 {
@@ -77,20 +77,20 @@ int	main(int ac, char **av, char **envp)
 				parse_execution(&global);
 			else
 			{
-				ft_close(&global);
+				// ft_close(&global);
 				ft_lst_clear(&global.head, free);
 				ft_lst_clear2(&global.headcmd, free);
 			}
 		}
 		else
 		{
-			ft_close(&global);
+			// ft_close(&global);
 			ft_lst_clear(&global.head, free);
 			ft_lst_clear2(&global.headcmd, free);
 		}
 		free(line);
 	}
-	ft_close(&global);
+	// ft_close(&global);
 	ft_free_list(&global);
 	exit(g_exit_status);
 }

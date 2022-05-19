@@ -32,7 +32,8 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 {
 	char	**split_path;
 	int i = 0;
-	// g_exit_status = SUCCESS;
+
+	printf("je suis dans exe : %s\n", cmd->val[0]);
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
 		ft_error("Command not found", NOTFOUND);
@@ -106,36 +107,7 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 	}
 }
 
-// void	ft_child1_process(t_cmd *cmd)
-// {
-// 	close(cmd->fd_pipe[0]);
-// 	if (dup2(cmd->fd_pipe[1], cmd->output) == -1)
-// 		ft_error("Error", ERROR);
-// 	close(cmd->fd_pipe[1]);
-// 	close(cmd->next->fd_pipe[1]);
-// 	if (dup2(cmd->next->fd_pipe[0], cmd->next->input) == -1)
-// 		ft_error("Error", ERROR);
-// 	close(cmd->next->fd_pipe[0]);
-// }
-
-void	handle_pipes(t_cmd *cmd)
-{
-	if (cmd->fd_pipe[1] != cmd->output)
-	{
-		// close(cmd->fd_pipe[0]);
-		dup2(cmd->fd_pipe[1], cmd->output);
-		close(cmd->fd_pipe[1]);
-	}
-	if (cmd->fd_pipe[0] != cmd->input)
-	{
-		// close(cmd->fd_pipe[1]);
-		dup2(cmd->fd_pipe[0], cmd->input);
-		close(cmd->fd_pipe[0]);
-	}
-	dprintf(2, "cmd->val : %s, cmd input : %d, cmd output : %d, fd[0] : %d fd[1] : %d\n", cmd->val[0], cmd->input, cmd->output, cmd->fd_pipe[0], cmd->fd_pipe[1]);
-}
-
-int	child_process(t_cmd *cmd, t_global *global)
+void	ft_child1_process(t_cmd *cmd, int *fd_pipe, t_global *global)
 {
 	cmd->pid = fork();
 	if (cmd->pid < 0)
@@ -143,34 +115,38 @@ int	child_process(t_cmd *cmd, t_global *global)
 	if (cmd->pid == 0)
 	{
 		ft_signal(1);
-		printf("input : %d, output : %d, fd[0] : %d fd[1] : %d\n", cmd->input, cmd->output, cmd->fd_pipe[0], cmd->fd_pipe[1]);
-		handle_pipes(cmd);
+		dprintf(2, "avant cmd->val : %s, cmd input : %d, cmd output : %d, fd[0] : %d fd[1] : %d\n", cmd->val[0], cmd->input, cmd->output, fd_pipe[0], fd_pipe[1]);
+		if (fd_pipe[1] == 4)
+		{
+			// close(fd_pipe[0]);
+			// if (dup2(fd_pipe[1], cmd->output) == -1)
+				// ft_error("Error", ERROR);
+			dup2(fd_pipe[1], cmd->output);
+			close(fd_pipe[1]);
+		}
+		if (fd_pipe[0] != cmd->next->input)
+		{
+			// close(cmd->fd_pipe[1]);
+			dup2(fd_pipe[0], cmd->next->input);
+			close(fd_pipe[0]);
+		}
+		dprintf(2, "apres cmd->val : %s, cmd input : %d, cmd output : %d, fd[0] : %d fd[1] : %d\n", cmd->val[0], cmd->input, cmd->output, fd_pipe[0], fd_pipe[1]);
 		if (ft_search_builtin(cmd, global) == 1)
 			ft_exe(global, cmd);
+		close(fd_pipe[0]);
+		close(fd_pipe[1]);
 		ft_signal(2);
 	}
-	return (0);
 }
 
-int	open_pipes(t_cmd *cmd)
-{
-	if (cmd->next->next != NULL)
-	{
-		if (pipe(cmd->fd_pipe) == -1)
-			ft_error("Error Pipe", ERROR);
-	}
-	return (0);
-}
-
-void	ft_parent_process(t_global *global)
+void	ft_parent_process(t_global *global, int *fd_pipe)
 {
 	t_cmd *cmd;
 
 	cmd = global->headcmd;
+	(void)fd_pipe;
 	while (cmd->next)
 	{
-		// cmd->output = STDOUT_FILENO;
-		// cmd->input = STDIN_FILENO;
 		waitpid(cmd->pid, NULL, 0);
 		cmd = cmd->next;
 	}
@@ -179,23 +155,24 @@ void	ft_parent_process(t_global *global)
 void	parse_execution(t_global *global)
 {
 	t_cmd *cmd;
-	// int fd_pipe[2];
+	int fd_pipe[2];
 
 	cmd = global->headcmd;
 	while (cmd->next != NULL)
 	{
-		if (cmd->pipe)
+		if (cmd->next->next)
 		{
-			open_pipes(cmd);
-			child_process(cmd, global);
-			// close_pipes(cmd);
+			if (pipe(fd_pipe) == -1)
+				ft_error("Error Pipe", ERROR);
+			printf("pipe 0 : %d, pipe 1 : %d\n", fd_pipe[0], fd_pipe[1]);
 		}
+		if (cmd->pipe)
+			ft_child1_process(cmd, fd_pipe, global);
 		else
 			ft_simple_exe(cmd, global);
 		cmd = cmd->next;
 	}
-	ft_parent_process(global);
-	// ft_close(global);
+	ft_parent_process(global, fd_pipe);
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
 	ft_signal(2);
