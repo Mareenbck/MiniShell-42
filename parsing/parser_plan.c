@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/18 09:56:35 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:31:56 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cmd *ft_init_cmd(int len)
 	new_cmd->pipe = false;
 	return (new_cmd);
 }
+
 
 t_cmd *create_cmd(int len)
 {
@@ -67,24 +68,30 @@ void	ft_print_cmd(t_cmd **cmd)
 
 void	analize_redir(t_token *token, t_cmd *cmd)
 {
-	int	type;
-
-	type = 0;
 	if (token->token == REDIR_OUT)
 	{
 		check_redir_o_position(token, cmd);
-		create_file(token, type);
+		redir_out(cmd, token->next->val);
 	}
 	if (token->token == REDIR_IN)
+	{
 		check_redir_i_position(token, cmd);
+		redir_in(cmd, token->prev->val);
+	}
 }
 
 void	analize_append(t_token *token, t_cmd *cmd)
 {
 	if (token->token == APPEND_OUT)
+	{
 		check_append_o(token, cmd);
+		append_out(cmd, token->next->val);
+	}
 	if (token->token == APPEND_IN)
+	{
 		check_append_i(token, cmd);
+		append_in(cmd, token->prev->val);
+	}
 }
 
 int	list_len(t_token **head)
@@ -122,7 +129,7 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 			cmd->expand[i] = 0;
 			if (token->expand)
 			{
-                cmd->val[i] = ft_strdup(&token->val[1]);
+				cmd->val[i] = ft_strdup(&token->val[1]);
 				cmd->expand[i] = 1;
 			}
 			else
@@ -148,8 +155,12 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 		}
 		else if (token->token == REDIR_OUT || token->token == REDIR_IN)
 			analize_redir(token, cmd);
+
 		else if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
+		// else if (token->token == APPEND_OUT || token->token == APPEND_IN)
+		// 	analize_append(token, cmd);
+		// initialize_io(cmd);
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
 		j++;

@@ -6,63 +6,46 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:53:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/17 16:32:15 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:32:20 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_redir_o_position(t_token *token, t_cmd *cmd)
+int	redir_out(t_cmd *cmd, char *file_name)
 {
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("error syntax 2\n", ERROR);
-	if (token->prev == NULL)
-		ft_error("error syntax \n", ERROR);
-	return (0);
-}
+	int	fd;
 
-int	check_redir_i_position(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("error syntax 2\n", ERROR);
-	if (token->prev == NULL)
-		ft_error("error syntax \n", ERROR);
-	return (0);
-}
-
-int check_append_o(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("syntax error2 \n", ERROR);
-	if (token->prev == NULL)
-		ft_error("syntax error \n", ERROR);
-	return (0);
-}
-
-int check_append_i(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		ft_error("syntax error2 \n", ERROR);
-	if (token->prev == NULL)
-		ft_error("syntax error \n", ERROR);
-	return (0);
-}
-
-void	create_file(t_token *token, int type)
-{
-	while (token->next != NULL)
+	fd = open(file_name, O_CREAT | O_WRONLY, 0644);
+	if (cmd->output == -1)
 	{
-		if (token->token == REDIR_OUT)
-		{
-			if (type == 0)
-				token->redir_out = open(token->out, O_CREAT, 00700);
-			else if (type == 1)
-				token->redir_out = open(token->out, O_APPEND, 00700);
-		}
-		token = token->next;
+		perror(file_name);
+		return (EXIT_FAILURE);
 	}
+	if (cmd->output != STDOUT_FILENO)
+	{
+		dup2(cmd->output, fd);
+		close(cmd->output);
+	}
+	cmd->output = fd;
+	return (EXIT_SUCCESS);
+}
+
+int	redir_in(t_cmd *cmd, char *file_name)
+{
+	int	fd;
+
+	fd = open(file_name, O_RDONLY, 0644);
+	if (cmd->input == -1)
+	{
+		perror(file_name);
+		return (EXIT_FAILURE);
+	}
+	if (cmd->input != STDIN_FILENO)
+	{
+		dup2(cmd->input, fd);
+		close(cmd->input);
+	}
+	cmd->input = fd;
+	return (EXIT_SUCCESS);
 }

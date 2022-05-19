@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/17 16:38:14 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 15:58:13 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include "libft/libft.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 extern int g_exit_status;
 
@@ -63,9 +67,6 @@ typedef enum
 
 typedef struct s_token
 {
-	int redir_in;
-	int redir_out;
-	char	*out;
 	char	token;
 	char	*val;
 	int	len;
@@ -81,12 +82,11 @@ typedef struct s_cmd
 	int *index;
 	int fd_pipe[2];
 	char **val;
-	// char *redir;
 	int *expand;
 	char *path;
 	int output;
 	int input;
-	bool	pipe;
+	bool pipe;
 	pid_t	pid;
 	struct s_cmd *next;
 	struct s_cmd *prev;
@@ -124,12 +124,15 @@ t_cmd		*ft_init_cmd();
 // PIPE
 int			check_pipe_position(t_token *token, t_cmd *cmd);
 
-//REDIR
+//REDIR - PARSE & EXPAND
 int			check_redir_o_position(t_token *token, t_cmd *cmd);
 int			check_redir_i_position(t_token *token, t_cmd *cmd);
 int			check_append_o(t_token *token, t_cmd *cmd);
 int			check_append_i(t_token *token, t_cmd *cmd);
-void		create_file(t_token *token, int type);
+int			redir_out(t_cmd *cmd, char *file_name);
+int			redir_in(t_cmd *cmd, char *file_name);
+int			append_out(t_cmd *cmd, char *file_name);
+int			append_in(t_cmd *cmd, char *file_name);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
@@ -151,19 +154,19 @@ int			error_quotes(t_token *token);
 int	last_call_quotes(t_cmd *cmd, t_token *token);
 
 /* UTILS */
-void	**ft_free_tab(char **tab);
-void	ft_error(char *msg, int exit_status);
-t_token *lstlast(t_token *lst);
-void ft_lst_clear(t_token **lst, void (*del)(void *));
-char *ft_strdup_bis(const char *s1, int len);
-void ft_lstaddback(t_token **alst, t_token *new);
-void ft_lstaddback2(t_cmd **alst, t_cmd *new);
-void ft_lstaddback3(t_env **alst, t_env *new);
-t_cmd	*lstlast2(t_cmd *lst);
-void ft_lst_clear2(t_cmd **head, void (*del)(void *));
-void ft_lst_clear3(t_env **head, void (*del)(void *));
-void  ft_lst_insert(t_env **head_env, t_env *new);
-int	ft_wrong(char *str);
+void		**ft_free_tab(char **tab);
+void		ft_error(char *msg, int exit_status);
+t_token 	*lstlast(t_token *lst);
+void		ft_lst_clear(t_token **lst, void (*del)(void *));
+char		*ft_strdup_bis(const char *s1, int len);
+void		ft_lstaddback(t_token **alst, t_token *new);
+void		ft_lstaddback2(t_cmd **alst, t_cmd *new);
+void		ft_lstaddback3(t_env **alst, t_env *new);
+t_cmd		*lstlast2(t_cmd *lst);
+void		ft_lst_clear2(t_cmd **head, void (*del)(void *));
+void		ft_lst_clear3(t_env **head, void (*del)(void *));
+void 		ft_lst_insert(t_env **head_env, t_env *new);
+int			ft_wrong(char *str);
 void ft_lst_delone3(t_env *env, void (*del)(void *));
 void	ft_close(t_global *global);
 

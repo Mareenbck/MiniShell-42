@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/18 09:55:30 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:24:00 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -80,16 +80,6 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 }
 
 
-// void	ft_child2_process(t_cmd *cmd, int *fd_pipe)
-// {
-// 	close(cmd->next->fd_pipe[1]);
-// 	if (dup2(cmd->next->fd_pipe[0], cmd->next->input) == -1)
-// 		ft_error("Error", ERROR);
-// 	close(cmd->next->fd_pipe[0]);
-// }
-
-
-
 void	ft_simple_exe(t_cmd *cmd, t_global *global)
 {
 	if (ft_search_builtin(cmd, global) == 1)
@@ -110,7 +100,7 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 			}
 			ft_exe(global, cmd);
 		}
-		wait(&cmd->pid);
+		// wait(&cmd->pid);
 		ft_signal(2);
 		// waitpid(cmd->pid, NULL, 0);
 	}
@@ -130,30 +120,30 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 
 void	handle_pipes(t_cmd *cmd)
 {
-	if (cmd->fd_pipe[1] != 1)
+	if (cmd->fd_pipe[1] != cmd->output)
 	{
-		close(cmd->fd_pipe[0]);
+		// close(cmd->fd_pipe[0]);
 		dup2(cmd->fd_pipe[1], cmd->output);
 		close(cmd->fd_pipe[1]);
 	}
-	if (cmd->fd_pipe[0] != 0)
+	if (cmd->fd_pipe[0] != cmd->input)
 	{
-		close(cmd->fd_pipe[1]);
-		dup2(cmd->fd_pipe[0], cmd->next->input);
+		// close(cmd->fd_pipe[1]);
+		dup2(cmd->fd_pipe[0], cmd->input);
 		close(cmd->fd_pipe[0]);
 	}
-	dprintf(2, "cmd input : %d, cmd output : %d\n", cmd->input, cmd->output);
+	dprintf(2, "cmd->val : %s, cmd input : %d, cmd output : %d, fd[0] : %d fd[1] : %d\n", cmd->val[0], cmd->input, cmd->output, cmd->fd_pipe[0], cmd->fd_pipe[1]);
 }
 
 int	child_process(t_cmd *cmd, t_global *global)
 {
-	printf("input : %d, output : %d, fd[0] : %d fd[1] : %d\n", cmd->input, cmd->output, cmd->fd_pipe[0], cmd->fd_pipe[1]);
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 		ft_error("Error fork", ERROR);
 	if (cmd->pid == 0)
 	{
 		ft_signal(1);
+		printf("input : %d, output : %d, fd[0] : %d fd[1] : %d\n", cmd->input, cmd->output, cmd->fd_pipe[0], cmd->fd_pipe[1]);
 		handle_pipes(cmd);
 		if (ft_search_builtin(cmd, global) == 1)
 			ft_exe(global, cmd);
@@ -164,7 +154,7 @@ int	child_process(t_cmd *cmd, t_global *global)
 
 int	open_pipes(t_cmd *cmd)
 {
-	if (cmd->next != NULL)
+	if (cmd->next->next != NULL)
 	{
 		if (pipe(cmd->fd_pipe) == -1)
 			ft_error("Error Pipe", ERROR);
@@ -179,8 +169,6 @@ void	ft_parent_process(t_global *global)
 	cmd = global->headcmd;
 	while (cmd->next)
 	{
-		close(cmd->fd_pipe[0]);
-		close(cmd->fd_pipe[1]);
 		// cmd->output = STDOUT_FILENO;
 		// cmd->input = STDIN_FILENO;
 		waitpid(cmd->pid, NULL, 0);
@@ -194,19 +182,19 @@ void	parse_execution(t_global *global)
 	// int fd_pipe[2];
 
 	cmd = global->headcmd;
-	while (cmd)
+	while (cmd->next != NULL)
 	{
-		if (cmd->next != NULL)
+		if (cmd->pipe)
 		{
 			open_pipes(cmd);
 			child_process(cmd, global);
 			// close_pipes(cmd);
-			ft_parent_process(global);
 		}
 		else
 			ft_simple_exe(cmd, global);
 		cmd = cmd->next;
 	}
+	ft_parent_process(global);
 	// ft_close(global);
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
