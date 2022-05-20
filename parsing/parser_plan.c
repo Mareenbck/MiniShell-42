@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/19 14:29:28 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/20 16:26:51 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../minishell.h"
 
@@ -27,6 +29,7 @@ t_cmd *ft_init_cmd(int len)
 	return (new_cmd);
 }
 
+
 t_cmd *create_cmd(int len)
 {
 	t_cmd *new_cmd;
@@ -36,12 +39,18 @@ t_cmd *create_cmd(int len)
 	*new_cmd->expand = 0;
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
-	new_cmd->output = 0;
-	new_cmd->input = 0;
+	new_cmd->output = STDOUT_FILENO;
+	new_cmd->input = STDIN_FILENO;
 	new_cmd->pipe = false;
 	new_cmd->count = 0;
 	return (new_cmd);
 }
+
+// void	initialize_io(t_cmd *cmd)
+// {
+// 		cmd->input = STDIN_FILENO;
+// 		cmd->output = STDOUT_FILENO;
+// }
 
 void	ft_print_cmd(t_cmd **cmd)
 {
@@ -67,27 +76,28 @@ void	analize_redir(t_token *token, t_cmd *cmd)
 	if (token->token == REDIR_OUT)
 	{
 		check_redir_o_position(token, cmd);
-		redir_out(cmd);
+		redir_out(cmd, token->next->val);
 	}
 	if (token->token == REDIR_IN)
+	{
 		check_redir_i_position(token, cmd);
+		redir_in(cmd, token->prev->val);
+	}
 }
 
-// void	analize_append(t_token *token, t_cmd *cmd)
-// {
-// 	if (token->token == APPEND_OUT)
-// 	{
-// 		check_append_o(token, cmd);
-// 		append_out(cmd);
-// 	}
-// 	if (token->token == APPEND_IN)
-// 		check_append_i(token, cmd);
-// }
-
-void	initialize_io(t_cmd *cmd)
+void	analize_append(t_token *token, t_cmd *cmd)
 {
-		cmd->input = STDIN_FILENO;
-		cmd->output = STDOUT_FILENO;
+	if (token->token == APPEND_OUT)
+	{
+		check_append_o(token, cmd);
+		append_out(cmd, token->next->val);
+	}
+	if (token->token == APPEND_IN)
+	{
+		dprintf(1, "hello\n");
+		check_append_i(token, cmd);
+		ft_heredoc(token->next->val);
+	}
 }
 
 int	list_len(t_token **head)
@@ -123,7 +133,7 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 			if (token->expand)
 
 			{
-                cmd->val[i] = ft_strdup(token->val);
+				cmd->val[i] = ft_strdup(token->val);
 				cmd->expand[i] = 0;
 			}
 			else
@@ -143,7 +153,7 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 			analize_redir(token, cmd);
 		else if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
-		initialize_io(cmd);
+		// initialize_io(cmd);
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}
