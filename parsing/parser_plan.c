@@ -155,12 +155,8 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 		}
 		else if (token->token == REDIR_OUT || token->token == REDIR_IN)
 			analize_redir(token, cmd);
-
 		else if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
-		// else if (token->token == APPEND_OUT || token->token == APPEND_IN)
-		// 	analize_append(token, cmd);
-		// initialize_io(cmd);
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
 		j++;

@@ -80,7 +80,7 @@ typedef struct s_cmd
 {
 	int count;
 	int *index;
-	int fd_pipe[2];
+	// int fd_pipe[2];
 	char **val;
 	int *expand;
 	char *path;

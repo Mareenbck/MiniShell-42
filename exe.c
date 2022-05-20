@@ -33,7 +33,6 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	char	**split_path;
 	int i = 0;
 
-	printf("je suis dans exe : %s\n", cmd->val[0]);
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
 		ft_error("Command not found", NOTFOUND);
@@ -80,6 +79,20 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 	return (0);
 }
 
+void	init_io(t_cmd *cmd)
+{
+	if (cmd->input != STDIN_FILENO)
+	{
+		dup2(cmd->input, STDIN_FILENO);
+		close(cmd->input);
+	}
+	if (cmd->output != STDOUT_FILENO)
+	{
+		dup2(cmd->output, STDOUT_FILENO);
+		close(cmd->output);
+	}
+}
+
 
 void	ft_simple_exe(t_cmd *cmd, t_global *global)
 {
@@ -89,17 +102,9 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 		if (cmd->pid == 0)
 		{
 			ft_signal(1);
-			if (cmd->input != 0)
-			{
-				dup2(cmd->input, 0);
-				close(cmd->input);
-			}
-			if (cmd->output != 1)
-			{
-				dup2(cmd->output, 1);
-				close(cmd->output);
-			}
-			ft_exe(global, cmd);
+			init_io(cmd);
+			if (ft_search_builtin(cmd, global) == 1)
+				ft_exe(global, cmd);
 		}
 		// wait(&cmd->pid);
 		ft_signal(2);
@@ -107,7 +112,7 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 	}
 }
 
-void	ft_child1_process(t_cmd *cmd, int *fd_pipe, t_global *global)
+void	ft_child1_process(t_cmd *cmd, t_global *global)
 {
 	cmd->pid = fork();
 	if (cmd->pid < 0)
@@ -115,29 +120,15 @@ void	ft_child1_process(t_cmd *cmd, int *fd_pipe, t_global *global)
 	if (cmd->pid == 0)
 	{
 		ft_signal(1);
-		dprintf(2, "avant cmd->val : %s, cmd input : %d, cmd output : %d, fd[0] : %d fd[1] : %d\n", cmd->val[0], cmd->input, cmd->output, fd_pipe[0], fd_pipe[1]);
-		if (fd_pipe[1] == 4)
-		{
-			// close(fd_pipe[0]);
-			// if (dup2(fd_pipe[1], cmd->output) == -1)
-				// ft_error("Error", ERROR);
-			dup2(fd_pipe[1], cmd->output);
-			close(fd_pipe[1]);
-		}
-		if (fd_pipe[0] != cmd->next->input)
-		{
-			// close(cmd->fd_pipe[1]);
-			dup2(fd_pipe[0], cmd->next->input);
-			close(fd_pipe[0]);
-		}
-		dprintf(2, "apres cmd->val : %s, cmd input : %d, cmd output : %d, fd[0] : %d fd[1] : %d\n", cmd->val[0], cmd->input, cmd->output, fd_pipe[0], fd_pipe[1]);
+		init_io(cmd);
 		if (ft_search_builtin(cmd, global) == 1)
 			ft_exe(global, cmd);
-		close(fd_pipe[0]);
-		close(fd_pipe[1]);
 		ft_signal(2);
 	}
+	// close(fd_pipe[0]);
+	// close(fd_pipe[1]);
 }
+
 
 void	ft_parent_process(t_global *global, int *fd_pipe)
 {
@@ -158,21 +149,27 @@ void	parse_execution(t_global *global)
 	int fd_pipe[2];
 
 	cmd = global->headcmd;
-	while (cmd->next != NULL)
+	while (cmd->next)
 	{
-		if (cmd->next->next)
+		if (cmd->next->val[0] != NULL)
 		{
 			if (pipe(fd_pipe) == -1)
 				ft_error("Error Pipe", ERROR);
 			printf("pipe 0 : %d, pipe 1 : %d\n", fd_pipe[0], fd_pipe[1]);
+			cmd->output = fd_pipe[1];
+			cmd->next->input = fd_pipe[0];
+			ft_child1_process(cmd, global);
+			close(cmd->output);
+			if (cmd->input != STDIN_FILENO)
+				close(cmd->input);
 		}
-		if (cmd->pipe)
-			ft_child1_process(cmd, fd_pipe, global);
 		else
 			ft_simple_exe(cmd, global);
 		cmd = cmd->next;
 	}
 	ft_parent_process(global, fd_pipe);
+	// close(fd_pipe[0]);
+	// close(fd_pipe[1]);
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
 	ft_signal(2);
