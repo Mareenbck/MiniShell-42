@@ -6,30 +6,11 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:43:07 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:36:22 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:02:07 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// int	append_in(t_cmd *cmd, char *file_name)
-// {
-// 	int	fd;
-
-// 	fd = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-// 	if (fd == -1)
-// 	{
-// 		perror(file_name);
-// 		return(EXIT_FAILURE);
-// 	}
-// 	if (cmd->input != STDIN_FILENO)
-// 	{
-// 		dup2(cmd->input, fd);
-// 		close(fd);
-// 		cmd->input = fd;
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
 
 int    check_lim(char *lim)
 {
@@ -62,7 +43,6 @@ int	ft_heredoc(char *lim)
 		write(1, "here_doc>", 10);
 		str = readline(STDIN_FILENO);
 		str = ft_strjoin(str, "\n");
-		dprintf(1, "[%s]\n", str);
 		if (!ft_strncmp(lim, str, ft_strlen(lim)))
 			break ;
 		write(heredoc, str, ft_strlen(str));

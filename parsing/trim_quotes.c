@@ -25,6 +25,7 @@ int		is_simple_quotes(char c)
 		return (1);
 	return (0);
 }
+
 void		trim_doble_quotes(t_token *token)
 {
 	int	i;
@@ -52,7 +53,10 @@ void		trim_simple_quotes(t_token *token)
 		while (token->val[i])
 		{
 			if (is_simple_quotes(token->val[i]))
+			{
+				printf("c ook\n");
 				token->val = ft_strtrim(token->val, "\'");
+			}
 			i++;
 		}
 		token = token->next;

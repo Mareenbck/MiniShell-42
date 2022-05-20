@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 10:28:01 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/17 11:44:42 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/20 17:03:58 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,9 @@ void	last_call_quotes(t_cmd *cmd, t_token *token)
 		ft_error("Syntax error", 1);
 	else
 	{
-		trim_simple_quotes(token);
-		trim_doble_quotes(token);
+		printf("coucou\n");
+		//trim_simple_quotes(token);
+		//trim_doble_quotes(token);
 		delete_quotes(cmd);
 	}
 }
