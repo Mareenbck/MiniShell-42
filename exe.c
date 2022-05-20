@@ -46,10 +46,12 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	if (!cmd->path)
 		ft_error("Command not found", NOTFOUND);
 	ft_free_tab(split_path);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
 		// ft_free_tab(cmd_args);
-		ft_error("Error of execution", CANTEXEC);
+		ft_error("", CANTEXEC);
 	}
 }
 
@@ -58,7 +60,7 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 	if (cmd->val[0] == NULL)
 		return (1);
 	if (!ft_strncmp(cmd->val[0], "echo", 4))
-		ft_echo(global->headcmd, global);
+		ft_echo(cmd, global);
 	else if (!ft_strncmp(cmd->val[0], "cd", 2))
 		ft_cd(cmd, global);
 	else if (!ft_strncmp(cmd->val[0], "env", 3))
@@ -93,49 +95,48 @@ void	init_io(t_cmd *cmd)
 	}
 }
 
-
-void	ft_simple_exe(t_cmd *cmd, t_global *global)
-{
-	if (ft_search_builtin(cmd, global) == 1)
-	{
-		cmd->pid = fork();
-		if (cmd->pid == 0)
-		{
-			ft_signal(1);
-			init_io(cmd);
-			if (ft_search_builtin(cmd, global) == 1)
-				ft_exe(global, cmd);
-		}
-		// wait(&cmd->pid);
-		ft_signal(2);
-		// waitpid(cmd->pid, NULL, 0);
-	}
-}
-
-void	ft_child1_process(t_cmd *cmd, t_global *global)
+void	ft_child_process(t_cmd *cmd, t_global *global)
 {
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 		ft_error("Error fork", ERROR);
 	if (cmd->pid == 0)
 	{
-		ft_signal(1);
+		// ft_signal(1);
 		init_io(cmd);
 		if (ft_search_builtin(cmd, global) == 1)
 			ft_exe(global, cmd);
-		ft_signal(2);
+		exit(0);
 	}
-	// close(fd_pipe[0]);
-	// close(fd_pipe[1]);
+}
+
+void	ft_simple_exe(t_cmd *cmd, t_global *global)
+{
+	if (cmd->prev)
+		ft_child_process(cmd, global);
+	else
+	{
+		if (ft_search_builtin(cmd, global) == 1)
+		{
+			cmd->pid = fork();
+			if (cmd->pid == 0)
+			{
+				// ft_signal(1);
+				init_io(cmd);
+				// if (ft_search_builtin(cmd, global) == 1)
+				ft_exe(global, cmd);
+				exit(0);
+			}
+		}
+	}
 }
 
 
-void	ft_parent_process(t_global *global, int *fd_pipe)
+void	ft_parent_process(t_global *global)
 {
 	t_cmd *cmd;
 
 	cmd = global->headcmd;
-	(void)fd_pipe;
 	while (cmd->next)
 	{
 		waitpid(cmd->pid, NULL, 0);
@@ -151,26 +152,25 @@ void	parse_execution(t_global *global)
 	cmd = global->headcmd;
 	while (cmd->next)
 	{
-		if (cmd->next->val[0] != NULL)
+		if (cmd->pipe)
 		{
 			if (pipe(fd_pipe) == -1)
 				ft_error("Error Pipe", ERROR);
 			printf("pipe 0 : %d, pipe 1 : %d\n", fd_pipe[0], fd_pipe[1]);
 			cmd->output = fd_pipe[1];
 			cmd->next->input = fd_pipe[0];
-			ft_child1_process(cmd, global);
-			close(cmd->output);
+			ft_child_process(cmd, global);
 			if (cmd->input != STDIN_FILENO)
 				close(cmd->input);
 		}
 		else
 			ft_simple_exe(cmd, global);
+		if (cmd->output != STDOUT_FILENO)
+			close(cmd->output);
 		cmd = cmd->next;
 	}
-	ft_parent_process(global, fd_pipe);
-	// close(fd_pipe[0]);
-	// close(fd_pipe[1]);
+	ft_parent_process(global);
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
-	ft_signal(2);
+	// ft_signal(2);
 }

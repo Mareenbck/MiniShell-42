@@ -32,7 +32,9 @@ void	ft_signal(int i)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (i == 1)
+	{
 		signal(SIGINT, SIG_DFL);
+	}
 	else if (i == 2)
 		signal(SIGINT, handle_sigint);
 }

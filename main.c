@@ -56,11 +56,12 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	g_exit_status = 0;
 	ft_init_minishell(&global, envp);
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
 	while (!global.exit)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, handle_sigint);
 		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
+		signal(SIGINT, SIG_IGN);
 		if (!line)
 		{
 			printf("exit\n");
@@ -69,7 +70,7 @@ int	main(int ac, char **av, char **envp)
 			exit(0);
 		}
 		add_history(line);
-		ft_signal(0);
+		// ft_signal(0);
 		init_line(line, &global.head);
 		if (!analize_cmd(&global.head, &global.headcmd))
 		{

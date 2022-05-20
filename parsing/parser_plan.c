@@ -134,8 +134,8 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 			}
 			else
 				cmd->val[i] = ft_strdup(token->val);
-			if (token->prev && token->prev->token == PIPE)
-				cmd->pipe = true;
+			// if (token->prev && token->prev->token == PIPE)
+			// 	cmd->pipe = true;
 			token = token->next;
 			i++;
 		}
