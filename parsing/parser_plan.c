@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/19 17:31:56 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/20 16:26:51 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../minishell.h"
 
@@ -50,7 +52,10 @@ t_cmd *create_cmd(int len)
 
 void	ft_print_cmd(t_cmd **cmd)
 {
-	t_cmd *tmp;
+	t_cmd *tmp;<<<<<<< HEAD
+=======
+		// initialize_io(cmd);
+>>>>>>> main
 	int i = 0;
 
 	tmp = *cmd;
@@ -89,8 +94,9 @@ void	analize_append(t_token *token, t_cmd *cmd)
 	}
 	if (token->token == APPEND_IN)
 	{
+		dprintf(1, "hello\n");
 		check_append_i(token, cmd);
-		append_in(cmd, token->prev->val);
+		ft_heredoc(token->next->val);
 	}
 }
 

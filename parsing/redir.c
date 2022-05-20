@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 19:53:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/19 17:32:20 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/20 12:28:11 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/20 13:05:18 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -38,6 +39,7 @@ int	redir_in(t_cmd *cmd, char *file_name)
 	fd = open(file_name, O_RDONLY, 0644);
 	if (cmd->input == -1)
 	{
+		printf("hello\n");
 		perror(file_name);
 		return (EXIT_FAILURE);
 	}

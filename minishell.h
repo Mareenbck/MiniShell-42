@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/19 15:58:13 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/20 16:23:22 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ int			check_append_i(t_token *token, t_cmd *cmd);
 int			redir_out(t_cmd *cmd, char *file_name);
 int			redir_in(t_cmd *cmd, char *file_name);
 int			append_out(t_cmd *cmd, char *file_name);
-int			append_in(t_cmd *cmd, char *file_name);
+//int			append_in(t_cmd *cmd, char *file_name);
+int	ft_heredoc(char *lim);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
