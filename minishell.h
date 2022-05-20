@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:33:43 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/18 15:15:36 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 13:42:22 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_redir
 	int stdin;
 	int stdout;
 	int fd;
+	int fd_out;
 }	t_redir;
 
 typedef struct s_cmd

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/18 12:28:55 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/19 14:29:28 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ void	analize_redir(t_token *token, t_cmd *cmd)
 		check_redir_i_position(token, cmd);
 }
 
-void	analize_append(t_token *token, t_cmd *cmd)
-{
-	if (token->token == APPEND_OUT)
-	{
-		check_append_o(token, cmd);
-		append_out(cmd);
-	}
-	if (token->token == APPEND_IN)
-		check_append_i(token, cmd);
-}
+// void	analize_append(t_token *token, t_cmd *cmd)
+// {
+// 	if (token->token == APPEND_OUT)
+// 	{
+// 		check_append_o(token, cmd);
+// 		append_out(cmd);
+// 	}
+// 	if (token->token == APPEND_IN)
+// 		check_append_i(token, cmd);
+// }
 
 void	initialize_io(t_cmd *cmd)
 {
