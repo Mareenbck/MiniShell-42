@@ -52,10 +52,7 @@ t_cmd *create_cmd(int len)
 
 void	ft_print_cmd(t_cmd **cmd)
 {
-	t_cmd *tmp;<<<<<<< HEAD
-=======
-		// initialize_io(cmd);
->>>>>>> main
+	t_cmd *tmp;
 	int i = 0;
 
 	tmp = *cmd;

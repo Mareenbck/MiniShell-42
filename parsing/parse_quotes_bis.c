@@ -72,7 +72,7 @@ void	delete_quotes(t_cmd *cmd)
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			cmd->val[i] = ft_strtrim(cmd->val[i], "\'");
-			check_if_expand(cmd, i);
+			// check_if_expand_s(cmd, i);
 			cmd->val[i] = new_string(cmd->val[i], '\'');
 		}
 		else if (start_with_dobles(cmd))
@@ -96,7 +96,7 @@ int	last_call_quotes(t_cmd *cmd, t_token *token)
 	}
 	else
 	{
-		printf("coucou\n");
+		// printf("coucou\n");
 		//trim_simple_quotes(token);
 		//trim_doble_quotes(token);
 		delete_quotes(cmd);
