@@ -73,7 +73,7 @@ void init_line(char *line, t_token **head)
 		i += new->len;
 	}
 	ft_lstaddback(head, ft_init_token());
-	ft_print(head);
+	// ft_print(head);
 }
 
 int	ft_find_operator(char c, char c1)

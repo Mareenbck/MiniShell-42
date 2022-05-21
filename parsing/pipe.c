@@ -16,8 +16,8 @@ int	check_pipe_position(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
-		ft_error("error syntax 1\n", ERROR);
+		return (1);
 	if (token->prev == NULL)
-		ft_error("error syntax\n", ERROR);
+		return (1);
 	return (0);
 }

@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exe.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/04/29 12:05:39 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/05/19 17:24:00 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
 void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 {
 	t_env *env;
-
 	env = find_name(&global->head_env, cmd->val[0], ft_strlen(cmd->val[0]));
+	if (!env)
+		ft_error("Command not found", NOTFOUND);
 	ft_strcpy(cmd->val[0], env->var_value);
 	cmd->path = ft_join_envp(split_path, env->var_value);
 }
@@ -24,21 +24,18 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 void	ft_expand_args(t_global *global, char *cmd)
 {
 	t_env *env;
-
 	env = find_name(&global->head_env, cmd, ft_strlen(cmd));
 	ft_strcpy(cmd, env->var_value);
 }
 
-void	ft_exe(t_global *global)
+void	ft_exe(t_global *global, t_cmd *cmd)
 {
 	char	**split_path;
-	t_cmd *cmd;
 	int i = 0;
 
-	cmd = global->headcmd;
 	split_path = ft_split_envp(&global->head_env, "PATH");
-	// if (!split_path)
-	// 	ft_error("Variable not found");
+	if (!split_path)
+		ft_error("Command not found", NOTFOUND);
 	if (cmd->expand[i])
 		ft_expand_cmd(global, cmd, split_path);
 	else
@@ -49,54 +46,131 @@ void	ft_exe(t_global *global)
 	if (!cmd->path)
 		ft_error("Command not found", NOTFOUND);
 	ft_free_tab(split_path);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
 		// ft_free_tab(cmd_args);
-		ft_error("Error of execution", CANTEXEC);
+		ft_error("", CANTEXEC);
 	}
 }
 
-int	ft_search_builtin(t_token *token, t_global *global)
+int	ft_search_builtin(t_cmd *cmd, t_global *global)
 {
-	if (token->val == NULL)
+	if (cmd->val[0] == NULL)
 		return (1);
-	if (!ft_strncmp(token->val, "echo", 4))
-		ft_echo(global->headcmd, global);
-	else if (!ft_strncmp(token->val, "cd", 2))
-		ft_cd(token->next, global);
-	else if (!ft_strncmp(token->val, "env", 3))
+	if (!ft_strncmp(cmd->val[0], "echo", 4))
+		ft_echo(cmd, global);
+	else if (!ft_strncmp(cmd->val[0], "cd", 2))
+		ft_cd(cmd, global);
+	else if (!ft_strncmp(cmd->val[0], "env", 3))
 		ft_env(global);
-	else if (!ft_strncmp(token->val, "pwd", 3))
+	else if (!ft_strncmp(cmd->val[0], "pwd", 3))
 		ft_pwd();
-	else if (!ft_strncmp(token->val, "export", 6))
-		ft_export(token->next, global);
-	else if (!ft_strncmp(token->val, "unset", 4))
-		ft_unset(token->next, global);
-	else if (!ft_strncmp(token->val, "exit", 4))
-		ft_exit(global, token->next);
+	else if (!ft_strncmp(cmd->val[0], "export", 6))
+		ft_export(cmd, global);
+	else if (!ft_strncmp(cmd->val[0], "unset", 5))
+		ft_unset(cmd, global);
+	else if (!ft_strncmp(cmd->val[0], "exit", 4))
+		ft_exit(global, cmd);
 	else
 	{
-		g_exit_status = 127;
+		g_exit_status = NOTFOUND;
 		return (1);
 	}
 	return (0);
 }
 
-void	ft_execution(t_global *global)
+void	init_io(t_cmd *cmd)
 {
-	pid_t	pid;
-
-	if (ft_search_builtin(global->head, global) == 1)
+	if (cmd->input != STDIN_FILENO)
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			ft_signal(1);
-			ft_exe(global);
-		}
-		wait(&pid);
+		dup2(cmd->input, STDIN_FILENO);
+		close(cmd->input);
 	}
+	if (cmd->output != STDOUT_FILENO)
+	{
+		dup2(cmd->output, STDOUT_FILENO);
+		close(cmd->output);
+	}
+}
+
+void	ft_child_process(t_cmd *cmd, t_global *global)
+{
+	cmd->pid = fork();
+	if (cmd->pid < 0)
+		ft_error("Error fork", ERROR);
+	if (cmd->pid == 0)
+	{
+		// ft_signal(1);
+		init_io(cmd);
+		if (ft_search_builtin(cmd, global) == 1)
+			ft_exe(global, cmd);
+		exit(0);
+	}
+}
+
+void	ft_simple_exe(t_cmd *cmd, t_global *global)
+{
+	if (cmd->prev)
+		ft_child_process(cmd, global);
+	else
+	{
+		if (ft_search_builtin(cmd, global) == 1)
+		{
+			cmd->pid = fork();
+			if (cmd->pid == 0)
+			{
+				// ft_signal(1);
+				init_io(cmd);
+				// if (ft_search_builtin(cmd, global) == 1)
+				ft_exe(global, cmd);
+				exit(0);
+			}
+		}
+	}
+}
+
+
+void	ft_parent_process(t_global *global)
+{
+	t_cmd *cmd;
+
+	cmd = global->headcmd;
+	while (cmd->next)
+	{
+		waitpid(cmd->pid, NULL, 0);
+		cmd = cmd->next;
+	}
+}
+
+void	parse_execution(t_global *global)
+{
+	t_cmd *cmd;
+	int fd_pipe[2];
+
+	cmd = global->headcmd;
+	while (cmd->next)
+	{
+		if (cmd->pipe)
+		{
+			if (pipe(fd_pipe) == -1)
+				ft_error("Error Pipe", ERROR);
+			printf("pipe 0 : %d, pipe 1 : %d\n", fd_pipe[0], fd_pipe[1]);
+			cmd->output = fd_pipe[1];
+			cmd->next->input = fd_pipe[0];
+			ft_child_process(cmd, global);
+			if (cmd->input != STDIN_FILENO)
+				close(cmd->input);
+		}
+		else
+			ft_simple_exe(cmd, global);
+		if (cmd->output != STDOUT_FILENO)
+			close(cmd->output);
+		cmd = cmd->next;
+	}
+	ft_parent_process(global);
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
-	ft_signal(2);
+	// ft_signal(2);
 }

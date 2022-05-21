@@ -5,40 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 10:48:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/06 09:00:33 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/20 16:26:51 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+
 #include "../minishell.h"
 
-t_cmd *ft_init_cmd()
+t_cmd *ft_init_cmd(int len)
 {
 	t_cmd *new_cmd;
 
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
-	new_cmd->val = (char **)malloc(sizeof(t_token));
-	new_cmd->expand = (int *)malloc(sizeof(t_token));
+	new_cmd->val = (char **)malloc(sizeof(t_token) * len + 1);
+	new_cmd->expand = (int *)malloc(sizeof(t_token) * len);
+	new_cmd->index = (int *)malloc(sizeof(t_token) * len);
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
+	new_cmd->prev = NULL;
+	new_cmd->pipe = false;
 	return (new_cmd);
 }
 
-t_cmd *create_cmd()
+
+t_cmd *create_cmd(int len)
 {
 	t_cmd *new_cmd;
 
-	new_cmd = ft_init_cmd();
+	new_cmd = ft_init_cmd(len);
 	*new_cmd->val = NULL;
 	*new_cmd->expand = 0;
+	*new_cmd->index = 0;
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
+	new_cmd->prev = NULL;
+	new_cmd->output = STDOUT_FILENO;
+	new_cmd->input = STDIN_FILENO;
+	new_cmd->pipe = false;
+	new_cmd->count = 0;
 	return (new_cmd);
 }
-
-
 
 void	ft_print_cmd(t_cmd **cmd)
 {
@@ -46,12 +56,12 @@ void	ft_print_cmd(t_cmd **cmd)
 	int i = 0;
 
 	tmp = *cmd;
-	while (tmp->next != NULL)
+	while (tmp != NULL)
 	{
 		i = 0;
 		while (tmp->val[i])
 		{
-			printf("cmd[%d] = %s , -> expand : %d\n", i, tmp->val[i], tmp->expand[i]);
+			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe);
 			i++;
 		}
 		tmp = tmp->next;
@@ -61,31 +71,63 @@ void	ft_print_cmd(t_cmd **cmd)
 void	analize_redir(t_token *token, t_cmd *cmd)
 {
 	if (token->token == REDIR_OUT)
+	{
 		check_redir_o_position(token, cmd);
+		redir_out(cmd, token->next->val);
+	}
 	if (token->token == REDIR_IN)
+	{
 		check_redir_i_position(token, cmd);
+		redir_in(cmd, token->prev->val);
+	}
 }
 
 void	analize_append(t_token *token, t_cmd *cmd)
 {
 	if (token->token == APPEND_OUT)
+	{
 		check_append_o(token, cmd);
+		append_out(cmd, token->next->val);
+	}
 	if (token->token == APPEND_IN)
+	{
+		dprintf(1, "hello\n");
 		check_append_i(token, cmd);
+		ft_heredoc(token->next->val);
+	}
 }
 
-void	analize_cmd(t_token **head, t_cmd **comd)
+int	list_len(t_token **head)
+{
+	t_token *token;
+	token = *head;
+	int len = 0;
+
+	while (token)
+	{
+		len++;
+		token = token->next;
+	}
+	return (len);
+}
+
+int	analize_cmd(t_token **head, t_cmd **comd)
 {
 	t_token *token;
 	t_cmd	*cmd;
 	token = *head;
 	int	i;
+	int len;
+	int j;
 
-	cmd = create_cmd();
+	j = 0;
+	len = list_len(head);
 	while (token != NULL)
 	{
 		i = 0;
-		while (token->token == WORD && token->token != PIPE && token != NULL)
+		cmd = create_cmd(len);
+		cmd->index[j] = j;
+		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
 			if (token->expand)
@@ -95,22 +137,34 @@ void	analize_cmd(t_token **head, t_cmd **comd)
 			}
 			else
 				cmd->val[i] = ft_strdup(token->val);
+			// if (token->prev && token->prev->token == PIPE)
+			// 	cmd->pipe = true;
 			token = token->next;
 			i++;
 		}
 		cmd->val[i] = NULL;
-		ft_lstaddback2(comd, cmd);
-		if (token->token == REDIR_OUT || token->token == REDIR_IN)
-			analize_redir(token, cmd);
+		cmd->count = i;
 		if (token->token == PIPE)
 		{
-			cmd = create_cmd();
-			check_pipe_position(token, cmd);
+			if (!check_pipe_position(token, cmd))
+			{
+				cmd->pipe = true;
+			}
+			else
+			{
+				ft_error("syntax error near unexpected token `|'", 2);
+				return (1);
+			}
 		}
-		if (token->token == APPEND_OUT || token->token == APPEND_IN)
+		else if (token->token == REDIR_OUT || token->token == REDIR_IN)
+			analize_redir(token, cmd);
+		else if (token->token == APPEND_OUT || token->token == APPEND_IN)
 			analize_append(token, cmd);
+		ft_lstaddback2(comd, cmd);
 		token = token->next;
+		j++;
 	}
-	ft_lstaddback2(comd, create_cmd());
+	ft_lstaddback2(comd, ft_init_cmd(len));
 	// ft_print_cmd(comd);
+	return (0);
 }

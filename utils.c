@@ -28,8 +28,10 @@ void	**ft_free_tab(char **tab)
 
 void	ft_error(char *msg, int exit_status)
 {
-	perror(msg);
-	exit(exit_status);
+	printf("%s\n", msg);
+	g_exit_status = exit_status;
+	// return (1);
+	// exit(exit_status);
 }
 
 t_token	*lstlast(t_token *lst)
@@ -53,6 +55,25 @@ t_cmd	*lstlast2(t_cmd *lst)
 void ft_lstaddback(t_token **alst, t_token *new)
 {
 	t_token	*tmp;
+  	if (alst)
+  	{
+    	if (*alst != NULL)
+		{
+      		tmp = *alst;
+			while (tmp->next)
+            	tmp = tmp->next;
+        	tmp->next = new;
+        	new->prev = tmp;
+        	new->next = NULL;
+		}
+    	else
+      		(*alst) = new;
+  	}
+}
+
+void ft_lstaddback2(t_cmd **alst, t_cmd *new)
+{
+	t_cmd	*tmp;
   	if (alst)
   	{
     	if (*alst != NULL)
@@ -129,16 +150,6 @@ void	ft_lst_insert(t_env **head_env, t_env *new)
 	}
 }
 
-void ft_lstaddback2(t_cmd **alst, t_cmd *new)
-{
-  if (alst)
-  {
-    if (*alst != NULL)
-      lstlast2(*alst)->next = new;
-    else
-      (*alst) = new;
-  }
-}
 
 void ft_lst_delone(t_token *token, void (*del)(void *))
 {
@@ -157,7 +168,6 @@ void ft_lst_delone2(t_cmd *cmd, void (*del)(void *))
 		return;
 	if (cmd)
 	{
-		ft_free_tab(cmd->val);
 		free(cmd->expand);
 		(*del)(cmd);
 	}
@@ -195,12 +205,14 @@ void ft_lst_clear(t_token **head, void (*del)(void *))
 void ft_lst_clear2(t_cmd **head, void (*del)(void *))
 {
 	t_cmd *tmp;
+	int i = 0;
 
 	if (!del || !head)
 		return ;
 	while (*head)
 	{
 		tmp = (*head)->next;
+		free((*head)->val[i++]);
 		ft_lst_delone2(*head, del);
 		(*head) = tmp;
 	}
