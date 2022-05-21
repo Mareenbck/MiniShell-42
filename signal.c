@@ -36,6 +36,9 @@ void	ft_signal(int i)
 		signal(SIGINT, SIG_DFL);
 	}
 	else if (i == 2)
+	{
 		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
 

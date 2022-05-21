@@ -13,7 +13,7 @@ SRCS	= main.c utils.c signal.c \
 		parsing/append.c parsing/trim_quotes.c \
 		parsing/parse_quotes.c parsing/parse_quotes_bis.c \
 		parsing/redir_syntax.c parsing/heredoc.c \
-		env/expand_env.c builtin/exit.c
+		env/expand_env.c builtin/exit.c expand.c
 
 
 OBJS	= ${SRCS:.c=.o}

@@ -16,9 +16,9 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 	t_env *env;
 	env = find_name(&global->head_env, cmd->val[0], ft_strlen(cmd->val[0]));
 	if (!env)
-		ft_error("Command not found", NOTFOUND);
+		ft_error("No such file or directory", NOTFOUND);
 	ft_strcpy(cmd->val[0], env->var_value);
-	cmd->path = ft_join_envp(split_path, env->var_value);
+	cmd->path = find_binary(split_path, env->var_value);
 }
 
 void	ft_expand_args(t_global *global, char *cmd)
@@ -34,20 +34,21 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	int i = 0;
 
 	split_path = ft_split_envp(&global->head_env, "PATH");
-	if (!split_path)
-		ft_error("Command not found", NOTFOUND);
-	if (cmd->expand[i])
+	cmd->path = find_binary(split_path, cmd->val[i]);
+	if (!cmd->path && cmd->expand[i])
+	{
+		ft_expand_echo(cmd->val[0], global);
+		return ;
+	}
+	else if (cmd->path && cmd->expand[i])
 		ft_expand_cmd(global, cmd, split_path);
-	else
-		cmd->path = ft_join_envp(split_path, cmd->val[i]);
 	while (cmd->val[++i])
 		if (cmd->expand[i])
 			ft_expand_args(global, cmd->val[i]);
 	if (!cmd->path)
 		ft_error("Command not found", NOTFOUND);
 	ft_free_tab(split_path);
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	ft_signal(1);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
 		// ft_free_tab(cmd_args);
@@ -95,7 +96,7 @@ void	init_io(t_cmd *cmd)
 	}
 }
 
-void	ft_child_process(t_cmd *cmd, t_global *global)
+void	ft_exe_with_pipe(t_cmd *cmd, t_global *global)
 {
 	cmd->pid = fork();
 	if (cmd->pid < 0)
@@ -110,10 +111,10 @@ void	ft_child_process(t_cmd *cmd, t_global *global)
 	}
 }
 
-void	ft_simple_exe(t_cmd *cmd, t_global *global)
+void	ft_child_process(t_cmd *cmd, t_global *global)
 {
 	if (cmd->prev)
-		ft_child_process(cmd, global);
+		ft_exe_with_pipe(cmd, global);
 	else
 	{
 		if (ft_search_builtin(cmd, global) == 1)
@@ -121,16 +122,13 @@ void	ft_simple_exe(t_cmd *cmd, t_global *global)
 			cmd->pid = fork();
 			if (cmd->pid == 0)
 			{
-				// ft_signal(1);
 				init_io(cmd);
-				// if (ft_search_builtin(cmd, global) == 1)
 				ft_exe(global, cmd);
 				exit(0);
 			}
 		}
 	}
 }
-
 
 void	ft_parent_process(t_global *global)
 {
@@ -156,15 +154,14 @@ void	parse_execution(t_global *global)
 		{
 			if (pipe(fd_pipe) == -1)
 				ft_error("Error Pipe", ERROR);
-			printf("pipe 0 : %d, pipe 1 : %d\n", fd_pipe[0], fd_pipe[1]);
 			cmd->output = fd_pipe[1];
 			cmd->next->input = fd_pipe[0];
-			ft_child_process(cmd, global);
+			ft_exe_with_pipe(cmd, global);
 			if (cmd->input != STDIN_FILENO)
 				close(cmd->input);
 		}
 		else
-			ft_simple_exe(cmd, global);
+			ft_child_process(cmd, global);
 		if (cmd->output != STDOUT_FILENO)
 			close(cmd->output);
 		cmd = cmd->next;

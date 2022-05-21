@@ -12,20 +12,6 @@
 
 #include "../minishell.h"
 
-void ft_expand_echo(char *str, t_global *global)
-{
-	t_env *env;
-
-	env = global->head_env;
-	if (str[0] == '?')
-		printf("%d", g_exit_status);
-	else
-	{
-		env = find_name(&global->head_env, str, ft_strlen(str));
-		printf("%s", env->var_value);
-	}
-}
-
 bool find_n(char *str, char c)
 {
 	int i;
@@ -45,22 +31,22 @@ int ft_echo(t_cmd *cmd, t_global *global)
 
 	option = 0;
 	i = 1;
-	// while (cmd->val[i] != NULL)
-	// {
-		while (cmd->val[i] != NULL && !ft_strncmp(cmd->val[i], "-n", 2) && find_n(&cmd->val[i][1], 'n'))
-		{
-			option = 1;
-			i++;
-		}
-		if (cmd->expand[i] && cmd->val[i] != NULL)
-			ft_expand_echo(cmd->val[i], global);
+	while (cmd->val[i] != NULL && !ft_strncmp(cmd->val[i], "-n", 2) && find_n(&cmd->val[i][1], 'n'))
+	{
+		option = 1;
+		i++;
+	}
+	if (cmd->expand[i] && cmd->val[i] != NULL)
+		ft_expand_echo(cmd->val[i], global);
+	else
+	{
 		while (cmd->val[i] != NULL)
 		{
 			printf("%s ", cmd->val[i]);
 			i++;
 		}
-		// i++;
-	// }
+	}
+
 	if (!option)
 		printf("\n");
 	return (0);

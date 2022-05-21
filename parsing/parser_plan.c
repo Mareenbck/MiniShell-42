@@ -23,7 +23,6 @@ t_cmd *ft_init_cmd(int len)
 		return (NULL);
 	new_cmd->val = (char **)malloc(sizeof(t_token) * len + 1);
 	new_cmd->expand = (int *)malloc(sizeof(t_token) * len);
-	new_cmd->index = (int *)malloc(sizeof(t_token) * len);
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	new_cmd->prev = NULL;
@@ -39,7 +38,6 @@ t_cmd *create_cmd(int len)
 	new_cmd = ft_init_cmd(len);
 	*new_cmd->val = NULL;
 	*new_cmd->expand = 0;
-	*new_cmd->index = 0;
 	new_cmd->path = NULL;
 	new_cmd->next = NULL;
 	new_cmd->prev = NULL;
@@ -111,22 +109,19 @@ int	list_len(t_token **head)
 	return (len);
 }
 
-int	analize_cmd(t_token **head, t_cmd **comd)
+int	analize_cmd(t_cmd **comd, t_global *global)
 {
 	t_token *token;
 	t_cmd	*cmd;
-	token = *head;
+	token = global->head;
 	int	i;
 	int len;
-	int j;
 
-	j = 0;
-	len = list_len(head);
+	len = list_len(&global->head);
 	while (token != NULL)
 	{
 		i = 0;
 		cmd = create_cmd(len);
-		cmd->index[j] = j;
 		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
@@ -137,8 +132,6 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 			}
 			else
 				cmd->val[i] = ft_strdup(token->val);
-			// if (token->prev && token->prev->token == PIPE)
-			// 	cmd->pipe = true;
 			token = token->next;
 			i++;
 		}
@@ -147,9 +140,7 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 		if (token->token == PIPE)
 		{
 			if (!check_pipe_position(token, cmd))
-			{
 				cmd->pipe = true;
-			}
 			else
 			{
 				ft_error("syntax error near unexpected token `|'", 2);
@@ -162,9 +153,9 @@ int	analize_cmd(t_token **head, t_cmd **comd)
 			analize_append(token, cmd);
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
-		j++;
 	}
 	ft_lstaddback2(comd, ft_init_cmd(len));
-	// ft_print_cmd(comd);
+	ft_print_cmd(comd);
+	ft_expand_cmd_first(global);
 	return (0);
 }

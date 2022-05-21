@@ -79,7 +79,6 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int count;
-	int *index;
 	// int fd_pipe[2];
 	char **val;
 	int *expand;
@@ -117,8 +116,8 @@ typedef struct s_global
 
 /* PARSING */
 int			count_option(char *line);
-int		analize_cmd(t_token **head, t_cmd **comd);
-void		ft_print_cmd(t_cmd **cmd);
+int analize_cmd(t_cmd **comd, t_global *global);
+void ft_print_cmd(t_cmd **cmd);
 t_cmd		*ft_init_cmd();
 
 // PIPE
@@ -186,7 +185,7 @@ void	ft_init_sorted_env(t_global *global);
 // PARSE ENV
 char	*search_envp(t_env **head_env, char *str);
 char	**ft_split_envp(t_env **head_env, char *str);
-char	*ft_join_envp(char **split_path, char *av);
+char *find_binary(char **split_path, char *av);
 t_env	*find_name(t_env **head_env, char *var, int len);
 
 // SIGNAL
@@ -221,7 +220,9 @@ void ft_insert_tab(char **tab, char *name, char *value);
 // EXPAND ENV
 int check_name(char *token);
 char *check_value(char *token);
+void ft_expand_cmd_first(t_global *global);
+void ft_expand_echo(char *str, t_global *global);
 
-void	parse_execution(t_global *global);
+void parse_execution(t_global *global);
 
 #endif

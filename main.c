@@ -32,21 +32,6 @@ void	ft_free_list(t_global *global)
 	ft_free_tab(global->env);
 }
 
-// void	ft_close(t_global *global)
-// {
-// 	t_cmd *cmd;
-
-// 	cmd = global->headcmd;
-// 	while (cmd)
-// 	{
-// 		if (cmd->pipe)
-// 		{
-// 			close(fd_pipe[0]);
-// 			close(fd_pipe[1]);
-// 		}
-// 		cmd = cmd->next;
-// 	}
-// }
 
 int	main(int ac, char **av, char **envp)
 {
@@ -58,11 +43,10 @@ int	main(int ac, char **av, char **envp)
 	ft_init_minishell(&global, envp);
 	while (!global.exit)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_sigint);
+		ft_signal(2);
 		// line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
 		line = readline("\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
-		signal(SIGINT, SIG_IGN);
+		ft_signal(0);
 		if (!line)
 		{
 			printf("exit\n");
@@ -71,9 +55,8 @@ int	main(int ac, char **av, char **envp)
 			exit(0);
 		}
 		add_history(line);
-		// ft_signal(0);
 		init_line(line, &global.head);
-		if (!analize_cmd(&global.head, &global.headcmd))
+		if (!analize_cmd(&global.headcmd, &global))
 		{
 			if (!last_call_quotes(global.headcmd, global.head))
 				parse_execution(&global);

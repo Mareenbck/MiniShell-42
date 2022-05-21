@@ -45,20 +45,20 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 	}
 	if (!ft_is_valid_num(cmd->val[1]))
 	{
-		g_exit_status= 2;
+		g_exit_status = 2;
 		printf("exit: %s: numeric argument required\n", cmd->val[1]);
 		return (1);
-	}
-	if (ft_is_valid_num(cmd->val[1]))
-	{
-		g_exit_status= ft_atoi(cmd->val[1]);
-		printf("exit\n");
 	}
 	if (cmd->val[2] != NULL)
 	{
 		global->exit = false;
-		g_exit_status= 1;
+		g_exit_status = 1;
 		printf("exit: too many arguments\n");
+	}
+	else if (ft_is_valid_num(cmd->val[1]))
+	{
+		g_exit_status = ft_atoi(cmd->val[1]);
+		printf("exit\n");
 	}
 	return (global->exit);
 }

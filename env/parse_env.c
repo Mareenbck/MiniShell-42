@@ -45,7 +45,7 @@ char	**ft_split_envp(t_env **head_env, char *str)
 	return (NULL);
 }
 
-char	*ft_join_envp(char **split_path, char *av)
+char *find_binary(char **split_path, char *av)
 {
 	int		i;
 	char	*join_path;
@@ -56,7 +56,7 @@ char	*ft_join_envp(char **split_path, char *av)
 		join_path = ft_strjoin(split_path[i], "/");
 		join_path = ft_strjoin(join_path, av);
 		if (!join_path)
-			exit(1);
+			return (NULL);
 		if (access(join_path, F_OK) == 0)
 			return (join_path);
 		i++;
