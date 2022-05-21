@@ -36,7 +36,6 @@ bool find_n(char *str, char c)
 		return (true);
 	else
 		return (false);
-
 }
 
 int ft_echo(t_cmd *cmd, t_global *global)
@@ -46,19 +45,22 @@ int ft_echo(t_cmd *cmd, t_global *global)
 
 	option = 0;
 	i = 1;
-	while (i < cmd->count)
-	{
-		while (!ft_strncmp(cmd->val[i], "-n", 2) && find_n(&cmd->val[i][1], 'n'))
+	// while (cmd->val[i] != NULL)
+	// {
+		while (cmd->val[i] != NULL && !ft_strncmp(cmd->val[i], "-n", 2) && find_n(&cmd->val[i][1], 'n'))
 		{
 			option = 1;
 			i++;
 		}
-		if (cmd->expand[i])
+		if (cmd->expand[i] && cmd->val[i] != NULL)
 			ft_expand_echo(cmd->val[i], global);
-		else if (cmd->val[i] != NULL)
+		while (cmd->val[i] != NULL)
+		{
 			printf("%s ", cmd->val[i]);
-		i++;
-	}
+			i++;
+		}
+		// i++;
+	// }
 	if (!option)
 		printf("\n");
 	return (0);

@@ -60,7 +60,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_sigint);
-		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
+		// line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
+		line = readline("\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
 		signal(SIGINT, SIG_IGN);
 		if (!line)
 		{
