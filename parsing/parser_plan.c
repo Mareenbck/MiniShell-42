@@ -127,7 +127,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			cmd->expand[i] = 0;
 			if (token->expand)
 			{
-				cmd->val[i] = ft_strdup(&token->val[1]);
+				cmd->val[i] = ft_strdup(token->val);
 				cmd->expand[i] = 1;
 			}
 			else
@@ -155,7 +155,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd(len));
-	ft_print_cmd(comd);
-	ft_expand_cmd_first(global);
+	// ft_pr int_cmd(comd);
+	// ft_expand_cmd_first(global);
 	return (0);
 }

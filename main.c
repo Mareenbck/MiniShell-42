@@ -32,6 +32,26 @@ void	ft_free_list(t_global *global)
 	ft_free_tab(global->env);
 }
 
+int init_token_cmd_list(char *line, t_global *global)
+{
+	init_token_list(line, &global->head);
+	if (!analize_cmd(&global->headcmd, global))
+		return (0);
+	else
+	{
+		ft_lst_clear(&global->head, free);
+		ft_lst_clear2(&global->headcmd, free);
+		return (1);
+	}
+}
+
+void	ft_quit(t_global *global)
+{
+	printf("exit\n");
+	global->exit = true;
+	ft_free_list(global);
+	exit(0);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -48,30 +68,16 @@ int	main(int ac, char **av, char **envp)
 		line = readline("\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
 		ft_signal(0);
 		if (!line)
-		{
-			printf("exit\n");
-			global.exit = true;
-			ft_free_list(&global);
-			exit(0);
-		}
+			ft_quit(&global);
 		add_history(line);
-		init_line(line, &global.head);
-		if (!analize_cmd(&global.headcmd, &global))
+		if (!init_token_cmd_list(line, &global))
 		{
-			if (!last_call_quotes(global.headcmd, global.head))
-				parse_execution(&global);
-			else
+			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
-				// ft_close(&global);
-				ft_lst_clear(&global.head, free);
-				ft_lst_clear2(&global.headcmd, free);
+				ft_print_cmd(&global.headcmd);
+				ft_expand_cmd_first(&global);
+				parse_execution(&global);
 			}
-		}
-		else
-		{
-			// ft_close(&global);
-			ft_lst_clear(&global.head, free);
-			ft_lst_clear2(&global.headcmd, free);
 		}
 		free(line);
 	}

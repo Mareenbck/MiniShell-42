@@ -14,7 +14,7 @@
 void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 {
 	t_env *env;
-	env = find_name(&global->head_env, cmd->val[0], ft_strlen(cmd->val[0]));
+	env = find_name(&global->head_env, &cmd->val[0][1], ft_strlen(&cmd->val[0][1]));
 	if (!env)
 		ft_error("No such file or directory", NOTFOUND);
 	ft_strcpy(cmd->val[0], env->var_value);
@@ -24,7 +24,7 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 void	ft_expand_args(t_global *global, char *cmd)
 {
 	t_env *env;
-	env = find_name(&global->head_env, cmd, ft_strlen(cmd));
+	env = find_name(&global->head_env, &cmd[1], ft_strlen(&cmd[1]));
 	ft_strcpy(cmd, env->var_value);
 }
 

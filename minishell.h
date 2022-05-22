@@ -151,7 +151,7 @@ int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
 int			error_quotes(t_token *token);
-int	last_call_quotes(t_cmd *cmd, t_token *token);
+int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
 
 /* UTILS */
 void		**ft_free_tab(char **tab);
@@ -197,7 +197,7 @@ void	handle_sigint(int sig);
 
 //LEXER
 void	ft_test_lex(char *line, t_global *global);
-void init_line(char *line, t_token **head);
+void init_token_list(char *line, t_token **head);
 int ft_lex(char *str, t_token *token);
 
 

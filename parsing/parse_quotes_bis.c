@@ -17,7 +17,7 @@ void	check_if_expand(t_cmd *cmd, int i)
 	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0')
 	{
 		cmd->expand[i] = 1;
-		ft_strcpy(cmd->val[i], &cmd->val[i][1]);
+		// ft_strcpy(cmd->val[i], &cmd->val[i][1]);
 	}
 	else
 		cmd->expand[i] = 0;
@@ -82,17 +82,20 @@ void	delete_quotes(t_cmd *cmd)
 			cmd->val[i] = ft_strtrim(cmd->val[i], "\"");
 			check_if_expand(cmd, i);
 			cmd->val[i] = new_string(cmd->val[i], '\"');
+			printf("cmd : %s\n", cmd->val[i]);
 		}
 		i++;
 	}
 }
 
-int	last_call_quotes(t_cmd *cmd, t_token *token)
+int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 {
 	if (error_quotes(token) == 1)
 	{
 		ft_error("Syntax error", 1);
-		return(1);
+		ft_lst_clear(&global->head, free);
+		ft_lst_clear2(&global->headcmd, free);
+		return (1);
 	}
 	else
 	{

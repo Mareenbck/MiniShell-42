@@ -56,7 +56,7 @@ void ft_print(t_token **head)
 }
 
 
-void init_line(char *line, t_token **head)
+void init_token_list(char *line, t_token **head)
 {
 	int	i;
 	t_token	*new;
