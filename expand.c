@@ -12,20 +12,24 @@
 
 #include "minishell.h"
 
-void ft_expand_echo(char *str, t_global *global)
+void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 {
 	t_env *env;
 
 	env = global->head_env;
-	if (str[0] == '?')
+	if (cmd->val[1] != NULL && cmd->val[1][1] == '?')
 		printf("%d", g_exit_status);
+	else if (str[0] == '$' && !str[1])
+		ft_error("Command not found", NOTFOUND);
 	else
 	{
 		env = find_name(&global->head_env, &str[1], ft_strlen(&str[1]));
-		printf("%s\n", env->var_value);
+		if (env)
+			printf("%s\n", env->var_value);
+		else
+			ft_error("Command not found", NOTFOUND);
 	}
 }
-
 
 void	ft_expand_cmd_first(t_global *global)
 {
@@ -50,8 +54,6 @@ void	ft_expand_cmd_first(t_global *global)
 		while (split[i] != NULL)
 		{
 			env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
-			if (env)
-				printf("var value : %s\n", env->var_value);
 			if (env && i == 0)
 				split[i] = env->var_value;
 			else if (env && i > 0)

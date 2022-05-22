@@ -37,16 +37,18 @@ int ft_echo(t_cmd *cmd, t_global *global)
 		i++;
 	}
 	if (cmd->expand[i] && cmd->val[i] != NULL)
-		ft_expand_echo(cmd->val[i], global);
+		ft_expand_echo(cmd, global, cmd->val[i]);
 	else
 	{
 		while (cmd->val[i] != NULL)
 		{
-			printf("%s ", cmd->val[i]);
+			if (start_with_dollar(cmd) && cmd->val[i][1] != '\0')
+				printf("%s ", &cmd->val[i][1]);
+			else
+				printf("%s ", cmd->val[i]);
 			i++;
 		}
 	}
-
 	if (!option)
 		printf("\n");
 	return (0);

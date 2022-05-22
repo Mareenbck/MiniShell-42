@@ -151,7 +151,8 @@ int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
 int			error_quotes(t_token *token);
-int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
+int start_with_dollar(t_cmd *cmd);
+int last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
 
 /* UTILS */
 void		**ft_free_tab(char **tab);
@@ -221,7 +222,7 @@ void ft_insert_tab(char **tab, char *name, char *value);
 int check_name(char *token);
 char *check_value(char *token);
 void ft_expand_cmd_first(t_global *global);
-void ft_expand_echo(char *str, t_global *global);
+void ft_expand_echo(t_cmd *cmd, t_global *global, char *str);
 
 void parse_execution(t_global *global);
 

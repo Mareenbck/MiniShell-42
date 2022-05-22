@@ -37,7 +37,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	cmd->path = find_binary(split_path, cmd->val[i]);
 	if (!cmd->path && cmd->expand[i])
 	{
-		ft_expand_echo(cmd->val[0], global);
+		ft_expand_echo(cmd, global, cmd->val[0]);
 		return ;
 	}
 	else if (cmd->path && cmd->expand[i])

@@ -84,6 +84,22 @@ int	start_with_dobles(t_cmd *cmd)
 	return (0);
 }
 
+int start_with_dollar(t_cmd *cmd)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (cmd->val[i])
+	{
+		j = 0;
+		if (cmd->val[i][j] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int is_empty_string(char *str)
 {
 	if (is_doble_quotes(str[0]) && is_doble_quotes(str[1]) && ft_isspace(str[2]))

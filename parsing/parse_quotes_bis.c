@@ -14,7 +14,7 @@
 
 void	check_if_expand(t_cmd *cmd, int i)
 {
-	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0')
+	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0' && cmd->val[i][1] != '\"')
 	{
 		cmd->expand[i] = 1;
 		// ft_strcpy(cmd->val[i], &cmd->val[i][1]);
@@ -75,14 +75,13 @@ void	delete_quotes(t_cmd *cmd)
 			// check_if_expand_s(cmd, i);
 			cmd->val[i] = new_string(cmd->val[i], '\'');
 		}
-		else if (start_with_dobles(cmd))
+		else if (start_with_dobles(cmd) || start_with_dollar(cmd))
 		{
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			cmd->val[i] = ft_strtrim(cmd->val[i], "\"");
 			check_if_expand(cmd, i);
 			cmd->val[i] = new_string(cmd->val[i], '\"');
-			printf("cmd : %s\n", cmd->val[i]);
 		}
 		i++;
 	}
