@@ -14,7 +14,7 @@
 
 void	check_if_expand(t_cmd *cmd, int i)
 {
-	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0' && cmd->val[i][1] != '\"')
+	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0')
 	{
 		cmd->expand[i] = 1;
 		// ft_strcpy(cmd->val[i], &cmd->val[i][1]);

@@ -34,6 +34,8 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	int i = 0;
 
 	split_path = ft_split_envp(&global->head_env, "PATH");
+	if (!split_path)
+		ft_error("Command not found", NOTFOUND);
 	cmd->path = find_binary(split_path, cmd->val[i]);
 	if (!cmd->path && cmd->expand[i])
 	{
@@ -45,8 +47,6 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	while (cmd->val[++i])
 		if (cmd->expand[i])
 			ft_expand_args(global, cmd->val[i]);
-	if (!cmd->path)
-		ft_error("Command not found", NOTFOUND);
 	ft_free_tab(split_path);
 	ft_signal(1);
 	if (execve(cmd->path, cmd->val, global->env) == -1)

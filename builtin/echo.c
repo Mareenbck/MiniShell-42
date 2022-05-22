@@ -42,8 +42,10 @@ int ft_echo(t_cmd *cmd, t_global *global)
 	{
 		while (cmd->val[i] != NULL)
 		{
-			if (start_with_dollar(cmd) && cmd->val[i][1] != '\0')
+			if (start_with_dollar(cmd) && cmd->expand[i])
 				printf("%s ", &cmd->val[i][1]);
+			else if (start_with_dollar(cmd) && !cmd->expand[i])
+				printf("%s ", cmd->val[i]);
 			else
 				printf("%s ", cmd->val[i]);
 			i++;
