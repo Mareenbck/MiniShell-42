@@ -12,18 +12,15 @@
 
 #include "../minishell.h"
 
-t_env	*find_name(t_env **head_env, char *var, int len)
+t_env	*find_name(t_env **head_env, char *var, size_t len)
 {
 	t_env *env;
 
 	env = *head_env;
 	while (env->next != NULL)
 	{
-		if (!ft_strncmp(env->var_name, var, len))
-		{
-			// printf("hello\n");
+		if (!ft_strncmp(env->var_name, var, len + 1))
 			return (env);
-		}
 		env = env->next;
 	}
 	return (NULL);

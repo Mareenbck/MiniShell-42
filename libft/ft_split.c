@@ -42,6 +42,20 @@ static char	*ft_strncpy(char *dst, const char *src, int n)
 	return (dst);
 }
 
+static char	**ft_free(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	return (NULL);
+}
+
 static char	**ft_split_words(char const *s, char c, char **split)
 {
 	int	i;
@@ -61,7 +75,7 @@ static char	**ft_split_words(char const *s, char c, char **split)
 				j++;
 			split[word] = (char *)malloc(sizeof(char) * (j + 1));
 			if (!split[word])
-				return (NULL);
+				return (ft_free(split));
 			ft_strncpy(split[word], &s[i], j);
 			i += j;
 			word++;
@@ -70,19 +84,6 @@ static char	**ft_split_words(char const *s, char c, char **split)
 	return (split);
 }
 
-static char	**ft_free(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-	return (NULL);
-}
 
 char	**ft_split(char const *s, char c)
 {
@@ -93,7 +94,7 @@ char	**ft_split(char const *s, char c)
 	words = count_words(s, c);
 	result = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!result)
-		return (NULL);
+		return (ft_free(result));
 	split = ft_split_words(s, c, result);
 	if (!split)
 		return (ft_free(split));

@@ -36,11 +36,11 @@ int ft_echo(t_cmd *cmd, t_global *global)
 		option = 1;
 		i++;
 	}
-	if (cmd->expand[i] && cmd->val[i] != NULL)
-		ft_expand_echo(cmd, global, cmd->val[i]);
-	else
+	while (cmd->val[i] != NULL)
 	{
-		while (cmd->val[i] != NULL)
+		if (cmd->expand[i])
+			ft_expand_echo(cmd, global, cmd->val[i]);
+		else
 		{
 			if (start_with_dollar(cmd) && cmd->expand[i])
 				printf("%s ", &cmd->val[i][1]);
@@ -48,8 +48,9 @@ int ft_echo(t_cmd *cmd, t_global *global)
 				printf("%s ", cmd->val[i]);
 			else
 				printf("%s ", cmd->val[i]);
-			i++;
 		}
+		i++;
+
 	}
 	if (!option)
 		printf("\n");

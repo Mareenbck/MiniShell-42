@@ -35,7 +35,11 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
+	{
+		ft_free_tab(split_path);
+		ft_free_list(global);
 		ft_error("Command not found", NOTFOUND);
+	}
 	cmd->path = find_binary(split_path, cmd->val[i]);
 	if (!cmd->path && cmd->expand[i])
 	{
@@ -43,16 +47,19 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 		return ;
 	}
 	else if (cmd->path && cmd->expand[i])
+	{
 		ft_expand_cmd(global, cmd, split_path);
+		ft_free_tab(split_path);
+	}
 	while (cmd->val[++i])
 		if (cmd->expand[i])
 			ft_expand_args(global, cmd->val[i]);
-	ft_free_tab(split_path);
 	ft_signal(1);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
 		// ft_free_tab(cmd_args);
 		ft_error("", CANTEXEC);
+		ft_free_list(global);
 	}
 }
 
@@ -117,7 +124,7 @@ void	ft_child_process(t_cmd *cmd, t_global *global)
 		ft_exe_with_pipe(cmd, global);
 	else
 	{
-		if (ft_search_builtin(cmd, global) == 1)
+		if (ft_search_builtin(cmd, global) == 1 && cmd->val[0] != NULL)
 		{
 			cmd->pid = fork();
 			if (cmd->pid == 0)
@@ -135,7 +142,7 @@ void	ft_parent_process(t_global *global)
 	t_cmd *cmd;
 
 	cmd = global->headcmd;
-	while (cmd->next)
+	while (cmd->next != NULL)
 	{
 		waitpid(cmd->pid, NULL, 0);
 		cmd = cmd->next;
@@ -167,7 +174,7 @@ void	parse_execution(t_global *global)
 		cmd = cmd->next;
 	}
 	ft_parent_process(global);
-	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
+	ft_lst_clear(&global->head, free);
 	// ft_signal(2);
 }

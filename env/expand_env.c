@@ -35,13 +35,17 @@ char *check_value(char *token)
 	char *value;
 
 	value = ft_strchr(token, '=');
-	value = ft_strtrim(value, "=");
 	if (!value)
-		value = "\0";
-	else if (value[0] == '\"')
-		value = ft_strtrim(value, "\"");
-	else if (value[0] == '\'')
-		value = ft_strtrim(value, "\'");
+	{
+		free(value);
+		value = ft_strdup("\0");
+	}
+	else
+		value = ft_strtrim(value, "=");
+	// else if (value[0] == '\"')
+	// 	value = ft_strtrim(value, "\"");
+	// else if (value[0] == '\'')
+	// 	value = ft_strtrim(value, "\'");
 	return (value);
 }
 

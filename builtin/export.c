@@ -31,16 +31,19 @@ void	ft_change_env(char *name, char *value, t_global *global)
 {
 	char **env;
 	int i;
+	char *tmp;
 
 	i = 0;
 	env = global->env;
-	name = ft_strcat(name, "=");
+	tmp = ft_strjoin(name, "=");
+	// name = ft_strcat(name, "=");
 	while(env[i])
 	{
-		if (!ft_strncmp(env[i], name, ft_strlen(name)))
+		if (!ft_strncmp(env[i], tmp, ft_strlen(tmp)))
 		{
 			free(env[i]);
-			env[i] = ft_strjoin(name, value);
+			env[i] = ft_strjoin(tmp, value);
+			break ;
 		}
 		i++;
 	}
@@ -61,7 +64,7 @@ void	ft_concat_env(char *name, char *value, t_global *global)
 			tmp = ft_strdup(env[i]);
 			free(env[i]);
 			env[i] = ft_strjoin(tmp, value);
-			free(tmp);
+			break ;
 		}
 		i++;
 	}
@@ -108,20 +111,20 @@ int	ft_export(t_cmd *cmd, t_global *global)
 			{
 				if (sign[0] == '+')
 				{
-					ft_concat_env(name, value, global);
 					env->var_value = ft_strjoin(env->var_value, value);
+					ft_concat_env(name, env->var_value, global);
 				}
 				else
 				{
-					ft_change_env(name, value, global);
-					env->var_sign = sign;
-					env->var_value = value;
+					env->var_sign = init_sign(cmd->val[i]);
+					env->var_value = check_value(cmd->val[i]);
+					ft_change_env(name, env->var_value, global);
 				}
 			}
 			else
 			{
-				ft_insert_tab(global->env, cmd->val[i], value);
-				new_env = create_var_env(edit_name(cmd->val[i], '='), value, sign);
+				ft_insert_tab(global->env, cmd->val[i], env->var_value);
+				new_env = create_var_env(name, cmd->val[i]);
 				ft_lst_insert(&global->head_env, new_env);
 			}
 		}
