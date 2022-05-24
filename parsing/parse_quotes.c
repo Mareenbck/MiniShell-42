@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:41:37 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/17 11:52:46 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 10:49:24 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,3 @@ int is_empty_string(char *str)
 	else
 		return (0);
 }
-
-
-//VERIFIER QUE CA NAFFICHE PLUS RIEN QUAND IL Y A SYNTAX ERROR VOIR SI CEST ECHO OU PARSING

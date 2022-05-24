@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_many.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 11:31:54 by mbascuna          #+#    #+#             */
-/*   Updated: 2021/09/27 13:15:50 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/05/24 10:39:07 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int count_words(char *str, char *charset)
 	return (words);
 }
 
-void ft_strcpy(char *dest, char *str, char *charset)
+void ft_strcpy_b(char *dest, char *str, char *charset)
 {
 	int i;
 
@@ -76,7 +76,7 @@ char **ft_split_words(char *str, char *charset, char **split)
 				j++;
 			if (j != 0)
 				split[words] = (char *)malloc(sizeof(char) * (j + 1));
-			ft_strcpy(split[words], &str[i], charset);
+			ft_strcpy_b(split[words], &str[i], charset);
 			i += j;
 			words++;
 		}

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 10:28:01 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 17:03:58 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 11:24:42 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ int	error_quotes(t_token *token)
 	if (countd % 2 != 0)
 		return (1);
 	else if (counts % 2 != 0)
+	{
 		return (1);
+	}
+	printf("counts = %d\n", counts);
+	printf("countd = %d\n", countd);
 	return (0);
 }
 
@@ -72,7 +76,6 @@ void	delete_quotes(t_cmd *cmd)
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			cmd->val[i] = ft_strtrim(cmd->val[i], "\'");
-			// check_if_expand_s(cmd, i);
 			cmd->val[i] = new_string(cmd->val[i], '\'');
 		}
 		else if (start_with_dobles(cmd) || start_with_dollar(cmd))
