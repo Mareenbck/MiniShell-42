@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/13 11:56:41 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 11:16:06 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	ft_lex(char *str, t_token *token)
 		{
 			while (str[i] && ft_isprint(str[i]))
 			{
-				if (is_doble_quotes(str[i]))
+				if (is_doble_quotes(str[i]) || is_simple_quotes(str[i]))
 				{
 					if (quotes == 1)
 						quotes = 0;

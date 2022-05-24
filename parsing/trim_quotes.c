@@ -54,7 +54,6 @@ void		trim_simple_quotes(t_token *token)
 		{
 			if (is_simple_quotes(token->val[i]))
 			{
-				printf("c ook\n");
 				token->val = ft_strtrim(token->val, "\'");
 			}
 			i++;

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 10:28:01 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 17:03:58 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:53:56 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	delete_quotes(t_cmd *cmd)
 
 int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 {
+	// (void)global;
 	if (error_quotes(token) == 1)
 	{
 		ft_error("Syntax error", 1);
