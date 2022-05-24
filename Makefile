@@ -12,7 +12,7 @@ SRCS	= main.c utils.c signal.c \
 		parsing/pipe.c append/redir.c \
 		append/append.c parsing/trim_quotes.c \
 		parsing/parse_quotes.c parsing/parse_quotes_bis.c \
-		append/redir_syntax.c append/heredoc.c \
+		parsing/redir_syntax.c append/heredoc.c \
 		env/expand_env.c builtin/exit.c expand.c
 
 

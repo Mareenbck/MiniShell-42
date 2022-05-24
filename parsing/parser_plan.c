@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:26:51 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 14:13:37 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	analize_append(t_token *token, t_cmd *cmd)
 	}
 	if (token->token == APPEND_IN)
 	{
-		dprintf(1, "hello\n");
 		check_append_i(token, cmd);
 		ft_heredoc(token->next->val);
 	}

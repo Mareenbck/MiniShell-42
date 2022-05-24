@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:43:07 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 17:02:07 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 14:32:51 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ int	ft_heredoc(char *lim)
 {
 	int	heredoc;
 	char	*str;
-//	char	*lim;
 
-//	lim = NULL;
 	if (check_lim(lim) != 0)
 		return (EXIT_FAILURE);
 	heredoc = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -40,7 +38,7 @@ int	ft_heredoc(char *lim)
 	}
 	while (1)
 	{
-		write(1, "here_doc>", 10);
+		write(1, ">", 1);
 		str = readline(STDIN_FILENO);
 		str = ft_strjoin(str, "\n");
 		if (!ft_strncmp(lim, str, ft_strlen(lim)))
@@ -49,5 +47,4 @@ int	ft_heredoc(char *lim)
 	}
 	return (heredoc);
 }
-
 
