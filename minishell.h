@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:23:22 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 15:38:09 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int			check_pipe_position(t_token *token, t_cmd *cmd);
 int			check_redir_o_position(t_token *token, t_cmd *cmd);
 int			check_redir_i_position(t_token *token, t_cmd *cmd);
 int			check_append_o(t_token *token, t_cmd *cmd);
-int			check_append_i(t_token *token, t_cmd *cmd);
+int			check_heredoc(t_token *token, t_cmd *cmd);
 int			redir_out(t_cmd *cmd, char *file_name);
 int			redir_in(t_cmd *cmd, char *file_name);
 int			append_out(t_cmd *cmd, char *file_name);
