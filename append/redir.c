@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:28:11 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:05:18 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 12:16:28 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	redir_in(t_cmd *cmd, char *file_name)
 	fd = open(file_name, O_RDONLY, 0644);
 	if (cmd->input == -1)
 	{
-		printf("hello\n");
+		ft_error("no such file or directory\n", ERROR);
 		perror(file_name);
 		return (EXIT_FAILURE);
 	}
