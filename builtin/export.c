@@ -17,7 +17,7 @@ void	ft_print_export(t_global *global)
 	t_env *tmp;
 
 	tmp = global->head_env;
-	while (tmp->next->var_name != NULL)
+	while (tmp->next != NULL)
 	{
 		if (*tmp->var_value == '\0' && *tmp->var_sign == '\0')
 			printf("%s %s%s\n", tmp->declare, tmp->var_name, tmp->var_sign);
@@ -48,26 +48,27 @@ void	ft_change_env(char *name, char *value, t_global *global)
 	}
 }
 
-void	ft_concat_env(char *name, char *value, t_global *global)
-{
-	char **env;
-	int i;
-	char *tmp = NULL;
+// void	ft_concat_env(char *name, char *value, t_global *global)
+// {
+// 	char **env;
+// 	int i;
+// 	char *tmp = NULL;
 
-	i = 0;
-	env = global->env;
-	while(env[i])
-	{
-		if (!ft_strncmp(env[i], name, ft_strlen(name)))
-		{
-			tmp = env[i];
-			free(env[i]);
-			env[i] = ft_strjoin(tmp, value);
-			break ;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	env = global->env;
+// 	printf("NAME : %s, VALUE : %s\n", name, value);
+// 	while(env[i])
+// 	{
+// 		if (!ft_strncmp(env[i], name, ft_strlen(name)))
+// 		{
+// 			tmp = ft_strdup(env[i]);
+// 			free(env[i]);
+// 			env[i] = ft_strjoin(tmp, value);
+// 			break ;
+// 		}
+// 		i++;
+// 	}
+// }
 
 bool ft_str_isalnum(char *str)
 {
@@ -111,23 +112,27 @@ int	ft_export(t_cmd *cmd, t_global *global)
 				if (sign[0] == '+')
 				{
 					env->var_value = ft_strjoin(env->var_value, value);
-					ft_concat_env(name, env->var_value, global);
+					ft_change_env(name, env->var_value, global);
 				}
 				else
 				{
-					env->var_sign = init_sign(cmd->val[i]);
+					free(env->var_sign);
+					env->var_sign = init_sign(cmd->val[i]);;
+					free(env->var_value);
 					env->var_value = check_value(cmd->val[i]);
 					ft_change_env(name, env->var_value, global);
 				}
 			}
 			else
 			{
-				ft_insert_tab(global->env, cmd->val[i], env->var_value);
+				ft_insert_tab(global->env, cmd->val[i]);
 				new_env = create_var_env(name, cmd->val[i]);
 				ft_lst_insert(&global->head_env, new_env);
 			}
 		}
 		i++;;
+		free(sign);
+		free(value);
 	}
 	// ft_print_env(head_env);
 	return (0);

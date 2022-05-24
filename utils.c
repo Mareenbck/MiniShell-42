@@ -142,10 +142,10 @@ void	ft_lst_insert(t_env **head_env, t_env *new)
 			ft_lstaddfront(head_env, new);
 		else
 		{
+			tmp2 = tmp->next;
 			tmp->next = new;
 			new->prev = tmp;
-			new->next = NULL;
-			ft_lstaddback3(head_env, ft_init_var_env());
+			new->next = tmp2;
 		}
 	}
 }
@@ -185,7 +185,7 @@ void ft_lst_delone3(t_env *env, void (*del)(void *))
 		free(env->var_name);
 		free(env->var_value);
 		free(env->var_sign);
-		free(env);
+		(*del)(env);
 	}
 }
 

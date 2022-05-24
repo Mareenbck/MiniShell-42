@@ -217,7 +217,7 @@ int	ft_export(t_cmd *cmd, t_global *global);
 void	ft_change_env(char *name, char *value, t_global *global);
 int	ft_exit(t_global *global, t_cmd *cmd);
 int	ft_unset(t_cmd *cmd, t_global *global);
-void ft_insert_tab(char **tab, char *name, char *value);
+void ft_insert_tab(char **tab, char *name);
 
 // EXPAND ENV
 int check_name(char *token);

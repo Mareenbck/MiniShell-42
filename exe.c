@@ -57,7 +57,8 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	ft_signal(1);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
-		ft_free_list(global);
+		ft_lst_clear(&global->head, free);
+		ft_lst_clear2(&global->headcmd, free);
 		ft_error("", CANTEXEC);
 	}
 }

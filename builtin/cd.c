@@ -38,7 +38,7 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 		ft_change_env(ft_strdup("OLDPWD"), env->var_value, global);
 	//	printf("%s\n", env->var_value);
 	}
-	if (cmd->val[1] == NULL || !ft_strncmp(cmd->val[1], "~", 2) || !ft_strncmp(cmd->val[1], "/", 1))
+	if (cmd->val[1] == NULL || !ft_strncmp(cmd->val[1], "~", 2) || !ft_strncmp(cmd->val[1], "/", 2))
 	{
 		home = find_name(&global->head_env, "HOME", 4);
 		chdir(home->var_value);
