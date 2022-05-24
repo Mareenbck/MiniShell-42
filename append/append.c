@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 13:15:28 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 12:28:36 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 13:41:10 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@ int	append_out(t_cmd *cmd, char *file_name)
 		perror(file_name);
 		return (EXIT_FAILURE);
 	}
-	if (cmd->input != STDOUT_FILENO)
+	if (cmd->output != STDOUT_FILENO)
 	{
 		dup2(cmd->output, fd);
 		close(fd);
-		cmd->input = fd;
 	}
-	printf("HELLO\n");
+	cmd->output = fd;
 	return (EXIT_SUCCESS);
 }
