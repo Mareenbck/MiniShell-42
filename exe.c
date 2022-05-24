@@ -57,11 +57,8 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	ft_signal(1);
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
-		// ft_free_tab(cmd_args);
-
-		// ft_free_tab(split_path);
-		ft_error("", CANTEXEC);
 		ft_free_list(global);
+		ft_error("", CANTEXEC);
 	}
 }
 
