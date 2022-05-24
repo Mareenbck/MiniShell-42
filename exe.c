@@ -36,13 +36,13 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	split_path = ft_split_envp(&global->head_env, "PATH");
 	if (!split_path)
 	{
-		ft_free_tab(split_path);
 		ft_free_list(global);
-		ft_error("Command not found", NOTFOUND);
+		ft_error("Command not found1", NOTFOUND);
 	}
 	cmd->path = find_binary(split_path, cmd->val[i]);
 	if (!cmd->path && cmd->expand[i])
 	{
+		// ft_free_tab(split_path);
 		ft_expand_echo(cmd, global, cmd->val[0]);
 		return ;
 	}

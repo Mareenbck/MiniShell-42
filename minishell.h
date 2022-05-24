@@ -177,7 +177,7 @@ void	ft_init_env(t_global *global, char **envp);
 t_env  *create_var_env(char *name, char *value);
 t_env *ft_init_var_env();
 char *init_var_name(char *str, char c);
-void	ft_print_export(t_env **head);
+void	ft_print_export(t_global *global);
 char *init_sign(char *name);
 void ft_print_env(t_env **head);
 char *edit_name(char *str, char c);

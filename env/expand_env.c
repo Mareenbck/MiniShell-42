@@ -42,10 +42,10 @@ char *check_value(char *token)
 	}
 	else
 		value = ft_strtrim(value, "=");
-	else if (value[0] == '\"')
-		value = ft_strtrim(value, "\"");
-	else if (value[0] == '\'')
-		value = ft_strtrim(value, "\'");
+	// else if (value[0] == '\"')
+	// 	value = ft_strtrim(value, "\"");
+	// else if (value[0] == '\'')
+	// 	value = ft_strtrim(value, "\'");
 	return (value);
 }
 

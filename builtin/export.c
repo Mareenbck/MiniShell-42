@@ -12,12 +12,12 @@
 
 #include "../minishell.h"
 
-void	ft_print_export(t_env **head)
+void	ft_print_export(t_global *global)
 {
 	t_env *tmp;
 
-	tmp = *head;
-	while (tmp->next != NULL)
+	tmp = global->head_env;
+	while (tmp->next->var_name != NULL)
 	{
 		if (*tmp->var_value == '\0' && *tmp->var_sign == '\0')
 			printf("%s %s%s\n", tmp->declare, tmp->var_name, tmp->var_sign);
@@ -37,7 +37,7 @@ void	ft_change_env(char *name, char *value, t_global *global)
 	env = global->env;
 	while(env[i])
 	{
-		if (!ft_strncmp(env[i], name, ft_strlen(name) + 1))
+		if (!ft_strncmp(env[i], name, ft_strlen(name) +1))
 		{
 			free(env[i]);
 			tmp = ft_strjoin(name, "=");
@@ -94,7 +94,7 @@ int	ft_export(t_cmd *cmd, t_global *global)
 
 	env = NULL;
 	if (cmd->val[i] == NULL)
-		ft_print_export(&global->head_env);
+		ft_print_export(global);
 	// VERSION ANTERIEUR VERIFICATION DU TOKEN SI WORD
 	while (cmd->val[i] != NULL)
 	{

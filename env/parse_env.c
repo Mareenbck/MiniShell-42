@@ -17,10 +17,8 @@ t_env	*find_name(t_env **head_env, char *var, size_t len)
 	t_env *env;
 
 	env = *head_env;
-	// (void)var;
 	while (env->next != NULL)
 	{
-		// if (len == 3)
 		if (!ft_strncmp(env->var_name, var, len))
 			return (env);
 		env = env->next;
@@ -38,7 +36,10 @@ char	**ft_split_envp(t_env **head_env, char *str)
 	{
 		split_path = ft_split(env->var_value, ':');
 		if (!split_path)
+		{
+			// ft_free_tab(split_path);
 			ft_error("Error\n",ALLOCATION_FAIL);
+		}
 		return (split_path);
 	}
 	return (NULL);
@@ -48,14 +49,13 @@ char *find_binary(char **split_path, char *av)
 {
 	int		i;
 	char	*join_path;
+	char	*tmp;
 
 	i = 0;
 	while (split_path[i])
 	{
-		join_path = ft_strjoin(split_path[i], "/");
-		join_path = ft_strjoin(join_path, av);
-		if (!join_path)
-			return (NULL);
+		tmp = ft_strjoin(split_path[i], "/");
+		join_path = ft_strjoin(tmp, av);
 		if (access(join_path, F_OK) == 0)
 			return (join_path);
 		i++;

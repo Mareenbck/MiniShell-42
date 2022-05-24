@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
-				ft_print_cmd(&global.headcmd);
+				// ft_print_cmd(&global.headcmd);
 				ft_expand_cmd_first(&global);
 				parse_execution(&global);
 			}
