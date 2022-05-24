@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 10:28:01 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 11:24:42 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 11:34:01 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	error_quotes(t_token *token)
 	{
 		return (1);
 	}
-	printf("counts = %d\n", counts);
-	printf("countd = %d\n", countd);
 	return (0);
 }
 
