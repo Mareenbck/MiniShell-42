@@ -12,12 +12,12 @@
 
 #include "../minishell.h"
 
-void	ft_print_export(t_env **head)
+void	ft_print_export(t_global *global)
 {
 	t_env *tmp;
 
-	tmp = *head;
-	while (tmp->next != NULL)
+	tmp = global->head_env;
+	while (tmp->next->var_name != NULL)
 	{
 		if (*tmp->var_value == '\0' && *tmp->var_sign == '\0')
 			printf("%s %s%s\n", tmp->declare, tmp->var_name, tmp->var_sign);
@@ -31,16 +31,18 @@ void	ft_change_env(char *name, char *value, t_global *global)
 {
 	char **env;
 	int i;
+	char *tmp;
 
 	i = 0;
 	env = global->env;
-	name = ft_strcat(name, "=");
+	tmp = ft_strjoin(name, "=");
 	while(env[i])
 	{
-		if (!ft_strncmp(env[i], name, ft_strlen(name)))
+		if (!ft_strncmp(env[i], tmp, ft_strlen(tmp)))
 		{
 			free(env[i]);
-			env[i] = ft_strjoin(name, value);
+			env[i] = ft_strjoin(tmp, value);
+			break ;
 		}
 		i++;
 	}
@@ -58,10 +60,10 @@ void	ft_concat_env(char *name, char *value, t_global *global)
 	{
 		if (!ft_strncmp(env[i], name, ft_strlen(name)))
 		{
-			tmp = ft_strdup(env[i]);
+			tmp = env[i];
 			free(env[i]);
 			env[i] = ft_strjoin(tmp, value);
-			free(tmp);
+			break ;
 		}
 		i++;
 	}
@@ -92,7 +94,7 @@ int	ft_export(t_cmd *cmd, t_global *global)
 
 	env = NULL;
 	if (cmd->val[i] == NULL)
-		ft_print_export(&global->head_env);
+		ft_print_export(global);
 	// VERSION ANTERIEUR VERIFICATION DU TOKEN SI WORD
 	while (cmd->val[i] != NULL)
 	{
@@ -108,20 +110,20 @@ int	ft_export(t_cmd *cmd, t_global *global)
 			{
 				if (sign[0] == '+')
 				{
-					ft_concat_env(name, value, global);
 					env->var_value = ft_strjoin(env->var_value, value);
+					ft_concat_env(name, env->var_value, global);
 				}
 				else
 				{
-					ft_change_env(name, value, global);
-					env->var_sign = sign;
-					env->var_value = value;
+					env->var_sign = init_sign(cmd->val[i]);
+					env->var_value = check_value(cmd->val[i]);
+					ft_change_env(name, env->var_value, global);
 				}
 			}
 			else
 			{
-				ft_insert_tab(global->env, cmd->val[i], value);
-				new_env = create_var_env(edit_name(cmd->val[i], '='), value, sign);
+				ft_insert_tab(global->env, cmd->val[i], env->var_value);
+				new_env = create_var_env(name, cmd->val[i]);
 				ft_lst_insert(&global->head_env, new_env);
 			}
 		}

@@ -20,14 +20,24 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 	if (cmd->val[1] != NULL && cmd->val[1][1] == '?')
 		printf("%d", g_exit_status);
 	else if (str[0] == '$' && !str[1])
-		ft_error("Command not found", NOTFOUND);
+	{
+		ft_lst_clear3(&global->head_env, free);
+		ft_lst_clear(&global->head, free);
+		ft_lst_clear2(&global->headcmd, free);
+		ft_error("Command not found2", NOTFOUND);
+	}
 	else
 	{
 		env = find_name(&global->head_env, &str[1], ft_strlen(&str[1]));
 		if (env)
 			printf("%s\n", env->var_value);
 		else
-			ft_error("Command not found", NOTFOUND);
+		{
+			ft_lst_clear(&global->head, free);
+			ft_lst_clear2(&global->headcmd, free);
+			ft_lst_clear3(&global->head_env, free);
+			ft_error("Command not found3", NOTFOUND);
+		}
 	}
 }
 

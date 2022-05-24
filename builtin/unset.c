@@ -35,36 +35,9 @@ int	ft_unset(t_cmd *cmd, t_global *global)
 		}
 	}
 	ft_lst_clear3(&global->head_env, free);
-	ft_free_tab(global->sorted_env);
+	// ft_free_tab(global->env);
+	free(global->sorted_env);
+	ft_free_tab(global->env);
 	ft_init_list_env(&global->head_env, global);
 	return (0);
 }
-
-
-// int	ft_unset(t_token *token, t_global *global)
-// {
-// 	int i;
-// 	char *name;
-// 	token = token->next;
-
-// 	i = -1;
-// 	while (global->env[++i])
-// 	{
-// 		name = edit_name(global->env[i], '=');
-// 		printf("name : %s\n", name);
-// 		if (!ft_strncmp(name, token->val, (ft_strlen(token->val) + 1)))
-// 		{
-// 			while (global->env[i] && global->env[i + 1])
-// 			{
-// 				global->env[i] = ft_strdup(global->env[i + 1]);
-// 				i++;
-// 			}
-// 			free(global->env[i]);
-// 			global->env[i] = NULL;
-// 		}
-// 		i++;
-// 	}
-// 	ft_lst_clear3(&global->head_env, free);
-// 	ft_init_list_env(&global->head_env, global);
-// 	return (0);
-// }

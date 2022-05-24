@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 10:28:01 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 15:13:44 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/24 16:53:56 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	*new_string(char *str, char c)
 void	delete_quotes(t_cmd *cmd)
 {
 	int	i;
+	char *tmp;
 
 	i = 0;
 	while (cmd->val[i])
@@ -71,16 +72,18 @@ void	delete_quotes(t_cmd *cmd)
 		{
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
-			cmd->val[i] = ft_strtrim(cmd->val[i], "\'");
-			cmd->val[i] = new_string(cmd->val[i], '\'');
+			tmp = ft_strtrim(cmd->val[i], "\'");
+			free(cmd->val[i]);
+			cmd->val[i] = new_string(tmp, '\'');
 		}
 		else if (start_with_dobles(cmd) || start_with_dollar(cmd))
 		{
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
-			cmd->val[i] = ft_strtrim(cmd->val[i], "\"");
+			tmp = ft_strtrim(cmd->val[i], "\"");
 			check_if_expand(cmd, i);
-			cmd->val[i] = new_string(cmd->val[i], '\"');
+			free(cmd->val[i]);
+			cmd->val[i] = new_string(tmp, '\"');
 		}
 		i++;
 	}

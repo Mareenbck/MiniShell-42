@@ -29,7 +29,7 @@ void	ft_init_env(t_global *global, char **envp)
 		i++;
 	}
 	global->env[i] = NULL;
-	ft_init_sorted_env(global);
+	// ft_init_sorted_env(global);
 }
 
 void	ft_init_sorted_env(t_global *global)
@@ -45,7 +45,7 @@ void	ft_init_sorted_env(t_global *global)
 	i = 0;
 	while (global->env[i])
 	{
-		global->sorted_env[i] = ft_strdup(global->env[i]);
+		global->sorted_env[i] = global->env[i];
 		i++;
 	}
 	global->sorted_env[i] = NULL;
@@ -68,7 +68,6 @@ void ft_print_env(t_env **head)
 	}
 }
 
-
 t_env *ft_init_var_env()
 {
 	t_env *new_var_env;
@@ -85,15 +84,15 @@ t_env *ft_init_var_env()
 	return (new_var_env);
 }
 
-t_env  *create_var_env(char *name, char *value, char *sign)
+t_env  *create_var_env(char *name, char *env)
 {
 	t_env *new_var_env;
 
 	new_var_env = ft_init_var_env();
 	new_var_env->declare = ft_strdup("declare -x");
 	new_var_env->var_name = name;
-	new_var_env->var_value = ft_strdup(value);
-	new_var_env->var_sign = sign;
+	new_var_env->var_value = check_value(env);
+	new_var_env->var_sign = init_sign(env);
 	new_var_env->next = NULL;
 	new_var_env->prev = NULL;
 	return (new_var_env);
@@ -118,7 +117,7 @@ char *edit_name(char *str, char c)
 	if (!res)
 		return (NULL);
 	res[i] = '\0';
-	while (i-- >= 0)
+	while (--i >= 0)
 		res[i] = str[i];
 	return (res);
 }
@@ -153,9 +152,9 @@ char *init_sign(char *name)
 void	ft_init_list_env(t_env **head_env, t_global *global)
 {
 	int	i;
-	char *value;
 	char *name;
-	char *sign;
+	// char *value;
+	// char *sign;
 	t_env *new_var_env;
 
 	// envp = ft_sort_tab(envp);
@@ -163,15 +162,15 @@ void	ft_init_list_env(t_env **head_env, t_global *global)
 	ft_init_sorted_env(global);
 	while (global->sorted_env[i])
 	{
-		value = check_value(global->sorted_env[i]);
-		sign = init_sign(global->sorted_env[i]);
+		// value = check_value(global->sorted_env[i]);
+		// sign = init_sign(global->sorted_env[i]);
 		if (!check_name(global->sorted_env[i]))
 			name = edit_name(global->sorted_env[i], '=');
-		new_var_env = create_var_env(name, value, sign);
-		free(value);
+		new_var_env = create_var_env(name, global->sorted_env[i]);
 		ft_lstaddback3(head_env, new_var_env);
 		i++;
 	}
 	ft_lstaddback3(head_env, ft_init_var_env());
+	free(global->sorted_env);
 	// ft_print_env(head_env);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	**ft_free_tab(char **tab)
+char	**ft_free_tab(char **tab)
 {
 	int	i;
 
@@ -168,7 +168,9 @@ void ft_lst_delone2(t_cmd *cmd, void (*del)(void *))
 		return;
 	if (cmd)
 	{
+		// free(cmd->val);
 		free(cmd->expand);
+		free(cmd->path);
 		(*del)(cmd);
 	}
 }
@@ -183,7 +185,7 @@ void ft_lst_delone3(t_env *env, void (*del)(void *))
 		free(env->var_name);
 		free(env->var_value);
 		free(env->var_sign);
-		(*del)(env);
+		free(env);
 	}
 }
 
@@ -205,14 +207,13 @@ void ft_lst_clear(t_token **head, void (*del)(void *))
 void ft_lst_clear2(t_cmd **head, void (*del)(void *))
 {
 	t_cmd *tmp;
-	int i = 0;
 
 	if (!del || !head)
 		return ;
 	while (*head)
 	{
 		tmp = (*head)->next;
-		free((*head)->val[i++]);
+		ft_free_tab((*head)->val);
 		ft_lst_delone2(*head, del);
 		(*head) = tmp;
 	}

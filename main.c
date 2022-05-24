@@ -23,13 +23,19 @@ void	ft_init_minishell(t_global *global, char **envp)
 	ft_init_env(global, envp);
 	ft_init_list_env(&global->head_env, global);
 }
+
 void	ft_free_list(t_global *global)
 {
-	ft_lst_clear(&global->head, free);
-	ft_lst_clear2(&global->headcmd, free);
-	ft_lst_clear3(&global->head_env, free);
-	// ft_free_tab(global->sorted_env);
+	if (&global->head_env != NULL)
+		ft_lst_clear3(&global->head_env, free);
+	if (&global->head != NULL)
+		ft_lst_clear(&global->head, free);
+	if (&global->headcmd != NULL)
+		ft_lst_clear2(&global->headcmd, free);
+	// free(global->sorted_env);
+	// free(global->env);
 	ft_free_tab(global->env);
+	// ft_free_tab(global->sorted_env);
 }
 
 int init_token_cmd_list(char *line, t_global *global)
@@ -59,6 +65,7 @@ int	main(int ac, char **av, char **envp)
 	t_global	global;
 	(void)ac;
 	(void)av;
+
 	g_exit_status = 0;
 	ft_init_minishell(&global, envp);
 	while (!global.exit)
