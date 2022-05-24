@@ -88,16 +88,15 @@ static char	**ft_split_words(char const *s, char c, char **split)
 char	**ft_split(char const *s, char c)
 {
 	int		words;
-	char	**result;
 	char	**split;
 
 	words = count_words(s, c);
-	result = (char **)malloc(sizeof(char *) * (words + 1));
-	if (!result)
-		return (ft_free(result));
-	split = ft_split_words(s, c, result);
+	split = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!split)
 		return (ft_free(split));
-	result[words] = NULL;
-	return (result);
+	split = ft_split_words(s, c, split);
+	if (!split)
+		return (ft_free(split));
+	split[words] = NULL;
+	return (split);
 }

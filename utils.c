@@ -170,6 +170,7 @@ void ft_lst_delone2(t_cmd *cmd, void (*del)(void *))
 	{
 		// free(cmd->val);
 		free(cmd->expand);
+		free(cmd->path);
 		(*del)(cmd);
 	}
 }

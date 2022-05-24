@@ -19,6 +19,7 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 		ft_error("No such file or directory", NOTFOUND);
 	ft_strcpy(cmd->val[0], env->var_value);
 	cmd->path = find_binary(split_path, env->var_value);
+	// ft_free_tab(split_path);
 }
 
 void	ft_expand_args(t_global *global, char *cmd)
@@ -42,7 +43,6 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	cmd->path = find_binary(split_path, cmd->val[i]);
 	if (!cmd->path && cmd->expand[i])
 	{
-		// ft_free_tab(split_path);
 		ft_expand_echo(cmd, global, cmd->val[0]);
 		return ;
 	}
@@ -58,6 +58,8 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	if (execve(cmd->path, cmd->val, global->env) == -1)
 	{
 		// ft_free_tab(cmd_args);
+
+		// ft_free_tab(split_path);
 		ft_error("", CANTEXEC);
 		ft_free_list(global);
 	}

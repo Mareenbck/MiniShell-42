@@ -35,12 +35,12 @@ void	ft_change_env(char *name, char *value, t_global *global)
 
 	i = 0;
 	env = global->env;
+	tmp = ft_strjoin(name, "=");
 	while(env[i])
 	{
-		if (!ft_strncmp(env[i], name, ft_strlen(name) +1))
+		if (!ft_strncmp(env[i], tmp, ft_strlen(tmp)))
 		{
 			free(env[i]);
-			tmp = ft_strjoin(name, "=");
 			env[i] = ft_strjoin(tmp, value);
 			break ;
 		}
@@ -60,7 +60,7 @@ void	ft_concat_env(char *name, char *value, t_global *global)
 	{
 		if (!ft_strncmp(env[i], name, ft_strlen(name)))
 		{
-			tmp = ft_strdup(env[i]);
+			tmp = env[i];
 			free(env[i]);
 			env[i] = ft_strjoin(tmp, value);
 			break ;

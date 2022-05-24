@@ -37,15 +37,16 @@ char	**ft_split_envp(t_env **head_env, char *str)
 		split_path = ft_split(env->var_value, ':');
 		if (!split_path)
 		{
-			// ft_free_tab(split_path);
-			ft_error("Error\n",ALLOCATION_FAIL);
+			ft_free_tab(split_path);
+			ft_error("Error\n", ALLOCATION_FAIL);
+			return (NULL);
 		}
 		return (split_path);
 	}
 	return (NULL);
 }
 
-char *find_binary(char **split_path, char *av)
+char *find_binary(char **split_path, char *cmd)
 {
 	int		i;
 	char	*join_path;
@@ -55,9 +56,11 @@ char *find_binary(char **split_path, char *av)
 	while (split_path[i])
 	{
 		tmp = ft_strjoin(split_path[i], "/");
-		join_path = ft_strjoin(tmp, av);
+		join_path = ft_strjoin(tmp, cmd);
 		if (access(join_path, F_OK) == 0)
 			return (join_path);
+		else
+			free(join_path);
 		i++;
 	}
 	return (NULL);

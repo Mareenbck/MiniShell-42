@@ -35,7 +35,7 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 		env->var_value = ft_strdup(path);
 		free(path);
 		//printf("VAR NAME : %s, VALUE : %s\n", env->var_name, env->var_value);
-		ft_change_env(env->var_name, env->var_value, global);
+		ft_change_env(ft_strdup("OLDPWD"), env->var_value, global);
 	//	printf("%s\n", env->var_value);
 	}
 	if (cmd->val[1] == NULL || !ft_strncmp(cmd->val[1], "~", 2) || !ft_strncmp(cmd->val[1], "/", 1))
@@ -59,7 +59,7 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 		env->var_value = ft_strdup(path);
 		free(path);
 		// env->var_value = ft_strdup(getcwd(NULL, 0));
-		ft_change_env(env->var_name, env->var_value, global);
+		ft_change_env(ft_strdup("PWD"), env->var_value, global);
 	}
 	ft_init_list_env(&global->head_env, global);
 	return (0);

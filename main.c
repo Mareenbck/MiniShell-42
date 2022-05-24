@@ -26,7 +26,8 @@ void	ft_init_minishell(t_global *global, char **envp)
 
 void	ft_free_list(t_global *global)
 {
-	ft_lst_clear3(&global->head_env, free);
+	if (&global->head_env != NULL)
+		ft_lst_clear3(&global->head_env, free);
 	if (&global->head != NULL)
 		ft_lst_clear(&global->head, free);
 	if (&global->headcmd != NULL)
