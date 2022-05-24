@@ -99,7 +99,7 @@ int	ft_export(t_cmd *cmd, t_global *global)
 	// VERSION ANTERIEUR VERIFICATION DU TOKEN SI WORD
 	while (cmd->val[i] != NULL)
 	{
-		value = check_value(cmd->val[i]);
+		// value = check_value(cmd->val[i]);
 		if (!check_name(cmd->val[i]))
 		{
 			sign = init_sign(cmd->val[i]);
@@ -111,7 +111,9 @@ int	ft_export(t_cmd *cmd, t_global *global)
 			{
 				if (sign[0] == '+')
 				{
+					value = check_value(cmd->val[i]);
 					env->var_value = ft_strjoin(env->var_value, value);
+					free(value);
 					ft_change_env(name, env->var_value, global);
 				}
 				else
@@ -132,7 +134,6 @@ int	ft_export(t_cmd *cmd, t_global *global)
 		}
 		i++;;
 		free(sign);
-		free(value);
 	}
 	// ft_print_env(head_env);
 	return (0);

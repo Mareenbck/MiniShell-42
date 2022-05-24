@@ -36,16 +36,13 @@ char *check_value(char *token)
 
 	value = ft_strchr(token, '=');
 	if (!value)
-	{
-		free(value);
-		value = ft_strdup("\0");
-	}
+		return(ft_strdup(""));
 	else
 		value = ft_strtrim(value, "=");
-	// else if (value[0] == '\"')
-	// 	value = ft_strtrim(value, "\"");
-	// else if (value[0] == '\'')
-	// 	value = ft_strtrim(value, "\'");
+	if (value[0] == '\"')
+		value = ft_strtrim(value, "\"");
+	else if (value[0] == '\'')
+		value = ft_strtrim(value, "\'");
 	return (value);
 }
 

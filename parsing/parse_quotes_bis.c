@@ -74,7 +74,6 @@ void	delete_quotes(t_cmd *cmd)
 				cmd->val[i] = ft_strdup("");
 			tmp = ft_strtrim(cmd->val[i], "\'");
 			free(cmd->val[i]);
-			// check_if_expand_s(cmd, i);
 			cmd->val[i] = new_string(tmp, '\'');
 		}
 		else if (start_with_dobles(cmd) || start_with_dollar(cmd))

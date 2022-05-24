@@ -109,6 +109,3 @@ int is_empty_string(char *str)
 	else
 		return (0);
 }
-
-
-//VERIFIER QUE CA NAFFICHE PLUS RIEN QUAND IL Y A SYNTAX ERROR VOIR SI CEST ECHO OU PARSING
