@@ -48,13 +48,19 @@ void	ft_expand_cmd_first(t_global *global)
 	t_env *env;
 	int i;
 	int j;
-
+//SI CMD->VAL QUE 0 , PAR DARG APRES/ALORS ON SPLIT ET ON COLLE TOUT POUR VERIFIER SI CMD APPLIQUABLE OU PAS
+//SINON ON FAIT EXPAND DANS FT_EXE
 	cmd = global->headcmd;
 	while (cmd->next)
 	{
 		if (!ft_strchr(cmd->val[0], '$'))
 			break ;
-		split = ft_split_many(cmd->val[0], "$\"");
+		if (!cmd->val[1])
+		{
+			split = ft_split_many(cmd->val[0], "$\"");
+		}
+		else
+			break ;
 		if (!split[1])
 		{
 			ft_free_tab(split);

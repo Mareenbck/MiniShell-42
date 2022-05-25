@@ -17,12 +17,16 @@ int check_name(char *token)
 	int i;
 
 	i = 0;
+	// printf("token : %s\n", token);
 	if (ft_isdigit(token[i]))
-		return (ft_wrong("Wrong args"));
+		return (ft_wrong("Wrong args2"));
 	while (token[i] != '=' && token[i] != '\0')
 	{
 		if (!ft_isalnum(token[i]) && !ft_strchr("_+=", token[i]))
+		{
+			printf("token[i] : %c\n", token[i]);
 			return (ft_wrong("Wrong args"));
+		}
 		i++;
 	}
 	return (0);

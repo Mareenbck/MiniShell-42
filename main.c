@@ -26,12 +26,10 @@ void	ft_init_minishell(t_global *global, char **envp)
 
 void	ft_free_list(t_global *global)
 {
-	// if (&global->head_env != NULL)
 	ft_lst_clear3(&global->head_env, free);
-	if (&global->head != NULL)
-		ft_lst_clear(&global->head, free);
-	if (&global->headcmd != NULL)
-		ft_lst_clear2(&global->headcmd, free);
+	// if (&global->head != NULL)
+	ft_lst_clear(&global->head, free);
+	ft_lst_clear2(&global->headcmd, free);
 	// free(global->sorted_env);
 	// free(global->env);
 	ft_free_tab(global->env);
@@ -81,7 +79,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
-				//ft_print_cmd(&global.headcmd);
+				ft_print_cmd(&global.headcmd);
 				ft_expand_cmd_first(&global);
 				parse_execution(&global);
 			}

@@ -120,46 +120,50 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 				return (1);
 			}
 		}
-		else if (token->token == REDIR_OUT)
-		{
-			if (!check_redir_o_position(token, cmd))
-				redir_out(cmd, token->next->val);
-			else
-			{
-				ft_error("Syntax Error", 2);
-				return (1);
-			}
-		}
-		else if (token->token == REDIR_IN)
-		{
-			if (!check_redir_i_position(token, cmd))
-				redir_in(cmd, token->prev->val);
-			else
-			{
-				ft_error("Syntax Error", 2);
-				return (1);
-			}
-		}
-		else if (token->token == APPEND_OUT)
-		{
-			if (!check_append_o(token, cmd))
-				append_out(cmd, token->next->val);
-			else
-			{
-				ft_error("Syntax error", 2);
-				return (1);
-			}
-		}
-		else if (token->token == APPEND_IN)
-		{
-			if (!check_heredoc(token, cmd))
-				ft_heredoc(token->next->val);
-			else
-			{
-				ft_error("Syntax error", 2);
-				return (1);
-			}
-		}
+		// else if (token->token == REDIR_OUT)
+		// {
+		// 	if (!check_redir_o_position(token, cmd))
+		// 		redir_out(cmd, token->next->val);
+		// 	else
+		// 	{
+		// 		ft_error("Syntax Error", 2);
+		// 		return (1);
+		// 	}
+		// }
+		// else if (token->token == REDIR_IN)
+		// {
+		// 	if (!check_redir_i_position(token, cmd))
+		// 		redir_in(cmd, token->prev->val);
+		// 	else
+		// 	{
+		// 		ft_error("Syntax Error", 2);
+		// 		return (1);
+		// 	}
+		// }
+		// else if (token->token == APPEND_OUT)
+		// {
+		// 	if (!check_append_o(token, cmd))
+		// 		append_out(cmd, token->next->val);
+		// 	else
+		// 	{
+		// 		ft_error("Syntax error", 2);
+		// 		return (1);
+		// 	}
+		// }
+		// else if (token->token == APPEND_IN)
+		// {
+		// 	if (!check_heredoc(token, cmd))
+		// 		ft_heredoc(token->next->val);
+		// 	else
+		// 	{
+		// 		ft_error("Syntax error", 2);
+		// 		return (1);
+		// 	}
+		// }
+		// else if (token->token == REDIR_OUT || token->token == REDIR_IN)
+		// 	analize_redir(token, cmd);
+		// else if (token->token == APPEND_OUT || token->token == APPEND_IN)
+		// 	analize_append(token, cmd);
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}
