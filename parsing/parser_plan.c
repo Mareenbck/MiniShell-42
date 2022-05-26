@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 13:56:54 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 14:31:51 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			}
 			if (check_ambiguious_args(token->next->val, cmd))
 			{
-				ft_error("ambiguous args", 2);
+				ft_error("ambiguous redirect", 2);
 				return (1);
 			}
 			else
@@ -168,6 +168,6 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd(len));
-	// ft_print_cmd(comd);
+	ft_print_cmd(comd);
 	return (0);
 }
