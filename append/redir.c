@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:28:11 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 10:38:55 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 10:53:36 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	redir_in(t_cmd *cmd, char *file_name)
 		dup2(cmd->input, fd);
 		close(cmd->input);
 	}
-	printf("hello\n");
 	cmd->input = fd;
 	return (EXIT_SUCCESS);
 }
