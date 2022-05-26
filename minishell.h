@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 15:38:09 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 09:32:17 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ int			check_heredoc(t_token *token, t_cmd *cmd);
 int			redir_out(t_cmd *cmd, char *file_name);
 int			redir_in(t_cmd *cmd, char *file_name);
 int			append_out(t_cmd *cmd, char *file_name);
-//int			append_in(t_cmd *cmd, char *file_name);
-int	ft_heredoc(char *lim);
+int			ft_heredoc(char *lim);
+int			check_access(t_cmd *cmd, char *file_name);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
@@ -151,8 +151,8 @@ int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
 int			error_quotes(t_token *token);
-int start_with_dollar(t_cmd *cmd);
-int last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
+int			start_with_dollar(t_cmd *cmd);
+int			last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
 
 /* UTILS */
 char		**ft_free_tab(char **tab);
