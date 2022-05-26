@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 10:28:01 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 16:53:56 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 15:03:33 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	delete_quotes(t_cmd *cmd)
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			tmp = ft_strtrim(cmd->val[i], "\"");
+			printf("tmp = %s\n", tmp);
 			check_if_expand(cmd, i);
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\"');
