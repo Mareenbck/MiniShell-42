@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 10:44:56 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 13:56:54 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,17 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 		}
 		else if (token->token == REDIR_OUT)
 		{
-			if (!check_redir_o_position(token, cmd))
-				redir_out(cmd, token->next->val);
-			else
+			if (check_redir_o_position(token, cmd) == 1)
 			{
-				ft_error("Syntax Error", 2);
 				return (1);
 			}
+			if (check_ambiguious_args(token->next->val, cmd))
+			{
+				ft_error("ambiguous args", 2);
+				return (1);
+			}
+			else
+				redir_out(cmd, token->next->val);
 		}
 		else if (token->token == REDIR_IN)
 		{

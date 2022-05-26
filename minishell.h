@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 10:44:16 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 13:48:53 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,17 @@ t_cmd		*ft_init_cmd();
 int			check_pipe_position(t_token *token, t_cmd *cmd);
 
 //REDIR - PARSE & EXPAND
-int			check_redir_o_position(t_token *token, t_cmd *cmd);
+int		check_redir_o_position(t_token *token, t_cmd *cmd);
 int		check_redir_i_position(t_token *token, t_cmd *cmd);
-int			check_append_o(t_token *token, t_cmd *cmd);
-int			check_heredoc(t_token *token, t_cmd *cmd);
-int			redir_out(t_cmd *cmd, char *file_name);
-int			redir_in(t_cmd *cmd, char *file_name);
-int			append_out(t_cmd *cmd, char *file_name);
-int			ft_heredoc(char *lim);
+int		check_append_o(t_token *token, t_cmd *cmd);
+int		check_heredoc(t_token *token, t_cmd *cmd);
+int		redir_out(t_cmd *cmd, char *file_name);
+int		redir_in(t_cmd *cmd, char *file_name);
+int		append_out(t_cmd *cmd, char *file_name);
+int		ft_heredoc(char *lim);
 int		check_access(t_cmd *cmd, char *file_name);
+int		check_ambiguious_args(char *file_name, t_cmd *cmd);
+int		last_check_redir_o(char *file_name, t_cmd *cmd);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
