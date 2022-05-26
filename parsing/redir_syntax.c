@@ -6,28 +6,17 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 10:55:28 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 16:41:27 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 14:32:14 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_redir_o_position(t_token *token, t_cmd *cmd)
-{
-	(void)cmd;
-	if (token->next->token != WORD && token->next != NULL)
-		return (1);
-	if (token->prev == NULL)
-		return (1);
-	return (0);
-}
 
 int check_append_o(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
-		return (1);
-	if (token->prev == NULL)
 		return (1);
 	return (0);
 }
@@ -40,12 +29,43 @@ int check_heredoc(t_token *token, t_cmd *cmd)
 	return (0);
 }
 
+
 int	check_redir_i_position(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
+	{
+		ft_error("Error syntax", 2);
 		return (1);
+	}
 	if (token->prev == NULL)
+	{
+		ft_error("Error syntax", 2);
+		return (1);
+	}
+	return (0);
+}
+
+int	check_redir_o_position(t_token *token, t_cmd *cmd)
+{
+	(void)cmd;
+	if (token->next->token != WORD && token->next != NULL)
+	{
+		ft_error("Error Syntax", 2);
+		return (1);
+	}
+	return (0);
+}
+
+int	check_ambiguious_args(char *file_name, t_cmd *cmd)
+{
+	(void)cmd;
+
+	if (file_name[0] == '$')
 		return (1);
 	return (0);
 }
+
+
+// export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8 ;
+// echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H”
