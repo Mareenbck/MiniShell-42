@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 15:05:49 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 15:34:32 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ void	delete_quotes(t_cmd *cmd)
 	{
 		if (start_with_simple(cmd))
 		{
+			printf("cmd->val[%d] = %s\n", i, cmd->val[i]);
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			tmp = ft_strtrim(cmd->val[i], "\'");
+			printf("tmp = %s\n", tmp);
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\'');
 		}
@@ -82,7 +84,6 @@ void	delete_quotes(t_cmd *cmd)
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			tmp = ft_strtrim(cmd->val[i], "\"");
-			printf("tmp = %s\n", tmp);
 			check_if_expand(cmd, i);
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\"');
