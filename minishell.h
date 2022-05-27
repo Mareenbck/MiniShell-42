@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 13:48:53 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 10:53:52 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,8 @@ int			count_d_quotes(t_token *token);
 int			count_s_quotes(t_token *token);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
-int			start_with_simple(t_cmd *cmd);
-int			start_with_dobles(t_cmd *cmd);
+int			start_with_simple(t_cmd *cmd, int i);
+int			start_with_dobles(t_cmd *cmd, int i);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
 int			error_quotes(t_token *token);

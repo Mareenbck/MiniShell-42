@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 10:55:28 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 14:32:14 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 10:50:49 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,3 @@ int	check_ambiguious_args(char *file_name, t_cmd *cmd)
 		return (1);
 	return (0);
 }
-
-
-// export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8 ;
-// echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H”

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 15:34:32 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 11:57:19 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,34 @@ int	error_quotes(t_token *token)
 
 	countd = count_d_quotes(token);
 	counts = count_s_quotes(token);
+	if (counts % 2 != 0 && countd % 2 == 0 && countd > 2)
+		return (0);
+	if (countd % 2 != 0 && counts % 2 == 0 && counts > 2)
+		return (0);
 	if (countd % 2 != 0)
 		return (1);
 	else if (counts % 2 != 0)
 		return (1);
 	return (0);
 }
+
+// void	state_of_quotes(t_cmd *cmd)
+// {
+// 	int	i;
+// 	int	j;
+// 	int d_quotes;
+
+// 	i = 0;
+// 	d_quotes = 0;
+// 	while (cmd->val[i])
+// 	{
+// 		j = 0;
+// 		while (cmd->val[i][j])
+// 		{
+// 			if (is_simple_quotes(cmd->val[i][j]))
+// 		}
+// 	}
+// }
 
 char	*new_string(char *str, char c)
 {
@@ -69,7 +91,7 @@ void	delete_quotes(t_cmd *cmd)
 	i = 0;
 	while (cmd->val[i])
 	{
-		if (start_with_simple(cmd))
+		if (start_with_simple(cmd, i))
 		{
 			printf("cmd->val[%d] = %s\n", i, cmd->val[i]);
 			if (is_empty_string(cmd->val[i]))
@@ -79,7 +101,7 @@ void	delete_quotes(t_cmd *cmd)
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\'');
 		}
-		else if (start_with_dobles(cmd) || start_with_dollar(cmd))
+		else if (start_with_dobles(cmd, i) || start_with_dollar(cmd))
 		{
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
@@ -111,3 +133,6 @@ int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 	}
 	return (0);
 }
+
+// export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8 ;
+// echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H”

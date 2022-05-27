@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:41:37 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/26 15:37:57 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 11:25:31 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,8 @@ int	count_s_quotes(t_token *token)
 	return (count);
 }
 
-int	start_with_simple(t_cmd *cmd) // mettre i en param BITCHHHHH
+int	start_with_simple(t_cmd *cmd, int i) // mettre i en param BITCHHHHH
 {
-	int	i;
-
-	i = 0;
 	while (cmd->val[i])
 	{
 		if (cmd->val[i][0] == '\'')
@@ -66,16 +63,13 @@ int	start_with_simple(t_cmd *cmd) // mettre i en param BITCHHHHH
 	return (0);
 }
 
-int	start_with_dobles(t_cmd *cmd)
+int	start_with_dobles(t_cmd *cmd, int i)
 {
-	int	i;
-
-	i = 0;
 	while (cmd->val[i])
 	{
 		if (cmd->val[i][0] == '\"')
 		{
-			printf("cmd->val[%d][0] = %c\n", i, cmd->val[i][0]);
+			//printf("cmd->val[%d][0] = %c\n", i, cmd->val[i][0]);
 			return (1);
 		}
 		i++;
