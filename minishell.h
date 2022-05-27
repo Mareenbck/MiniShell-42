@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/27 14:22:23 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:04:57 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,20 +139,20 @@ int		last_check_redir_o(char *file_name, t_cmd *cmd);
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
 int			is_simple_quotes(char c);
-void		trim_doble_quotes(t_token *token);
-void		trim_simple_quotes(t_token *token);
+void		trim_doble_quotes(t_cmd *cmd);
+void		trim_simple_quotes(t_cmd *cmd);
 void		trim_global_quotes(t_token *token);
 
 //QUOTE - PARSE
-int			count_d_quotes(t_token *token);
-int			count_s_quotes(t_token *token);
+int			count_d_quotes(t_cmd *cmd);
+int			count_s_quotes(t_cmd *cmd);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
 int			start_with_simple(t_cmd *cmd);
 int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
-int			error_quotes(t_token *token);
+int			error_quotes(t_cmd *cmd);
 int			start_with_dollar(t_cmd *cmd);
 int			last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
 

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/27 14:28:25 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:05:49 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,18 @@
 void	check_if_expand(t_cmd *cmd, int i)
 {
 	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0')
-	{
 		cmd->expand[i] = 1;
-		// ft_strcpy(cmd->val[i], &cmd->val[i][1]);
-	}
 	else
 		cmd->expand[i] = 0;
 }
 
-int	error_quotes(t_token *token)
+int	error_quotes(t_cmd *cmd)
 {
 	int	countd;
 	int	counts;
 
-	countd = count_d_quotes(token);
-	counts = count_s_quotes(token);
+	countd = count_d_quotes(cmd);
+	counts = count_s_quotes(cmd);
 	if (counts % 2 != 0 && countd % 2 == 0 && countd >= 2)
 		return (0);
 	if (countd % 2 != 0 && counts % 2 == 0 && counts >= 2)
@@ -91,15 +88,17 @@ void	delete_quotes(t_cmd *cmd)
 			check_if_expand(cmd, i);
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\"');
-		}
+
+		trim_doble_quotes(cmd);
+		trim_simple_quotes(cmd);
 		i++;
 	}
 }
 
 int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 {
-	// (void)global;
-	if (error_quotes(token) == 1)
+	// (void)token;
+	if (error_quotes(cmd) == 1)
 	{
 		ft_error("Syntax error", 2);
 		ft_lst_clear(&global->head, free);
@@ -108,13 +107,7 @@ int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 	}
 	else
 	{
-		// printf("coucou\n");
-		// trim_simple_quotes(token);
-		// trim_doble_quotes(token);
 		delete_quotes(cmd);
 	}
 	return (0);
 }
-
-// export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8 ;
-// echo "$A'$B"'$C"$D'$E'"$F"'"'$G'$H”
