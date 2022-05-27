@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/27 11:57:19 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 14:28:25 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	error_quotes(t_token *token)
 
 	countd = count_d_quotes(token);
 	counts = count_s_quotes(token);
-	if (counts % 2 != 0 && countd % 2 == 0 && countd > 2)
+	if (counts % 2 != 0 && countd % 2 == 0 && countd >= 2)
 		return (0);
-	if (countd % 2 != 0 && counts % 2 == 0 && counts > 2)
+	if (countd % 2 != 0 && counts % 2 == 0 && counts >= 2)
 		return (0);
 	if (countd % 2 != 0)
 		return (1);
@@ -41,24 +41,6 @@ int	error_quotes(t_token *token)
 		return (1);
 	return (0);
 }
-
-// void	state_of_quotes(t_cmd *cmd)
-// {
-// 	int	i;
-// 	int	j;
-// 	int d_quotes;
-
-// 	i = 0;
-// 	d_quotes = 0;
-// 	while (cmd->val[i])
-// 	{
-// 		j = 0;
-// 		while (cmd->val[i][j])
-// 		{
-// 			if (is_simple_quotes(cmd->val[i][j]))
-// 		}
-// 	}
-// }
 
 char	*new_string(char *str, char c)
 {
@@ -91,21 +73,21 @@ void	delete_quotes(t_cmd *cmd)
 	i = 0;
 	while (cmd->val[i])
 	{
-		if (start_with_simple(cmd, i))
+		if (start_with_simple(cmd))
 		{
-			printf("cmd->val[%d] = %s\n", i, cmd->val[i]);
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			tmp = ft_strtrim(cmd->val[i], "\'");
-			printf("tmp = %s\n", tmp);
+			tmp = ft_strtrim(cmd->val[i], "\"");
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\'');
 		}
-		else if (start_with_dobles(cmd, i) || start_with_dollar(cmd))
+		else if (start_with_dobles(cmd) || start_with_dollar(cmd))
 		{
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
 			tmp = ft_strtrim(cmd->val[i], "\"");
+			tmp = ft_strtrim(cmd->val[i], "\'");
 			check_if_expand(cmd, i);
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\"');
@@ -127,8 +109,8 @@ int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 	else
 	{
 		// printf("coucou\n");
-		//trim_simple_quotes(token);
-		//trim_doble_quotes(token);
+		// trim_simple_quotes(token);
+		// trim_doble_quotes(token);
 		delete_quotes(cmd);
 	}
 	return (0);
