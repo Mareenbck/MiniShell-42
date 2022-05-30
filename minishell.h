@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 15:38:09 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:04:57 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,35 +124,37 @@ t_cmd		*ft_init_cmd();
 int			check_pipe_position(t_token *token, t_cmd *cmd);
 
 //REDIR - PARSE & EXPAND
-int			check_redir_o_position(t_token *token, t_cmd *cmd);
-int			check_redir_i_position(t_token *token, t_cmd *cmd);
-int			check_append_o(t_token *token, t_cmd *cmd);
-int			check_heredoc(t_token *token, t_cmd *cmd);
-int			redir_out(t_cmd *cmd, char *file_name);
-int			redir_in(t_cmd *cmd, char *file_name);
-int			append_out(t_cmd *cmd, char *file_name);
-//int			append_in(t_cmd *cmd, char *file_name);
-int	ft_heredoc(char *lim);
+int		check_redir_o_position(t_token *token, t_cmd *cmd);
+int		check_redir_i_position(t_token *token, t_cmd *cmd);
+int		check_append_o(t_token *token, t_cmd *cmd);
+int		check_heredoc(t_token *token, t_cmd *cmd);
+int		redir_out(t_cmd *cmd, char *file_name);
+int		redir_in(t_cmd *cmd, char *file_name);
+int		append_out(t_cmd *cmd, char *file_name);
+int		ft_heredoc(char *lim);
+int		check_access(t_cmd *cmd, char *file_name);
+int		check_ambiguious_args(char *file_name, t_cmd *cmd);
+int		last_check_redir_o(char *file_name, t_cmd *cmd);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
 int			is_simple_quotes(char c);
-void		trim_doble_quotes(t_token *token);
-void		trim_simple_quotes(t_token *token);
+void		trim_doble_quotes(t_cmd *cmd);
+void		trim_simple_quotes(t_cmd *cmd);
 void		trim_global_quotes(t_token *token);
 
 //QUOTE - PARSE
-int			count_d_quotes(t_token *token);
-int			count_s_quotes(t_token *token);
+int			count_d_quotes(t_cmd *cmd);
+int			count_s_quotes(t_cmd *cmd);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
 int			start_with_simple(t_cmd *cmd);
 int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
-int			error_quotes(t_token *token);
-int start_with_dollar(t_cmd *cmd);
-int last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
+int			error_quotes(t_cmd *cmd);
+int			start_with_dollar(t_cmd *cmd);
+int			last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
 
 /* UTILS */
 char		**ft_free_tab(char **tab);

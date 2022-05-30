@@ -26,39 +26,47 @@ int		is_simple_quotes(char c)
 	return (0);
 }
 
-void		trim_doble_quotes(t_token *token)
+void		trim_doble_quotes(t_cmd *cmd)
 {
 	int	i;
+	int	j;
 
-	while (token->token == WORD)
+	i = 0;
+	while (cmd->val[i])
 	{
-		i = 0;
-		while (token->val[i])
+		j = 0;
+		while (cmd->val[i][j])
 		{
-			if (is_doble_quotes(token->val[i]))
-				token->val = ft_strtrim(token->val, "\"");
-			i++;
+			if (is_doble_quotes(cmd->val[i][j]))
+			{
+				cmd->val[i] = ft_strtrim(cmd->val[i], "\'");
+			}
+			j++;
 		}
-		token = token->next;
+		i++;
 	}
 }
 
-void		trim_simple_quotes(t_token *token)
+
+
+void		trim_simple_quotes(t_cmd *cmd)
 {
 	int	i;
+	int	j;
 
-	while (token->token == WORD)
+	i = 0;
+	while (cmd->val[i])
 	{
-		i = 0;
-		while (token->val[i])
+		j = 0;
+		while (cmd->val[i][j])
 		{
-			if (is_simple_quotes(token->val[i]))
+			if (is_simple_quotes(cmd->val[i][j]))
 			{
-				token->val = ft_strtrim(token->val, "\'");
+				cmd->val[i] = ft_strtrim(cmd->val[i], "\'");
 			}
-			i++;
+			j++;
 		}
-		token = token->next;
+		i++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 16:03:43 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 14:31:51 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,54 +120,54 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 				return (1);
 			}
 		}
-		// else if (token->token == REDIR_OUT)
-		// {
-		// 	if (!check_redir_o_position(token, cmd))
-		// 		redir_out(cmd, token->next->val);
-		// 	else
-		// 	{
-		// 		ft_error("Syntax Error", 2);
-		// 		return (1);
-		// 	}
-		// }
-		// else if (token->token == REDIR_IN)
-		// {
-		// 	if (!check_redir_i_position(token, cmd))
-		// 		redir_in(cmd, token->prev->val);
-		// 	else
-		// 	{
-		// 		ft_error("Syntax Error", 2);
-		// 		return (1);
-		// 	}
-		// }
-		// else if (token->token == APPEND_OUT)
-		// {
-		// 	if (!check_append_o(token, cmd))
-		// 		append_out(cmd, token->next->val);
-		// 	else
-		// 	{
-		// 		ft_error("Syntax error", 2);
-		// 		return (1);
-		// 	}
-		// }
-		// else if (token->token == APPEND_IN)
-		// {
-		// 	if (!check_heredoc(token, cmd))
-		// 		ft_heredoc(token->next->val);
-		// 	else
-		// 	{
-		// 		ft_error("Syntax error", 2);
-		// 		return (1);
-		// 	}
-		// }
-		// else if (token->token == REDIR_OUT || token->token == REDIR_IN)
-		// 	analize_redir(token, cmd);
-		// else if (token->token == APPEND_OUT || token->token == APPEND_IN)
-		// 	analize_append(token, cmd);
+		else if (token->token == REDIR_OUT)
+		{
+			if (check_redir_o_position(token, cmd) == 1)
+			{
+				return (1);
+			}
+			if (check_ambiguious_args(token->next->val, cmd))
+			{
+				ft_error("ambiguous redirect", 2);
+				return (1);
+			}
+			else
+				redir_out(cmd, token->next->val);
+		}
+		else if (token->token == REDIR_IN)
+		{
+			if (check_redir_i_position(token, cmd) == 1)
+				return (1);
+			if (check_access(cmd, token->next->val))
+			{
+				perror(token->next->val);
+				return (1);
+			}
+		}
+		else if (token->token == APPEND_OUT)
+		{
+			if (!check_append_o(token, cmd))
+				append_out(cmd, token->next->val);
+			else
+			{
+				ft_error("Syntax error", 2);
+				return (1);
+			}
+		}
+		else if (token->token == APPEND_IN)
+		{
+			if (!check_heredoc(token, cmd))
+				ft_heredoc(token->next->val);
+			else
+			{
+				ft_error("Syntax error", 2);
+				return (1);
+			}
+		}
 		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd(len));
-	// ft_print_cmd(comd);
+	ft_print_cmd(comd);
 	return (0);
 }
