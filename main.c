@@ -64,8 +64,8 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 
-	g_exit_status = 0;
 	ft_init_minishell(&global, envp);
+	g_exit_status = 0;
 	while (!global.exit)
 	{
 		ft_signal(2);
@@ -79,7 +79,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
-				ft_print_cmd(&global.headcmd);
+				// ft_print_cmd(&global.headcmd);
 				ft_expand_cmd_first(&global);
 				parse_execution(&global);
 			}
