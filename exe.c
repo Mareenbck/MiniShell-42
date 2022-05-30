@@ -16,15 +16,15 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 	t_env *env;
 	env = find_name(&global->head_env, &cmd->val[0][1], ft_strlen(&cmd->val[0][1]));
 	if (!env)
-		ft_error("No such file or directory", NOTFOUND);
-	ft_strcpy(cmd->val[0], env->var_value);
+		ft_error("CMD NOT FOUND", NOTFOUND);
+	// printf("env : %s\n", env->var_name);
+	// ft_strcpy(cmd->val[0], env->var_value);
 	if (ft_search_builtin(cmd, global) == 1)
 	{
 		cmd->path = find_binary(split_path, env->var_value);
 		if (!cmd->path)
 			ft_expand_echo(cmd, global, cmd->val[0]);
 	}
-
 	// ft_free_tab(split_path);
 }
 
@@ -47,16 +47,22 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 		ft_lst_clear2(&global->headcmd, free);
 		ft_error("Command not found1", NOTFOUND);
 	}
-	cmd->path = find_binary(split_path, cmd->val[i]);
 	if (cmd->expand[i])
 	{
 		ft_expand_cmd(global, cmd, split_path);
-		// ft_free_tab(split_path);
+		// printf("YES2, path : %s cmv->val : %s\n", cmd->path, cmd->val[0]);
+
+		ft_free_tab(split_path);
 	}
+	else
+	{
+		cmd->path = find_binary(split_path, cmd->val[i]);
+	}
+
 	// else if (!cmd->path && cmd->expand[i])
 	// {
 	// 	ft_expand_echo(cmd, global, cmd->val[0]);
-	// 	// return ;
+	// 	return ;
 	// }
 	while (cmd->val[++i])
 		if (cmd->expand[i])
@@ -66,7 +72,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	{
 		ft_lst_clear(&global->head, free);
 		ft_lst_clear2(&global->headcmd, free);
-		ft_error("", CANTEXEC);
+		ft_error("Command Not Found", CANTEXEC);
 	}
 }
 

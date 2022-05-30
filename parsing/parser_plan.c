@@ -168,6 +168,6 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd(len));
-	ft_print_cmd(comd);
+	// ft_print_cmd(comd);
 	return (0);
 }

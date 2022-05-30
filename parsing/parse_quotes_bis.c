@@ -13,12 +13,14 @@
 
 #include "../minishell.h"
 
-void	check_if_expand(t_cmd *cmd, int i)
+void	check_if_expand(char *str, int i, t_cmd *cmd)
 {
-	if (cmd->val[i][0] == '$' && cmd->val[i][1] != '\0')
+
+	if (str[0] == '$' && str[1] != '\0')
 		cmd->expand[i] = 1;
 	else
 		cmd->expand[i] = 0;
+	// printf("cmd-val : %s expand : %d \n", cmd->val[i], cmd->expand[i]);
 }
 
 int	error_quotes(t_cmd *cmd)
@@ -79,25 +81,25 @@ void	delete_quotes(t_cmd *cmd)
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\'');
 		}
-		else if (start_with_dobles(cmd) || start_with_dollar(cmd))
+		else if (start_with_dobles(cmd))
 		{
 			if (is_empty_string(cmd->val[i]))
 				cmd->val[i] = ft_strdup("");
-			tmp = ft_strtrim(cmd->val[i], "\"");
-			tmp = ft_strtrim(cmd->val[i], "\'");
-			check_if_expand(cmd, i);
+			tmp = ft_strtrim(cmd->val[i], "\"\'");
+			// tmp = ft_strtrim(tmp, "\'");
+			check_if_expand(tmp, i, cmd);
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\"');
-
-		trim_doble_quotes(cmd);
-		trim_simple_quotes(cmd);
+		}
+		// trim_doble_quotes(cmd);
+		// trim_simple_quotes(cmd);
 		i++;
 	}
 }
 
 int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 {
-	// (void)token;
+	(void)token;
 	if (error_quotes(cmd) == 1)
 	{
 		ft_error("Syntax error", 2);

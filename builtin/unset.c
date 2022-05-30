@@ -34,7 +34,7 @@ int	ft_unset(t_cmd *cmd, t_global *global)
 			global->env[i] = NULL;
 		}
 	}
-	// ft_lst_clear3(&global->head_env, free);
+	ft_lst_clear3(&global->head_env, free);
 	// ft_free_tab(global->env);
 	// free(global->sorted_env);
 	// ft_free_tab(global->env);
