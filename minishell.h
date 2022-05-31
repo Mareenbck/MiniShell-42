@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 15:58:11 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/31 16:10:00 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,13 @@ typedef struct s_global
 	t_cmd   *headcmd;
 }	t_global;
 
+//LEXER
+t_token		*ft_init_token(void);
+t_token		*create_token(char *str);
+void		init_token_list(char *line, t_token **head);
+int			ft_find_operator(char c, char c1);
+int			ft_operator(char c);
+int			ft_lex(char *str, t_token *token);
 
 /* PARSING */
 int		count_option(char *line);
@@ -122,8 +129,7 @@ t_cmd	*ft_init_cmd();
 void	find_token(t_token *token, t_cmd *cmd);
 int		list_len(t_token **head);
 
-
-// PIPE
+//PIPE
 int			check_pipe_position(t_token *token, t_cmd *cmd);
 
 //REDIR - PARSE & EXPAND
@@ -200,13 +206,6 @@ t_env	*find_name(t_env **head_env, char *var, size_t len);
 // void signalslash();
 void	ft_signal(int i);
 void	handle_sigint(int sig);
-
-
-//LEXER
-void	ft_test_lex(char *line, t_global *global);
-void init_token_list(char *line, t_token **head);
-int ft_lex(char *str, t_token *token);
-
 
 // EXE
 void	ft_execution(t_global *global);

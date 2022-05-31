@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:14:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 15:33:36 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/31 16:26:57 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	find_token(t_token *token, t_cmd *cmd)
 	if (token->token == PIPE)
 		find_pipe(token, cmd);
 	if (token->token == REDIR_OUT || token->token == REDIR_IN)
+	{
+		printf("hello\n");
 		find_redir(token, cmd);
+	}
 	if (token->token == APPEND_OUT || token->token == APPEND_IN)
 		find_append(token, cmd);
 }
