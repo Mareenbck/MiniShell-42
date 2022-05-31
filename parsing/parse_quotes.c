@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:41:37 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/27 15:47:30 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:58:13 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	count_d_quotes(t_cmd *cmd)
 {
 	int	i;
 	int	j;
-	int count;
+	int	count;
 
 	count = 0;
 	i = 0;
@@ -39,7 +39,7 @@ int	count_s_quotes(t_cmd *cmd)
 {
 	int	i;
 	int	j;
-	int count;
+	int	count;
 
 	count = 0;
 	i = 0;
@@ -86,10 +86,10 @@ int	start_with_dobles(t_cmd *cmd)
 	return (0);
 }
 
-int start_with_dollar(t_cmd *cmd)
+int	start_with_dollar(t_cmd *cmd)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (cmd->val[i])
@@ -100,14 +100,4 @@ int start_with_dollar(t_cmd *cmd)
 		i++;
 	}
 	return (0);
-}
-
-int is_empty_string(char *str)
-{
-	if (is_doble_quotes(str[0]) && is_doble_quotes(str[1]) && ft_isspace(str[2]))
-		return (1);
-	else if (is_simple_quotes(str[0]) && is_simple_quotes(str[1]) && ft_isspace(str[2]))
-		return (1);
-	else
-		return (0);
 }

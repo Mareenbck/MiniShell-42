@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trim_quotes.c                                           :+:      :+:    :+:   */
+/*   trim_quotes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/06 08:34:27 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/06 13:19:31 by emcariot         ###   ########.fr       */
+/*   Created: 2022/05/31 15:02:21 by emcariot          #+#    #+#             */
+/*   Updated: 2022/05/31 15:02:24 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		is_doble_quotes(char c)
+int	is_doble_quotes(char c)
 {
 	if (c == 34)
 		return (1);
 	return (0);
 }
 
-int		is_simple_quotes(char c)
+int	is_simple_quotes(char c)
 {
 	if (c == 39)
 		return (1);
 	return (0);
 }
 
-void		trim_doble_quotes(t_cmd *cmd)
+void	trim_doble_quotes(t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -45,7 +45,7 @@ void		trim_doble_quotes(t_cmd *cmd)
 	}
 }
 
-void		trim_simple_quotes(t_cmd *cmd)
+void	trim_simple_quotes(t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -63,4 +63,3 @@ void		trim_simple_quotes(t_cmd *cmd)
 		i++;
 	}
 }
-

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 13:29:56 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/31 15:58:11 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,13 @@ typedef struct s_global
 
 
 /* PARSING */
-int			count_option(char *line);
-int analize_cmd(t_cmd **comd, t_global *global);
-void ft_print_cmd(t_cmd **cmd);
-t_cmd		*ft_init_cmd();
+int		count_option(char *line);
+int		analize_cmd(t_cmd **comd, t_global *g);
+void	ft_print_cmd(t_cmd **cmd);
+t_cmd	*ft_init_cmd();
+void	find_token(t_token *token, t_cmd *cmd);
+int		list_len(t_token **head);
+
 
 // PIPE
 int			check_pipe_position(t_token *token, t_cmd *cmd);
@@ -152,6 +155,7 @@ int			start_with_simple(t_cmd *cmd);
 int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd, int i, int j);
+void		delete_quotes_bis(t_cmd *cmd, int i);
 int			error_quotes(t_cmd *cmd);
 int			start_with_dollar(t_cmd *cmd);
 int			last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
