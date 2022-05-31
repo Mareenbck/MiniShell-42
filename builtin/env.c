@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-void ft_insert_tab(char **tab, char *name, char *value)
+void ft_insert_tab(char **tab, char *name)
 {
 	int i;
 	i = 0;
-	(void)value;
+
 	while (tab[i])
 		i++;
 	tab[i] = ft_strdup(name);

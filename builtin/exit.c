@@ -47,6 +47,7 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 	{
 		g_exit_status = 2;
 		printf("exit: %s: numeric argument required\n", cmd->val[1]);
+		// ft_free_list(global);
 		return (1);
 	}
 	if (cmd->val[2] != NULL)
@@ -59,6 +60,7 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 	{
 		g_exit_status = ft_atoi(cmd->val[1]);
 		printf("exit\n");
+		// ft_free_list(global);
 	}
 	return (global->exit);
 }

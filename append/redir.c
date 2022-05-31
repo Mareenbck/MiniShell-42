@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:28:11 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 13:05:18 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/26 10:53:36 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	redir_in(t_cmd *cmd, char *file_name)
 	fd = open(file_name, O_RDONLY, 0644);
 	if (cmd->input == -1)
 	{
-		printf("hello\n");
-		perror(file_name);
 		return (EXIT_FAILURE);
 	}
 	if (cmd->input != STDIN_FILENO)
@@ -50,4 +48,15 @@ int	redir_in(t_cmd *cmd, char *file_name)
 	}
 	cmd->input = fd;
 	return (EXIT_SUCCESS);
+}
+
+int	check_access(t_cmd *cmd, char *file_name)
+{
+	if (access(file_name, F_OK) != 0)
+		return (1);
+	else
+	{
+		redir_in(cmd, file_name);
+		return (0);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 11:16:06 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:26:23 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void init_token_list(char *line, t_token **head)
 		i += new->len;
 	}
 	ft_lstaddback(head, ft_init_token());
-	// ft_print(head);
 }
 
 int	ft_find_operator(char c, char c1)
@@ -149,3 +148,4 @@ int	ft_lex(char *str, t_token *token)
 	}
 	return (0);
 }
+

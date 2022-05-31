@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/20 16:23:22 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 16:04:57 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,38 +124,40 @@ t_cmd		*ft_init_cmd();
 int			check_pipe_position(t_token *token, t_cmd *cmd);
 
 //REDIR - PARSE & EXPAND
-int			check_redir_o_position(t_token *token, t_cmd *cmd);
-int			check_redir_i_position(t_token *token, t_cmd *cmd);
-int			check_append_o(t_token *token, t_cmd *cmd);
-int			check_append_i(t_token *token, t_cmd *cmd);
-int			redir_out(t_cmd *cmd, char *file_name);
-int			redir_in(t_cmd *cmd, char *file_name);
-int			append_out(t_cmd *cmd, char *file_name);
-//int			append_in(t_cmd *cmd, char *file_name);
-int	ft_heredoc(char *lim);
+int		check_redir_o_position(t_token *token, t_cmd *cmd);
+int		check_redir_i_position(t_token *token, t_cmd *cmd);
+int		check_append_o(t_token *token, t_cmd *cmd);
+int		check_heredoc(t_token *token, t_cmd *cmd);
+int		redir_out(t_cmd *cmd, char *file_name);
+int		redir_in(t_cmd *cmd, char *file_name);
+int		append_out(t_cmd *cmd, char *file_name);
+int		ft_heredoc(char *lim);
+int		check_access(t_cmd *cmd, char *file_name);
+int		check_ambiguious_args(char *file_name, t_cmd *cmd);
+int		last_check_redir_o(char *file_name, t_cmd *cmd);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
 int			is_simple_quotes(char c);
-void		trim_doble_quotes(t_token *token);
-void		trim_simple_quotes(t_token *token);
+void		trim_doble_quotes(t_cmd *cmd);
+void		trim_simple_quotes(t_cmd *cmd);
 void		trim_global_quotes(t_token *token);
 
 //QUOTE - PARSE
-int			count_d_quotes(t_token *token);
-int			count_s_quotes(t_token *token);
+int			count_d_quotes(t_cmd *cmd);
+int			count_s_quotes(t_cmd *cmd);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
 int			start_with_simple(t_cmd *cmd);
 int			start_with_dobles(t_cmd *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd);
-int			error_quotes(t_token *token);
-int start_with_dollar(t_cmd *cmd);
-int last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
+int			error_quotes(t_cmd *cmd);
+int			start_with_dollar(t_cmd *cmd);
+int			last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
 
 /* UTILS */
-void		**ft_free_tab(char **tab);
+char		**ft_free_tab(char **tab);
 void		ft_error(char *msg, int exit_status);
 t_token 	*lstlast(t_token *lst);
 void		ft_lst_clear(t_token **lst, void (*del)(void *));
@@ -174,10 +176,10 @@ void	ft_close(t_global *global);
 // INIT_ENV
 void	ft_init_list_env(t_env **head_env, t_global *global);
 void	ft_init_env(t_global *global, char **envp);
-t_env  *create_var_env(char *envp, char *value, char *sign);
+t_env  *create_var_env(char *name, char *value);
 t_env *ft_init_var_env();
 char *init_var_name(char *str, char c);
-void	ft_print_export(t_env **head);
+void	ft_print_export(t_global *global);
 char *init_sign(char *name);
 void ft_print_env(t_env **head);
 char *edit_name(char *str, char c);
@@ -187,7 +189,7 @@ void	ft_init_sorted_env(t_global *global);
 char	*search_envp(t_env **head_env, char *str);
 char	**ft_split_envp(t_env **head_env, char *str);
 char *find_binary(char **split_path, char *av);
-t_env	*find_name(t_env **head_env, char *var, int len);
+t_env	*find_name(t_env **head_env, char *var, size_t len);
 
 // SIGNAL
 // void siginthandler();
@@ -214,9 +216,10 @@ int	ft_pwd(void);
 int	ft_cd(t_cmd *cmd, t_global *global);
 int	ft_env(t_global *global);
 int	ft_export(t_cmd *cmd, t_global *global);
+void	ft_change_env(char *name, char *value, t_global *global);
 int	ft_exit(t_global *global, t_cmd *cmd);
 int	ft_unset(t_cmd *cmd, t_global *global);
-void ft_insert_tab(char **tab, char *name, char *value);
+void ft_insert_tab(char **tab, char *name);
 
 // EXPAND ENV
 int check_name(char *token);
@@ -225,5 +228,7 @@ void ft_expand_cmd_first(t_global *global);
 void ft_expand_echo(t_cmd *cmd, t_global *global, char *str);
 
 void parse_execution(t_global *global);
+void	ft_free_list(t_global *global);
+void ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 
 #endif

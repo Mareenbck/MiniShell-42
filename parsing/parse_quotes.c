@@ -6,48 +6,54 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:41:37 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 10:49:24 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/27 15:47:30 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_d_quotes(t_token *token)
+int	count_d_quotes(t_cmd *cmd)
 {
 	int	i;
+	int	j;
 	int count;
 
 	count = 0;
-	while (token->token == WORD)
+	i = 0;
+	j = 0;
+	while (cmd->val[i])
 	{
-		i = 0;
-		while (token->val[i])
+		j = 0;
+		while (cmd->val[i][j])
 		{
-			if (is_doble_quotes(token->val[i]))
+			if (is_doble_quotes(cmd->val[i][j]))
 				count++;
-			i++;
+			j++;
 		}
-		token = token->next;
+		i++;
 	}
 	return (count);
 }
 
-int	count_s_quotes(t_token *token)
+int	count_s_quotes(t_cmd *cmd)
 {
 	int	i;
+	int	j;
 	int count;
 
 	count = 0;
-	while (token->token == WORD)
+	i = 0;
+	j = 0;
+	while (cmd->val[i])
 	{
-		i = 0;
-		while (token->val[i])
+		j = 0;
+		while (cmd->val[i][j])
 		{
-			if (is_simple_quotes(token->val[i]))
+			if (is_simple_quotes(cmd->val[i][j]))
 				count++;
-			i++;
+			j++;
 		}
-		token = token->next;
+		i++;
 	}
 	return (count);
 }
@@ -55,13 +61,11 @@ int	count_s_quotes(t_token *token)
 int	start_with_simple(t_cmd *cmd)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (cmd->val[i])
 	{
-		j = 0;
-		if (cmd->val[i][j] == '\'')
+		if (cmd->val[i][0] == '\'')
 			return (1);
 		i++;
 	}
@@ -71,13 +75,11 @@ int	start_with_simple(t_cmd *cmd)
 int	start_with_dobles(t_cmd *cmd)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (cmd->val[i])
 	{
-		j = 0;
-		if (cmd->val[i][j] == '\"')
+		if (cmd->val[i][0] == '\"')
 			return (1);
 		i++;
 	}

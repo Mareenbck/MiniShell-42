@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:18:49 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/04 11:19:02 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/05/26 14:47:49 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_print_export(t_env **head)
+void	ft_print_export(t_global *global)
 {
 	t_env *tmp;
 
-	tmp = *head;
+	tmp = global->head_env;
 	while (tmp->next != NULL)
 	{
 		if (*tmp->var_value == '\0' && *tmp->var_sign == '\0')
@@ -31,41 +31,44 @@ void	ft_change_env(char *name, char *value, t_global *global)
 {
 	char **env;
 	int i;
+	char *tmp;
 
 	i = 0;
 	env = global->env;
-	name = ft_strcat(name, "=");
+	tmp = ft_strjoin(name, "=");
 	while(env[i])
 	{
-		if (!ft_strncmp(env[i], name, ft_strlen(name)))
+		if (!ft_strncmp(env[i], tmp, ft_strlen(tmp)))
 		{
-			free(env[i]);
-			env[i] = ft_strjoin(name, value);
-		}
-		i++;
-	}
-}
-
-void	ft_concat_env(char *name, char *value, t_global *global)
-{
-	char **env;
-	int i;
-	char *tmp = NULL;
-
-	i = 0;
-	env = global->env;
-	while(env[i])
-	{
-		if (!ft_strncmp(env[i], name, ft_strlen(name)))
-		{
-			tmp = ft_strdup(env[i]);
 			free(env[i]);
 			env[i] = ft_strjoin(tmp, value);
-			free(tmp);
+			break ;
 		}
 		i++;
 	}
 }
+
+// void	ft_concat_env(char *name, char *value, t_global *global)
+// {
+// 	char **env;
+// 	int i;
+// 	char *tmp = NULL;
+
+// 	i = 0;
+// 	env = global->env;
+// 	printf("NAME : %s, VALUE : %s\n", name, value);
+// 	while(env[i])
+// 	{
+// 		if (!ft_strncmp(env[i], name, ft_strlen(name)))
+// 		{
+// 			tmp = ft_strdup(env[i]);
+// 			free(env[i]);
+// 			env[i] = ft_strjoin(tmp, value);
+// 			break ;
+// 		}
+// 		i++;
+// 	}
+// }
 
 bool ft_str_isalnum(char *str)
 {
@@ -92,11 +95,11 @@ int	ft_export(t_cmd *cmd, t_global *global)
 
 	env = NULL;
 	if (cmd->val[i] == NULL)
-		ft_print_export(&global->head_env);
+		ft_print_export(global);
 	// VERSION ANTERIEUR VERIFICATION DU TOKEN SI WORD
 	while (cmd->val[i] != NULL)
 	{
-		value = check_value(cmd->val[i]);
+		// value = check_value(cmd->val[i]);
 		if (!check_name(cmd->val[i]))
 		{
 			sign = init_sign(cmd->val[i]);
@@ -108,24 +111,29 @@ int	ft_export(t_cmd *cmd, t_global *global)
 			{
 				if (sign[0] == '+')
 				{
-					ft_concat_env(name, value, global);
+					value = check_value(cmd->val[i]);
 					env->var_value = ft_strjoin(env->var_value, value);
+					free(value);
+					ft_change_env(name, env->var_value, global);
 				}
 				else
 				{
-					ft_change_env(name, value, global);
-					env->var_sign = sign;
-					env->var_value = value;
+					free(env->var_sign);
+					env->var_sign = init_sign(cmd->val[i]);;
+					free(env->var_value);
+					env->var_value = check_value(cmd->val[i]);
+					ft_change_env(name, env->var_value, global);
 				}
 			}
 			else
 			{
-				ft_insert_tab(global->env, cmd->val[i], value);
-				new_env = create_var_env(edit_name(cmd->val[i], '='), value, sign);
+				ft_insert_tab(global->env, cmd->val[i]);
+				new_env = create_var_env(name, cmd->val[i]);
 				ft_lst_insert(&global->head_env, new_env);
 			}
 		}
 		i++;;
+		free(sign);
 	}
 	// ft_print_env(head_env);
 	return (0);
