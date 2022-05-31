@@ -6,21 +6,18 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 11:28:51 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/31 13:31:48 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 
 void	check_if_expand(char *str, int i, t_cmd *cmd)
 {
-
 	if (str[0] == '$' && str[1] != '\0')
 		cmd->expand[i] = 1;
 	else
 		cmd->expand[i] = 0;
-	// printf("cmd-val : %s expand : %d \n", cmd->val[i], cmd->expand[i]);
 }
 
 int	error_quotes(t_cmd *cmd)
@@ -64,11 +61,58 @@ char	*new_string(char *str, char c)
 	return (s);
 }
 
-void	delete_quotes(t_cmd *cmd)
+void	delete_quotes(t_cmd *cmd, int i, int j)
+{
+	char	*tmp;
+
+	if (is_simple_quotes(cmd->val[i][j]))
+	{
+		if (is_empty_string(cmd->val[i]))
+			cmd->val[i] = ft_strdup("");
+		tmp = ft_strtrim(cmd->val[i], "\'");
+		tmp = ft_strtrim(cmd->val[i], "\"");
+		free(cmd->val[i]);
+		cmd->val[i] = new_string(tmp, '\'');
+	}
+	else if (is_doble_quotes(cmd->val[i][j]))
+	{
+		if (is_empty_string(cmd->val[i]))
+			cmd->val[i] = ft_strdup("");
+		tmp = ft_strtrim(cmd->val[i], "\"\'");
+		check_if_expand(tmp, i, cmd);
+		free(cmd->val[i]);
+		cmd->val[i] = new_string(tmp, '\"');
+	}
+}
+
+void	delete_quotes_bis(t_cmd *cmd, int i)
+{
+	char	*tmp;
+
+		if (start_with_simple(cmd))
+		{
+			if (is_empty_string(cmd->val[i]))
+				cmd->val[i] = ft_strdup("");
+			tmp = ft_strtrim(cmd->val[i], "\'");
+			tmp = ft_strtrim(cmd->val[i], "\"");
+			free(cmd->val[i]);
+			cmd->val[i] = new_string(tmp, '\'');
+		}
+		else if (start_with_dobles(cmd))
+		{
+			if (is_empty_string(cmd->val[i]))
+				cmd->val[i] = ft_strdup("");
+			tmp = ft_strtrim(cmd->val[i], "\"\'");
+			check_if_expand(tmp, i, cmd);
+			free(cmd->val[i]);
+			cmd->val[i] = new_string(tmp, '\"');
+		}
+}
+
+void	dispatch_parsing(t_cmd *cmd)
 {
 	int	i;
 	int	j;
-	char *tmp;
 
 	i = 0;
 	while (cmd->val[i])
@@ -76,23 +120,13 @@ void	delete_quotes(t_cmd *cmd)
 		j = 0;
 		while (cmd->val[i][j])
 		{
-			if (is_simple_quotes(cmd->val[i][j]))
+			if (start_with_simple(cmd) || start_with_dobles(cmd))
 			{
-				if (is_empty_string(cmd->val[i]))
-					cmd->val[i] = ft_strdup("");
-				tmp = ft_strtrim(cmd->val[i], "\'");
-				tmp = ft_strtrim(cmd->val[i], "\"");
-				free(cmd->val[i]);
-				cmd->val[i] = new_string(tmp, '\'');
+				delete_quotes_bis(cmd, i);
 			}
-			else if (is_doble_quotes(cmd->val[i][j]))
+			if (is_simple_quotes(cmd->val[i][j]) || is_doble_quotes(cmd->val[i][j]))
 			{
-				if (is_empty_string(cmd->val[i]))
-					cmd->val[i] = ft_strdup("");
-				tmp = ft_strtrim(cmd->val[i], "\"\'");
-				check_if_expand(tmp, i, cmd);
-				free(cmd->val[i]);
-				cmd->val[i] = new_string(tmp, '\"');
+				delete_quotes(cmd, i, j);
 			}
 			j++;
 		}
@@ -112,7 +146,7 @@ int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 	}
 	else
 	{
-		delete_quotes(cmd);
+		dispatch_parsing(cmd);
 	}
 	return (0);
 }
