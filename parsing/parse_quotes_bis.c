@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 13:31:48 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:29:47 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,10 @@ void	dispatch_parsing(t_cmd *cmd)
 			if (start_with_simple(cmd) || start_with_dobles(cmd))
 			{
 				delete_quotes_bis(cmd, i);
+				break ;
 			}
 			if (is_simple_quotes(cmd->val[i][j]) || is_doble_quotes(cmd->val[i][j]))
-			{
 				delete_quotes(cmd, i, j);
-			}
 			j++;
 		}
 		i++;
@@ -145,8 +144,6 @@ int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 		return (1);
 	}
 	else
-	{
 		dispatch_parsing(cmd);
-	}
 	return (0);
 }
