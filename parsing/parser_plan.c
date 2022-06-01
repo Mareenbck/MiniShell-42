@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/01 13:03:51 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/01 13:36:09 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,24 @@ t_cmd	*create_cmd(int len)
 	return (new_cmd);
 }
 
-// void	ft_print_cmd(t_cmd **cmd)
-// {
-// 	t_cmd	*tmp;
-// 	int		i;
+void	ft_print_cmd(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+	int		i;
 
-// 	tmp = *cmd;
-// 	i = 0;
-// 	while (tmp != NULL)
-// 	{
-// 		i = 0;
-// 		while (tmp->val[i])
-// 		{
-// 			//printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe);
-// 			i++;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
+	tmp = *cmd;
+	i = 0;
+	while (tmp != NULL)
+	{
+		i = 0;
+		while (tmp->val[i])
+		{
+			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+}
 
 int	list_len(t_token **head)
 {
@@ -159,7 +159,8 @@ int	analize_cmd(t_cmd **comd, t_global *g)
 				ft_error("Syntax error", 2);
 				return (1);
 			}
-		}		ft_lstaddback2(comd, cmd);
+		}
+		ft_lstaddback2(comd, cmd);
 		token = token->next;
 	}
 	ft_lstaddback2(comd, ft_init_cmd(list_len(&g->head)));

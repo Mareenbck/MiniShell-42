@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 09:34:42 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/17 13:10:04 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/01 15:02:23 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int ft_echo(t_cmd *cmd, t_global *global)
 		else
 		{
 			if (start_with_dollar(cmd) && cmd->expand[i])
-				printf("%s ", &cmd->val[i][1]);
+				write(cmd->output, &cmd->val[i][1], ft_strlen(&cmd->val[i][1]));
 			else if (start_with_dollar(cmd) && !cmd->expand[i])
-				printf("%s ", cmd->val[i]);
+				write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
 			else
-				printf("%s ", cmd->val[i]);
+				write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
 		}
 		i++;
 

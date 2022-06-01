@@ -6,9 +6,10 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/19 17:24:00 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/01 14:52:17 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
