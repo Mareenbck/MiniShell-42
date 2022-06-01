@@ -6,26 +6,26 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:43:07 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 14:32:51 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/05/31 12:35:11 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int    check_lim(char *lim)
+int	check_lim(char *lim)
 {
-    int    i;
+	int	i;
 
-    i = -1;
-    while (lim[++i])
-        if (!ft_isalpha(lim[i]))
-            return (1);
-    return (0);
+	i = -1;
+	while (lim[++i])
+		if (!ft_isalpha(lim[i]))
+			return (1);
+	return (0);
 }
 
 int	ft_heredoc(char *lim)
 {
-	int	heredoc;
+	int		heredoc;
 	char	*str;
 
 	if (check_lim(lim) != 0)
@@ -47,4 +47,3 @@ int	ft_heredoc(char *lim)
 	}
 	return (heredoc);
 }
-

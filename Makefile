@@ -5,15 +5,16 @@ LIB_DIR = ./libft
 LIBFT	= ./libft/libft.a
 
 SRCS	= main.c utils.c signal.c \
-		lexer.c env/parse_env.c builtin/pwd.c \
+		lexerd/lexer.c lexerd/lexer_bis.c env/parse_env.c builtin/pwd.c \
 		builtin/cd.c parsing/parser_plan.c \
 		builtin/echo.c exe.c builtin/env.c \
 		env/init_env.c builtin/export.c builtin/unset.c \
 		parsing/pipe.c append/redir.c \
 		append/append.c parsing/trim_quotes.c \
 		parsing/parse_quotes.c parsing/parse_quotes_bis.c \
-		parsing/redir_syntax.c append/heredoc.c \
-		env/expand_env.c builtin/exit.c expand.c
+		parsing/parse_quotes_ter.c parsing/redir_syntax.c \
+		append/heredoc.c env/expand_env.c \
+		builtin/exit.c expand.c parsing/parser_plan_bis.c \
 
 
 OBJS	= ${SRCS:.c=.o}
