@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marinebascunana <marvin@42.fr>             +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 13:55:22 by marinebas         #+#    #+#             */
-/*   Updated: 2022/05/21 13:55:57 by marinebas        ###   ########.fr       */
+/*   Updated: 2022/06/01 15:48:42 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_expand_cmd_first(t_global *global)
 		{
 			while (cmd->val[j])
 			{
-				printf("cmd : %s\n", cmd->val[j]);
+				printf("hello\n");
 				cmd->expand[j] = 0;
 				j++;
 			}

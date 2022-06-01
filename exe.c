@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/01 14:52:17 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/01 17:10:05 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	{
 		ft_lst_clear(&global->head, free);
 		ft_lst_clear2(&global->headcmd, free);
-		ft_error("Command Not Found", CANTEXEC);
+		//ft_error("Command Not Found", CANTEXEC);
 	}
 }
 
@@ -169,7 +169,7 @@ void	parse_execution(t_global *global)
 	int fd_pipe[2];
 
 	cmd = global->headcmd;
-	while (cmd->next)
+	while (cmd)
 	{
 		if (cmd->pipe)
 		{

@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:13:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/01 13:35:34 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/01 16:52:16 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		ft_signal(2);
 		// line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
-		line = readline("\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
+		line = readline("\1\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
 		ft_signal(0);
 		if (!line)
 			ft_quit(&global);
