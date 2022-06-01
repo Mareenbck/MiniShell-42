@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:28:11 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 12:35:21 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/01 17:59:00 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	redir_out(t_cmd *cmd, char *file_name)
 	int	fd;
 
 	fd = open(file_name, O_CREAT | O_WRONLY, 0644);
-	if (cmd->output == -1)
+	if (fd == -1)
 	{
 		perror(file_name);
 		return (EXIT_FAILURE);
 	}
 	if (cmd->output != STDOUT_FILENO)
 	{
-		dup2(cmd->output, fd);
+		dup2(fd, cmd->output);
 		close(cmd->output);
 	}
 	cmd->output = fd;
@@ -42,7 +42,7 @@ int	redir_in(t_cmd *cmd, char *file_name)
 	}
 	if (cmd->input != STDIN_FILENO)
 	{
-		dup2(cmd->input, fd);
+		dup2(fd, cmd->input);
 		close(cmd->input);
 	}
 	cmd->input = fd;

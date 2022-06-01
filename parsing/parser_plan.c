@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 16:00:01 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/01 17:50:56 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,24 @@ t_cmd	*create_cmd(int len)
 	return (new_cmd);
 }
 
-// void	ft_print_cmd(t_cmd **cmd)
-// {
-// 	t_cmd	*tmp;
-// 	int		i;
+void	ft_print_cmd(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+	int		i;
 
-// 	tmp = *cmd;
-// 	i = 0;
-// 	while (tmp != NULL)
-// 	{
-// 		i = 0;
-// 		while (tmp->val[i])
-// 		{
-// 			//printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe);
-// 			i++;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// }
+	tmp = *cmd;
+	i = 0;
+	while (tmp != NULL)
+	{
+		i = 0;
+		while (tmp->val[i])
+		{
+			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+}
 
 int	list_len(t_token **head)
 {
@@ -91,11 +91,12 @@ int	analize_cmd(t_cmd **comd, t_global *g)
 	t_cmd	*cmd;
 	int		i;
 
+	i = 0;
 	token = g->head;
+	cmd = create_cmd(list_len(&g->head));
 	while (token != NULL)
 	{
-		i = 0;
-		cmd = create_cmd(list_len(&g->head));
+
 		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
@@ -106,10 +107,77 @@ int	analize_cmd(t_cmd **comd, t_global *g)
 			i++;
 		}
 		cmd->val[i] = NULL;
-		find_token(token, cmd);
-		ft_lstaddback2(comd, cmd);
+		if (token->token == PIPE)
+		{
+			if (!check_pipe_position(token, cmd))
+				cmd->pipe = true;
+			else
+			{
+				ft_error("syntax error near unexpected token `|'", 2);
+				return (1);
+			}
+			ft_lstaddback2(comd, cmd);
+			cmd = create_cmd(list_len(&g->head));
+			i = 0;
+		}
+		else if (token->token == REDIR_OUT)
+		{
+			if (check_redir_o_position(token, cmd) == 1)
+			{
+				return (1);
+			}
+
+			if (check_ambiguious_args(token->val, cmd))
+			{
+				ft_error("ambiguous redirect", 2);
+				return (1);
+			}
+			else
+			{
+				token = token->next;
+				redir_out(cmd, token->val);
+			}
+		}
+		else if (token->token == REDIR_IN)
+		{
+			if (check_redir_i_position(token, cmd) == 1)
+				return (1);
+			token = token->next;
+			if (check_access(cmd, token->val))
+			{
+				perror(token->val);
+				return (1);
+			}
+		}
+		else if (token->token == APPEND_OUT)
+		{
+			if (!check_append_o(token, cmd))
+			{
+				token = token->next;
+				append_out(cmd, token->val);
+			}
+			else
+			{
+				ft_error("Syntax error", 2);
+				return (1);
+			}
+		}
+		else if (token->token == APPEND_IN)
+		{
+			if (!check_heredoc(token, cmd))
+			{
+				token = token->next;
+				ft_heredoc(token->val);
+			}
+			else
+			{
+				ft_error("Syntax error", 2);
+				return (1);
+			}
+		}
 		token = token->next;
 	}
-	ft_lstaddback2(comd, ft_init_cmd(list_len(&g->head)));
+	// ft_lstaddback2(comd, ft_init_cmd(list_len(&g->head)));
+	g->headcmd = cmd;
 	return (0);
 }
