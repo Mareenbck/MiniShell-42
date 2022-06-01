@@ -12,15 +12,37 @@
 
 #include "../minishell.h"
 
+int	not_valid(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isalnum(str[i]) || str[i] == '=')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 int	ft_unset(t_cmd *cmd, t_global *global)
 {
 	int i;
 	char *name;
+	t_token *token;
 
 	i = -1;
+	token = global->head->next;
 	while (global->env[++i])
 	{
 		name = edit_name(global->env[i], '=');
+		if (!not_valid(token->val))
+		{
+			printf("unset: not a valid identifier\n");
+			break ;
+		}
 		if (ft_strcmp(name, cmd->val[1]) == 0)
 		{
 			free(name);

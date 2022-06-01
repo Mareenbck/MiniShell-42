@@ -14,7 +14,7 @@
 
 void	check_if_expand(char *str, int i, t_cmd *cmd)
 {
-	if (str[0] == '$' && str[1] != '\0')
+	if (str[0] == '$' && str[1] != '\0' && str[1] != '\"')
 		cmd->expand[i] = 1;
 	else
 		cmd->expand[i] = 0;
@@ -62,8 +62,20 @@ void	delete_quotes(t_cmd *cmd, int i, int j)
 			cmd->val[i] = ft_strdup("");
 		tmp = ft_strtrim(cmd->val[i], "\"\'");
 		check_if_expand(tmp, i, cmd);
-		free(cmd->val[i]);
-		cmd->val[i] = new_string(tmp, '\"');
+		if (!cmd->expand[i])
+		{
+			if (cmd->val[i][0] == '$')
+			{
+				free(cmd->val[i]);
+				cmd->val[i] = new_string(tmp, '\"');
+				cmd->val[i] = new_string(cmd->val[i], '$');
+			}
+			else
+			{
+				free(cmd->val[i]);
+				cmd->val[i] = new_string(tmp, '\"');
+			}
+		}
 	}
 }
 
@@ -86,7 +98,10 @@ void	delete_quotes_bis(t_cmd *cmd, int i)
 			cmd->val[i] = ft_strdup("");
 		tmp = ft_strtrim(cmd->val[i], "\"\'");
 		check_if_expand(tmp, i, cmd);
-		free(cmd->val[i]);
-		cmd->val[i] = new_string(tmp, '\"');
+		if (!cmd->expand[i])
+		{
+			free(cmd->val[i]);
+			cmd->val[i] = new_string(tmp, '\"');
+		}
 	}
 }

@@ -12,10 +12,47 @@
 
 #include "minishell.h"
 
+char **split_expand(char *str)
+{
+	char **split;
+	int i;
+	int j;
+	int words = 0;
+
+	i = 0;
+	str = ft_strtrim(str, "\"$");
+	while (str[i])
+	{
+		if ((ft_isalnum(str[i]) && str[i + 1] == '\'') || (ft_isalnum(str[i]) && !str[i + 1]))
+			words++;
+		else if (str[i] == '\'')
+			words++;
+		i++;
+	}
+	split = (char **)malloc(sizeof(char *) * (words + 1));
+	i = 0;
+	j = 0;
+	while (i < words)
+	{
+		j += i;
+		while (ft_isalnum(str[j]))
+			j++;
+		split[i] = ft_strdup_bis(&str[j - (j - i)], j - i);
+		split[i] = ft_strtrim(split[i], "$\"");
+		if (str[j] == '\'')
+			split[++i] = ft_strdup("\'");
+		i++;
+	}
+	split[words] = NULL;
+	return (split);
+}
+
 void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 {
 	t_env *env;
-	char *tmp;
+	// char *tmp;
+	char **split;
+	int i;
 
 	env = global->head_env;
 	if (cmd->val[1] != NULL && cmd->val[1][1] == '?')
@@ -29,22 +66,30 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 	}
 	else
 	{
-		// printf("str : %s\n", str);
-		env = find_name(&global->head_env, &str[1], ft_strlen(&str[1]));
-		if (env)
-			printf("%s\n", env->var_value);
-		else if (str[1] == '\"')
+		split = split_expand(str);
+		i = 0;
+		while (split[i])
 		{
-			tmp = ft_strtrim(str, "\"$");
-			printf("%s\n", tmp);
+			env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
+			if (env)
+				printf("%s", env->var_value);
+			else
+				printf("%s", split[i]);
+			i++;
+
 		}
-		else
-		{
-			// ft_lst_clear(&global->head, free);
-			// ft_lst_clear2(&global->headcmd, free);
-			// ft_lst_clear3(&global->head_env, free);
-			ft_error("Command not found3", NOTFOUND);
-		}
+		// else if (str[1] == '\"')
+		// {
+		// 	tmp = ft_strtrim(str, "\"$");
+		// 	printf("%s\n", tmp);
+		// }
+		// else
+		// {
+		// 	// ft_lst_clear(&global->head, free);
+		// 	// ft_lst_clear2(&global->headcmd, free);
+		// 	// ft_lst_clear3(&global->head_env, free);
+		// 	ft_error("Command not found3", NOTFOUND);
+		// }
 	}
 }
 

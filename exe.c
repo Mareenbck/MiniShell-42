@@ -52,7 +52,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 		ft_expand_cmd(global, cmd, split_path);
 		// printf("YES2, path : %s cmv->val : %s\n", cmd->path, cmd->val[0]);
 
-		ft_free_tab(split_path);
+		// ft_free_tab(split_path);
 	}
 	else
 	{
