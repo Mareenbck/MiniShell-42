@@ -127,6 +127,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			{
 				return (1);
 			}
+			token = token->next;
 			if (check_ambiguious_args(token->val, cmd))
 			{
 				ft_error("ambiguous redirect", 2);
@@ -134,7 +135,6 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			}
 			else
 			{
-				token = token->next;
 				redir_out(cmd, token->val);
 			}
 		}
