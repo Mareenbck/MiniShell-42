@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "minishell.h"
 
 int g_exit_status;
@@ -71,8 +69,7 @@ int	main(int ac, char **av, char **envp)
 	while (!global.exit)
 	{
 		ft_signal(2);
-		// line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
-		line = readline("\1\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
+		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
 		ft_signal(0);
 		if (!line)
 			ft_quit(&global);
@@ -81,7 +78,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
-				ft_print_cmd(&global.headcmd);
+				// ft_print_cmd(&global.headcmd);
 				ft_expand_cmd_first(&global);
 				parse_execution(&global);
 			}
