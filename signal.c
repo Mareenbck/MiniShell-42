@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 11:30:28 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/19 12:15:25 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/02 11:34:15 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_sigint(int sig)
 		g_exit_status = CSIGINT;
 		write(1, "\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 1);
+		//rl_replace_line("", 1);
 		rl_redisplay();
 	}
 }
