@@ -63,7 +63,7 @@ void	ft_print_cmd(t_cmd **cmd)
 		i = 0;
 		while (tmp->val[i])
 		{
-			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe);
+			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d -> output : %d -> input : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe, tmp->output, tmp->input);
 			i++;
 		}
 		tmp = tmp->next;
@@ -85,18 +85,17 @@ int	list_len(t_token **head)
 	return (len);
 }
 
-int	analize_cmd(t_cmd **comd, t_global *g)
+int	analize_cmd(t_cmd **comd, t_global *global)
 {
-	t_token	*token;
+	t_token *token;
 	t_cmd	*cmd;
-	int		i;
+	int	i;
 
+	token = global->head;
+	cmd = create_cmd(list_len(&global->head));
 	i = 0;
-	token = g->head;
-	cmd = create_cmd(list_len(&g->head));
 	while (token != NULL)
 	{
-
 		while (token->token == WORD)
 		{
 			cmd->expand[i] = 0;
@@ -110,15 +109,17 @@ int	analize_cmd(t_cmd **comd, t_global *g)
 		if (token->token == PIPE)
 		{
 			if (!check_pipe_position(token, cmd))
+			{
 				cmd->pipe = true;
+				ft_lstaddback2(comd, cmd);
+				cmd = create_cmd(list_len(&global->head));
+				i = 0;
+			}
 			else
 			{
 				ft_error("syntax error near unexpected token `|'", 2);
 				return (1);
 			}
-			ft_lstaddback2(comd, cmd);
-			cmd = create_cmd(list_len(&g->head));
-			i = 0;
 		}
 		else if (token->token == REDIR_OUT)
 		{
@@ -126,7 +127,6 @@ int	analize_cmd(t_cmd **comd, t_global *g)
 			{
 				return (1);
 			}
-
 			if (check_ambiguious_args(token->val, cmd))
 			{
 				ft_error("ambiguous redirect", 2);
@@ -177,7 +177,7 @@ int	analize_cmd(t_cmd **comd, t_global *g)
 		}
 		token = token->next;
 	}
-	// ft_lstaddback2(comd, ft_init_cmd(list_len(&g->head)));
-	g->headcmd = cmd;
+	ft_lstaddback2(comd, cmd);
+	ft_lstaddback2(comd, ft_init_cmd(list_len(&global->head)));
 	return (0);
 }

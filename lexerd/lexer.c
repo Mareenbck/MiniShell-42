@@ -40,6 +40,21 @@ t_token	*create_token(char *str)
 	return (new_token);
 }
 
+void ft_print(t_token **head)
+{
+	t_token *tmp;
+
+	tmp = *head;
+	int i = 0;
+
+	while (tmp != NULL)
+	{
+		printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
+		i++;
+		tmp = tmp->next;
+	}
+}
+
 void	init_token_list(char *line, t_token **head)
 {
 	int		i;

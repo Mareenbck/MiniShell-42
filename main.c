@@ -39,8 +39,11 @@ void	ft_free_list(t_global *global)
 int init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
+	// ft_print(&global->head);
 	if (!analize_cmd(&global->headcmd, global))
+	{
 		return (0);
+	}
 	else
 	{
 		ft_lst_clear(&global->head, free);
@@ -63,13 +66,13 @@ int	main(int ac, char **av, char **envp)
 	t_global	global;
 	(void)ac;
 	(void)av;
-
 	ft_init_minishell(&global, envp);
 	g_exit_status = 0;
 	while (!global.exit)
 	{
 		ft_signal(2);
 		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
+		// line = readline("\1\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
 		ft_signal(0);
 		if (!line)
 			ft_quit(&global);

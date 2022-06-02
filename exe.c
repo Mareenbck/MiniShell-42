@@ -51,11 +51,18 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	if (cmd->expand[i])
 	{
 		ft_expand_cmd(global, cmd, split_path);
+		// printf("YES2, path : %s cmv->val : %s\n", cmd->path, cmd->val[0]);
+		// ft_free_tab(split_path);
 	}
 	else
 	{
 		cmd->path = find_binary(split_path, cmd->val[i]);
 	}
+	// else if (!cmd->path && cmd->expand[i])
+	// {
+	// 	ft_expand_echo(cmd, global, cmd->val[0]);
+	// 	return ;
+	// }
 	while (cmd->val[++i])
 		if (cmd->expand[i])
 			ft_expand_args(global, cmd->val[i]);
@@ -160,7 +167,7 @@ void	parse_execution(t_global *global)
 	int fd_pipe[2];
 
 	cmd = global->headcmd;
-	while (cmd)
+	while (cmd->next)
 	{
 		if (cmd->pipe)
 		{

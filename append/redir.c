@@ -36,7 +36,7 @@ int	redir_in(t_cmd *cmd, char *file_name)
 	int	fd;
 
 	fd = open(file_name, O_RDONLY, 0644);
-	if (cmd->input == -1)
+	if (fd == -1)
 	{
 		return (EXIT_FAILURE);
 	}

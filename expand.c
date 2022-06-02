@@ -137,7 +137,6 @@ void	ft_expand_cmd_first(t_global *global)
 		{
 			while (cmd->val[j])
 			{
-				printf("hello\n");
 				cmd->expand[j] = 0;
 				j++;
 			}

@@ -233,5 +233,5 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str);
 void parse_execution(t_global *global);
 void	ft_free_list(t_global *global);
 void ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
-
+void ft_print(t_token **head);
 #endif

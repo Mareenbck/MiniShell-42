@@ -50,7 +50,6 @@ int ft_echo(t_cmd *cmd, t_global *global)
 				write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
 		}
 		i++;
-
 	}
 	if (!option)
 	{

@@ -24,7 +24,7 @@ int	append_out(t_cmd *cmd, char *file_name)
 	}
 	if (cmd->output != STDOUT_FILENO)
 	{
-		dup2(cmd->output, fd);
+		dup2(fd, cmd->output);
 		close(fd);
 	}
 	cmd->output = fd;
