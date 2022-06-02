@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/02 13:29:47 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/02 16:43:27 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ t_cmd	*ft_init_cmd();
 void	find_token(t_token *token, t_cmd *cmd);
 int		list_len(t_token **head);
 void	parse_path(t_cmd *cmd);
+int	find_back_slash(char c);
 
 //PIPE
 int			check_pipe_position(t_token *token, t_cmd *cmd);

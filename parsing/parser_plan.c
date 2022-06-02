@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/02 16:13:45 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/02 16:32:08 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,6 @@ int	analize_cmd(t_cmd **comd, t_global *g)
 				ft_error("syntax error near unexpected token `|'", 2);
 				return (1);
 			}
-			// ft_lstaddback2(comd, cmd);
-			// cmd = create_cmd(list_len(&g->head));
-			// i = 0;
 		}
 		else if (token->token == REDIR_OUT)
 		{

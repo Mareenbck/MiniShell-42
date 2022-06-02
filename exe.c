@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/02 15:40:06 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:22:05 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,31 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 	char	**split_path;
 	int i = 0;
 
-	split_path = ft_split_envp(&global->head_env, "PATH");
-	if (!split_path)
+	if (execve(cmd->val[0], cmd->val, global->env) == -1)
 	{
-		ft_lst_clear(&global->head, free);
-		ft_lst_clear2(&global->headcmd, free);
-		ft_error("Command not found1", NOTFOUND);
-	}
-	if (cmd->expand[i])
-		ft_expand_cmd(global, cmd, split_path);
-	else
-	{
-		cmd->path = find_binary(split_path, cmd->val[i]);
-	}
-	while (cmd->val[++i])
+		split_path = ft_split_envp(&global->head_env, "PATH");
+		if (!split_path)
+		{
+			ft_lst_clear(&global->head, free);
+			ft_lst_clear2(&global->headcmd, free);
+			ft_error("Command not found1", NOTFOUND);
+		}
 		if (cmd->expand[i])
-			ft_expand_args(global, cmd->val[i]);
-	ft_signal(1);
-	if (execve(cmd->path, cmd->val, global->env) == -1)
-	{
-		ft_lst_clear(&global->head, free);
-		ft_lst_clear2(&global->headcmd, free);
-		//ft_error("Command Not Found", CANTEXEC);
+			ft_expand_cmd(global, cmd, split_path);
+		else
+		{
+			cmd->path = find_binary(split_path, cmd->val[i]);
+		}
+		while (cmd->val[++i])
+			if (cmd->expand[i])
+				ft_expand_args(global, cmd->val[i]);
+		ft_signal(1);
+		if (execve(cmd->path, cmd->val, global->env) == -1)
+		{
+			ft_lst_clear(&global->head, free);
+			ft_lst_clear2(&global->headcmd, free);
+			//ft_error("Command Not Found", CANTEXEC);
+		}
 	}
 }
 
