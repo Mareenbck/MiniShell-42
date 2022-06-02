@@ -6,11 +6,9 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:13:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/02 10:58:37 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/02 15:31:16 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "minishell.h"
 
@@ -80,7 +78,8 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
-				//ft_print_cmd(&global.headcmd);
+				ft_print_cmd(&global.headcmd);
+				//parse_path(global.headcmd);
 				ft_expand_cmd_first(&global);
 				parse_execution(&global);
 			}
