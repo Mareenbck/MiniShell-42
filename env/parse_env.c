@@ -56,6 +56,7 @@ char *find_binary(char **split_path, char *cmd)
 	while (split_path[i])
 	{
 		tmp = ft_strjoin(split_path[i], "/");
+		printf("TMP : %s\n", tmp);
 		join_path = ft_strjoin(tmp, cmd);
 		if (access(join_path, F_OK) == 0)
 			return (join_path);

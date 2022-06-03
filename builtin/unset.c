@@ -49,19 +49,18 @@ int	ft_unset(t_cmd *cmd, t_global *global)
 		name = edit_name(global->env[i], '=');
 		if (ft_strcmp(name, cmd->val[1]) == 0)
 		{
-			free(name);
 			while (global->env[i] && global->env[i + 1])
 			{
 				free(global->env[i]);
 				global->env[i] = ft_strdup(global->env[i + 1]);
 				i++;
 			}
-			// free(global->env[i]);
+			free(global->env[i]);
 			global->env[i] = NULL;
 		}
+		free(name);
 	}
 	ft_lst_clear3(&global->head_env, free);
-	// ft_free_tab(global->env);
 	// free(global->sorted_env);
 	// ft_free_tab(global->env);
 	ft_init_list_env(&global->head_env, global);

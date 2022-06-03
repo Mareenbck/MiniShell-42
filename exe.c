@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
+int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 {
 	t_env *env;
 	env = find_name(&global->head_env, &cmd->val[0][1], ft_strlen(&cmd->val[0][1]));
 	if (!env)
-		ft_error("CMD NOT FOUND", NOTFOUND);
+		return (1);
 	// printf("env : %s\n", env->var_name);
 	// ft_strcpy(cmd->val[0], env->var_value);
 	if (ft_search_builtin(cmd, global) == 1)
@@ -26,14 +26,17 @@ void	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 		if (!cmd->path)
 			ft_expand_echo(cmd, global, cmd->val[0]);
 	}
+	return (0);
 	// ft_free_tab(split_path);
 }
 
-void	ft_expand_args(t_global *global, char *cmd)
+void	ft_expand_args(t_global *global, t_cmd *cmd, int i)
 {
 	t_env *env;
-	env = find_name(&global->head_env, &cmd[1], ft_strlen(&cmd[1]));
-	ft_strcpy(cmd, env->var_value);
+	env = find_name(&global->head_env, &cmd->val[i][1], ft_strlen(&cmd->val[i][1]));
+	if (env)
+		ft_strcpy(cmd->val[i], env->var_value);
+	// printf("expand args env : %s, val : %s\n", env->var_name, env->var_value);
 }
 
 void	ft_exe(t_global *global, t_cmd *cmd)
@@ -58,7 +61,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 		}
 		while (cmd->val[++i])
 			if (cmd->expand[i])
-				ft_expand_args(global, cmd->val[i]);
+				ft_expand_args(global, cmd, i);
 		ft_signal(1);
 		if (execve(cmd->path, cmd->val, global->env) == -1)
 		{

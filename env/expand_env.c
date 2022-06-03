@@ -37,16 +37,19 @@ int check_name(char *token)
 char *check_value(char *token)
 {
 	char *value;
+	char *tmp;
 
 	value = ft_strchr(token, '=');
 	if (!value)
 		return(ft_strdup(""));
 	else
-		value = ft_strtrim(value, "=");
-	if (value[0] == '\"')
-		value = ft_strtrim(value, "\"");
-	else if (value[0] == '\'')
-		value = ft_strtrim(value, "\'");
+		value = ft_strdup(&value[1]);
+	if (value[0] == '\"' || value[0] == '\'')
+	{
+		tmp = ft_strtrim(value, "\"\'");
+		free(value);
+		return (tmp);
+	}
 	return (value);
 }
 

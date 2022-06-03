@@ -108,9 +108,10 @@ int	ft_export(t_cmd *cmd, t_global *global)
 					ft_insert_tab(global->env, cmd->val[i]);
 				new_env = create_var_env(name, cmd->val[i]);
 				ft_lst_insert(&global->head_env, new_env);
+				free(name);
 			}
 		}
-		i++;;
+		i++;
 		free(sign);
 	}
 	// ft_print_env(&global->head_env);

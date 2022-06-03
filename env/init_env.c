@@ -108,7 +108,10 @@ char *edit_name(char *str, char c)
 	{
 		i++;
 		if (str[i] == '\0')
-			return (str);
+		{
+			res = ft_strdup(str);
+			return (res);
+		}
 	}
 	while (ft_strchr("=+", str[i]))
 		i--;

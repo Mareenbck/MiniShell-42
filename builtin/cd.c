@@ -43,7 +43,6 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 	else if (!ft_strncmp(cmd->val[1], "-", 2))
 	{
 		chdir(tmp);
-		free(tmp);
 	}
 	else
 	{
@@ -53,6 +52,7 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 			printf("bash: cd: No such file or directory\n");
 		free(new);
 	}
+	free(tmp);
 	env = find_name(&global->head_env, "PWD", 3);
 	if (env)
 	{
