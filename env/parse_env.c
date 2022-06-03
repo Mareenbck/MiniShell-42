@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 12:55:02 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/03 12:07:02 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/03 17:01:08 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char *find_binary(char **split_path, char *cmd)
 	while (split_path[i])
 	{
 		tmp = ft_strjoin(split_path[i], "/");
-		printf("TMP : %s\n", tmp);
+		// printf("TMP : %s\n", tmp);
 		join_path = ft_strjoin(tmp, cmd);
 		if (access(join_path, F_OK) == 0)
 			return (join_path);

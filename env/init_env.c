@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 08:45:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/01 15:41:59 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/03 17:00:47 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_env *ft_init_var_env()
 	new_var_env->var_sign = NULL;
 	new_var_env->next = NULL;
 	new_var_env->prev = NULL;
+	//ft_lst_clear3(&new_var_env, free);
 	return (new_var_env);
 }
 

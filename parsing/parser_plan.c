@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/03 12:07:26 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/03 16:46:49 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			else
 			{
 				ft_error("syntax error near unexpected token `|'", 2);
+				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
 		}
@@ -131,6 +132,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			if (check_ambiguious_args(token->val, cmd))
 			{
 				ft_error("ambiguous redirect", 2);
+				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
 			else
@@ -146,6 +148,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			if (check_access(cmd, token->val))
 			{
 				perror(token->val);
+				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
 		}
@@ -159,6 +162,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			else
 			{
 				ft_error("Syntax error", 2);
+				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
 		}
@@ -172,6 +176,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			else
 			{
 				ft_error("Syntax error", 2);
+				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
 		}
