@@ -167,6 +167,7 @@ void	ft_init_list_env(t_env **head_env, t_global *global)
 		if (!check_name(global->sorted_env[i]))
 			name = edit_name(global->sorted_env[i], '=');
 		new_var_env = create_var_env(name, global->sorted_env[i]);
+		free(name);
 		ft_lstaddback3(head_env, new_var_env);
 		i++;
 	}
