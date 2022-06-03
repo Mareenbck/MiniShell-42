@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/02 17:22:05 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/03 12:17:44 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 		{
 			ft_lst_clear(&global->head, free);
 			ft_lst_clear2(&global->headcmd, free);
-			//ft_error("Command Not Found", CANTEXEC);
+			ft_error("Command Not Found", CANTEXEC);
 		}
 	}
 }
@@ -73,19 +73,19 @@ int	ft_search_builtin(t_cmd *cmd, t_global *global)
 {
 	if (cmd->val[0] == NULL)
 		return (1);
-	if (!ft_strncmp(cmd->val[0], "echo", 4))
+	if (!ft_strncmp(cmd->val[0], "echo", 5))
 		ft_echo(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "cd", 2))
+	else if (!ft_strncmp(cmd->val[0], "cd", 3))
 		ft_cd(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "env", 3))
+	else if (!ft_strncmp(cmd->val[0], "env", 4))
 		ft_env(global);
-	else if (!ft_strncmp(cmd->val[0], "pwd", 3))
+	else if (!ft_strncmp(cmd->val[0], "pwd", 4))
 		ft_pwd();
-	else if (!ft_strncmp(cmd->val[0], "export", 6))
+	else if (!ft_strncmp(cmd->val[0], "export", 7))
 		ft_export(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "unset", 5))
+	else if (!ft_strncmp(cmd->val[0], "unset", 6))
 		ft_unset(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "exit", 4))
+	else if (!ft_strncmp(cmd->val[0], "exit", 5))
 		ft_exit(global, cmd);
 	else
 	{
