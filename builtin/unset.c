@@ -35,14 +35,18 @@ int	ft_unset(t_cmd *cmd, t_global *global)
 
 	i = -1;
 	token = global->head->next;
-	while (global->env[++i])
+	while (token->next != NULL)
 	{
-		name = edit_name(global->env[i], '=');
 		if (!not_valid(token->val))
 		{
 			printf("unset: not a valid identifier\n");
-			break ;
+			return (1);
 		}
+		token = token->next;
+	}
+	while (global->env[++i])
+	{
+		name = edit_name(global->env[i], '=');
 		if (ft_strcmp(name, cmd->val[1]) == 0)
 		{
 			free(name);

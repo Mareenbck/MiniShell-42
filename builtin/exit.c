@@ -30,6 +30,8 @@ bool	ft_is_valid_num(char *s)
 		i++;
 	if (sign > 1 || s[i])
 		return (false);
+	if (ft_atoll(s) > 2147483647 || ft_atoll(s) < -2147483648)
+		return (false);
 	return (true);
 }
 
