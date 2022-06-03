@@ -50,7 +50,6 @@ char **split_expand(char *str)
 void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 {
 	t_env *env;
-	// char *tmp;
 	char **split;
 	int i;
 
@@ -78,18 +77,6 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 			i++;
 
 		}
-		// else if (str[1] == '\"')
-		// {
-		// 	tmp = ft_strtrim(str, "\"$");
-		// 	printf("%s\n", tmp);
-		// }
-		// else
-		// {
-		// 	// ft_lst_clear(&global->head, free);
-		// 	// ft_lst_clear2(&global->headcmd, free);
-		// 	// ft_lst_clear3(&global->head_env, free);
-		// 	ft_error("Command not found3", NOTFOUND);
-		// }
 	}
 }
 
@@ -100,8 +87,7 @@ void	ft_expand_cmd_first(t_global *global)
 	t_env *env;
 	int i;
 	int j;
-//SI CMD->VAL QUE 0 , PAR DARG APRES/ALORS ON SPLIT ET ON COLLE TOUT POUR VERIFIER SI CMD APPLIQUABLE OU PAS
-//SINON ON FAIT EXPAND DANS FT_EXE
+
 	cmd = global->headcmd;
 	while (cmd->next)
 	{

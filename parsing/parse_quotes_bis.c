@@ -52,6 +52,7 @@ void	delete_quotes(t_cmd *cmd, int i, int j)
 		if (is_empty_string(cmd->val[i]))
 			cmd->val[i] = ft_strdup("");
 		tmp = ft_strtrim(cmd->val[i], "\'");
+		free(tmp);
 		tmp = ft_strtrim(cmd->val[i], "\"");
 		free(cmd->val[i]);
 		cmd->val[i] = new_string(tmp, '\'');
@@ -88,6 +89,7 @@ void	delete_quotes_bis(t_cmd *cmd, int i)
 		if (is_empty_string(cmd->val[i]))
 			cmd->val[i] = ft_strdup("");
 		tmp = ft_strtrim(cmd->val[i], "\'");
+		free(tmp);
 		tmp = ft_strtrim(cmd->val[i], "\"");
 		free(cmd->val[i]);
 		cmd->val[i] = new_string(tmp, '\'');
