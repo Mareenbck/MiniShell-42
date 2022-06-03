@@ -135,6 +135,6 @@ int	ft_export(t_cmd *cmd, t_global *global)
 		i++;;
 		free(sign);
 	}
-	// ft_print_env(head_env);
+	// ft_print_env(&global->head_env);
 	return (0);
 }

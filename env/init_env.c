@@ -90,7 +90,7 @@ t_env  *create_var_env(char *name, char *env)
 
 	new_var_env = ft_init_var_env();
 	new_var_env->declare = ft_strdup("declare -x");
-	new_var_env->var_name = name;
+	new_var_env->var_name = ft_strdup(name);
 	new_var_env->var_value = check_value(env);
 	new_var_env->var_sign = init_sign(env);
 	new_var_env->next = NULL;
