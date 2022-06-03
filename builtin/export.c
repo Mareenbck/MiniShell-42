@@ -27,7 +27,7 @@ void	ft_print_export(t_global *global)
 	}
 }
 
-void	ft_change_env(char *name, char *value, t_global *global)
+int	ft_change_env(char *name, char *value, t_global *global)
 {
 	char **env;
 	int i;
@@ -42,34 +42,13 @@ void	ft_change_env(char *name, char *value, t_global *global)
 		{
 			free(env[i]);
 			env[i] = ft_strjoin(tmp, value);
-			break ;
+			return (0);
 		}
 		i++;
 	}
 	ft_insert_tab(global->env, ft_strjoin(tmp, value));
+	return (1);
 }
-
-// void	ft_concat_env(char *name, char *value, t_global *global)
-// {
-// 	char **env;
-// 	int i;
-// 	char *tmp = NULL;
-
-// 	i = 0;
-// 	env = global->env;
-// 	printf("NAME : %s, VALUE : %s\n", name, value);
-// 	while(env[i])
-// 	{
-// 		if (!ft_strncmp(env[i], name, ft_strlen(name)))
-// 		{
-// 			tmp = ft_strdup(env[i]);
-// 			free(env[i]);
-// 			env[i] = ft_strjoin(tmp, value);
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// }
 
 bool ft_str_isalnum(char *str)
 {
@@ -84,7 +63,6 @@ bool ft_str_isalnum(char *str)
 		return (false);
 }
 
-//FAIRE UEN STRUCT TMP POUR ENREGISTRER NOM ET SIGNE FORMATE
 int	ft_export(t_cmd *cmd, t_global *global)
 {
 	t_env *env;
