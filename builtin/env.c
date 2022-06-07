@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 14:13:35 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/01 15:41:23 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:15:06 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void ft_insert_tab(char **tab, char *name)
 {
-	int i;
+	int	i;
 	i = 0;
 
 	while (tab[i])
@@ -26,7 +26,7 @@ void ft_insert_tab(char **tab, char *name)
 
 int	ft_env(t_global *global)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (global->env[i])

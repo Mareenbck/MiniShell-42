@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 08:45:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/03 17:00:47 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 14:26:08 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_init_sorted_env(t_global *global)
 	ft_sort_tab(global->sorted_env);
 }
 
-// POUR TEST__ A VIRER PLUS TARD
+//POUR TEST__ A VIRER PLUS TARD
 void ft_print_env(t_env **head)
 {
 	t_env *tmp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 10:19:32 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/11 10:19:49 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:15:25 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	ft_is_valid_num(char *s)
 {
 	int	sign;
-	int i;
+	int	i;
 
 	i = 0;
 	sign = 0;

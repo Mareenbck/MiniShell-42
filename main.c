@@ -6,13 +6,13 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:13:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/02 17:18:19 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 15:27:14 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_exit_status;
+int	g_exit_status;
 
 void	ft_init_minishell(t_global *global, char **envp)
 {
@@ -38,14 +38,12 @@ void	ft_free_list(t_global *global)
 	// ft_free_tab(global->sorted_env);
 }
 
-int init_token_cmd_list(char *line, t_global *global)
+int	init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
 	// ft_print(&global->head);
 	if (!analize_cmd(&global->headcmd, global))
-	{
 		return (0);
-	}
 	else
 	{
 		ft_lst_clear(&global->head, free);
@@ -64,17 +62,21 @@ void	ft_quit(t_global *global)
 
 int	main(int ac, char **av, char **envp)
 {
-	char *line;
+	char	*line;
 	t_global	global;
-	(void)ac;
 	(void)av;
+
+	if (ac != 1)
+	{
+		printf("Wrong number of arguments\n");
+		return (1);
+	}
 	ft_init_minishell(&global, envp);
 	g_exit_status = 0;
 	while (!global.exit)
 	{
 		ft_signal(2);
 		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
-		// line = readline("\1\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
 		ft_signal(0);
 		if (!line)
 			ft_quit(&global);
@@ -84,7 +86,6 @@ int	main(int ac, char **av, char **envp)
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
 				// ft_print_cmd(&global.headcmd);
-				// parse_path(global.headcmd);
 				ft_expand_cmd_first(&global);
 				parse_execution(&global);
 			}
