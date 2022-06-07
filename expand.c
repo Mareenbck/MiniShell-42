@@ -99,7 +99,7 @@ void	ft_expand_cmd_first(t_global *global)
 		if (!cmd->val[1])
 		{
 			split = ft_split_many(cmd->val[0], "$\"");
-			if (split[1] == NULL)
+			if ((split[0] != NULL && split[1] == NULL) || split[0] == NULL)
 			{
 				ft_free_tab(split);
 				break ;
@@ -112,7 +112,11 @@ void	ft_expand_cmd_first(t_global *global)
 		{
 			env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
 			if (env && i == 0)
-				split[i] = env->var_value;
+			{
+				free(split[0]);
+				split[0] = ft_strdup(env->var_value);
+				// split[i] = env->var_value;
+			}
 			else if (env && i > 0)
 				split[0] = ft_strjoin(split[0], env->var_value);
 			else if (i != 0)

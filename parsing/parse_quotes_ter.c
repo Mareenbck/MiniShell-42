@@ -45,25 +45,28 @@ int	error_quotes(t_cmd *cmd)
 void	dispatch_parsing(t_cmd *cmd)
 {
 	int	i;
-	int	j;
+	// int	j;
 
 	i = 0;
 	while (cmd->val[i])
 	{
-		j = 0;
-		while (cmd->val[i][j])
+		// j = 0;
+		// while (cmd->val[i][j])
+		// {
+		printf("cmd val[%d] : %s\n", i, cmd->val[i]);
+		if (start_with_simple(cmd->val[i]) || start_with_dobles(cmd->val[i]) || start_with_dollar(cmd->val[i]))
 		{
-			if (start_with_simple(cmd) || start_with_dobles(cmd))
-			{
-				delete_quotes_bis(cmd, i);
-				break ;
-			}
-			if (is_simple_quotes(cmd->val[i][j])
-				|| is_doble_quotes(cmd->val[i][j]))
-				delete_quotes(cmd, i, j);
-			j++;
+			delete_quotes_bis(cmd, i);
+			// break ;
 		}
+		if (ft_strchr(cmd->val[i], '\'') && !cmd->expand[i])
+			cmd->val[i] = new_string(cmd->val[i], '\'');
+		if (ft_strchr(cmd->val[i], '\"') && !cmd->expand[i])
+			cmd->val[i] = new_string(cmd->val[i], '\"');
 		i++;
+				// delete_quotes(cmd, i, j);
+			// j++;
+		// }
 	}
 }
 
