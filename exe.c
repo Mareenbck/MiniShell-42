@@ -26,6 +26,10 @@ int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 		if (!cmd->path)
 			ft_expand_echo(cmd, global, cmd->val[0]);
 	}
+	ft_free_tab(global->env);
+	ft_lst_clear(&global->head, free);
+	ft_lst_clear2(&global->headcmd, free);
+	ft_lst_clear3(&global->head_env, free);
 	return (0);
 	// ft_free_tab(split_path);
 }
@@ -39,7 +43,7 @@ void	ft_expand_args(t_global *global, t_cmd *cmd, int i)
 	// printf("expand args env : %s, val : %s\n", env->var_name, env->var_value);
 }
 
-void	ft_exe(t_global *global, t_cmd *cmd)
+int	ft_exe(t_global *global, t_cmd *cmd)
 {
 	char	**split_path;
 	int i = 0;
@@ -54,7 +58,7 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 			ft_error("Command not found1", NOTFOUND);
 		}
 		if (cmd->expand[i])
-			ft_expand_cmd(global, cmd, split_path);
+			return (ft_expand_cmd(global, cmd, split_path));
 		else
 		{
 			cmd->path = find_binary(split_path, cmd->val[i]);
@@ -67,9 +71,10 @@ void	ft_exe(t_global *global, t_cmd *cmd)
 		{
 			ft_lst_clear(&global->head, free);
 			ft_lst_clear2(&global->headcmd, free);
-			ft_error("Command Not Found", CANTEXEC);
+			ft_error("Command Not Found!", CANTEXEC);
 		}
 	}
+	return (0);
 }
 
 int	ft_search_builtin(t_cmd *cmd, t_global *global)

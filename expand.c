@@ -15,6 +15,7 @@
 char **split_expand(char *str)
 {
 	char **split;
+	char *tmp;
 	int i;
 	int j;
 	int words = 0;
@@ -37,12 +38,14 @@ char **split_expand(char *str)
 		j += i;
 		while (ft_isalnum(str[j]))
 			j++;
-		split[i] = ft_strdup_bis(&str[j - (j - i)], j - i);
-		split[i] = ft_strtrim(split[i], "$\"");
+		tmp = ft_strdup_bis(&str[j - (j - i)], j - i);
+		split[i] = ft_strtrim(tmp, "$\"");
+		free(tmp);
 		if (str[j] == '\'')
 			split[++i] = ft_strdup("\'");
 		i++;
 	}
+	free(str);
 	split[words] = NULL;
 	return (split);
 }
@@ -50,7 +53,6 @@ char **split_expand(char *str)
 void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 {
 	t_env *env;
-	// char *tmp;
 	char **split;
 	int i;
 
@@ -76,20 +78,8 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 			else
 				printf("%s", split[i]);
 			i++;
-
 		}
-		// else if (str[1] == '\"')
-		// {
-		// 	tmp = ft_strtrim(str, "\"$");
-		// 	printf("%s\n", tmp);
-		// }
-		// else
-		// {
-		// 	// ft_lst_clear(&global->head, free);
-		// 	// ft_lst_clear2(&global->headcmd, free);
-		// 	// ft_lst_clear3(&global->head_env, free);
-		// 	ft_error("Command not found3", NOTFOUND);
-		// }
+		ft_free_tab(split);
 	}
 }
 
@@ -100,8 +90,7 @@ void	ft_expand_cmd_first(t_global *global)
 	t_env *env;
 	int i;
 	int j;
-//SI CMD->VAL QUE 0 , PAR DARG APRES/ALORS ON SPLIT ET ON COLLE TOUT POUR VERIFIER SI CMD APPLIQUABLE OU PAS
-//SINON ON FAIT EXPAND DANS FT_EXE
+
 	cmd = global->headcmd;
 	while (cmd->next)
 	{
@@ -132,6 +121,7 @@ void	ft_expand_cmd_first(t_global *global)
 		}
 		ft_free_tab(cmd->val);
 		cmd->val = ft_split(split[0], ' ');
+		ft_free_tab(split);
 		j = 0;
 		if (cmd->val[1] != NULL)
 		{
@@ -141,7 +131,6 @@ void	ft_expand_cmd_first(t_global *global)
 				j++;
 			}
 		}
-		ft_free_tab(split);
 		cmd = cmd->next;
 	}
 }

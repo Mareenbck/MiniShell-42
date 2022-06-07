@@ -77,6 +77,7 @@ void	delete_quotes(t_cmd *cmd, int i, int j)
 				cmd->val[i] = new_string(tmp, '\"');
 			}
 		}
+		free(tmp);
 	}
 }
 
@@ -104,6 +105,9 @@ void	delete_quotes_bis(t_cmd *cmd, int i)
 		{
 			free(cmd->val[i]);
 			cmd->val[i] = new_string(tmp, '\"');
+			// free(tmp);
 		}
+		else
+			free(tmp);
 	}
 }
