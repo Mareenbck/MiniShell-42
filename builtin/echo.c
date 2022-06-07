@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 09:34:42 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/01 16:39:47 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:50:20 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ int ft_echo(t_cmd *cmd, t_global *global)
 			ft_expand_echo(cmd, global, cmd->val[i]);
 		else
 		{
-			if (start_with_dollar(cmd) && cmd->expand[i])
+			if (start_with_dollar(cmd->val[i]) && cmd->expand[i])
 			{
 				write(cmd->output, &cmd->val[i][1], ft_strlen(&cmd->val[i][1]));
 				write(cmd->output, " ", 1);
 			}
-			else if (start_with_dollar(cmd) && !cmd->expand[i])
+			else if (start_with_dollar(cmd->val[i]) && !cmd->expand[i])
 			{
 				write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
 				write(cmd->output, " ", 1);
