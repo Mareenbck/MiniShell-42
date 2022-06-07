@@ -159,13 +159,13 @@ int			count_d_quotes(t_cmd *cmd);
 int			count_s_quotes(t_cmd *cmd);
 void		recup_count_d_quotes(t_token *token);
 void		recup_count_s_quotes(t_token *token);
-int			start_with_simple(t_cmd *cmd);
-int			start_with_dobles(t_cmd *cmd);
+int			start_with_simple(char *cmd);
+int			start_with_dobles(char *cmd);
+int			start_with_dollar(char *cmd);
 int 		is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd, int i, int j);
 void		delete_quotes_bis(t_cmd *cmd, int i);
 int			error_quotes(t_cmd *cmd);
-int			start_with_dollar(t_cmd *cmd);
 int			last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
 
 /* UTILS */
@@ -212,7 +212,7 @@ void	handle_sigint(int sig);
 // EXE
 void	ft_execution(t_global *global);
 int	ft_exe(t_global *global, t_cmd *cmd);
-int	ft_search_builtin(t_cmd *cmd, t_global *global);
+int	ft_search_builtin(t_cmd *cmd, char *str, t_global *global);
 
 
 // BUILTIN

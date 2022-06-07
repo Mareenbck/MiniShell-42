@@ -59,46 +59,56 @@ int	count_s_quotes(t_cmd *cmd)
 	return (count);
 }
 
-int	start_with_simple(t_cmd *cmd)
+int	start_with_simple(char *cmd)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
-	while (cmd->val[i])
-	{
-		if (cmd->val[i][0] == '\'')
-			return (1);
-		i++;
-	}
-	return (0);
+	// i = 0;
+	// while (cmd->val[i])
+	// {
+	if (cmd[0] == '\'')
+		return (1);
+	else
+		return (0);
+		// i++;
+	// }
 }
 
-int	start_with_dobles(t_cmd *cmd)
+int	start_with_dobles(char *cmd)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
-	while (cmd->val[i])
-	{
-		if (cmd->val[i][0] == '\"')
-			return (1);
-		i++;
-	}
-	return (0);
+	// i = 0;
+	// while (cmd->val[i])
+	// {
+	// 	if (cmd->val[i][0] == '\"')
+	// 		return (1);
+	// 	i++;
+	// }
+	// return (0);
+
+	if (cmd[0] == '\"')
+		return (1);
+	else
+		return (0);
 }
 
-int	start_with_dollar(t_cmd *cmd)
+int	start_with_dollar(char *cmd)
 {
-	int	i;
-	int	j;
+	// int	i;
+	// int	j;
 
-	i = 0;
-	while (cmd->val[i])
-	{
-		j = 0;
-		if (cmd->val[i][j] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
+	// i = 0;
+	// while (cmd->val[i])
+	// {
+	// 	j = 0;
+	// 	if (cmd->val[i][j] == '$')
+	// 		return (1);
+	// 	i++;
+	// }
+	// return (0);
+	if (cmd[0] == '$')
+		return (1);
+	else
+		return (0);
 }

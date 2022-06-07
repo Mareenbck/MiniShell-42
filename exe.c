@@ -15,6 +15,8 @@
 int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 {
 	t_env *env;
+	char *tmp;
+
 	env = find_name(&global->head_env, &cmd->val[0][1], ft_strlen(&cmd->val[0][1]));
 	if (!env)
 	{
@@ -25,15 +27,19 @@ int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 		ft_lst_clear3(&global->head_env, free);
 		return (1);
 	}
-	printf("env : %s\n", env->var_name);
-	ft_strcpy(cmd->val[0], env->var_value);
-	if (ft_search_builtin(cmd, global) == 1)
+	// free(cmd->val[0]);
+	tmp = ft_strdup(env->var_value);
+	// ft_strcpy(cmd->val[0], env->var_value);
+	if (ft_search_builtin(cmd, tmp, global) == 0)
+		ft_free_tab(split_path);
+	else
 	{
 		cmd->path = find_binary(split_path, env->var_value);
 		if (!cmd->path)
 			ft_expand_echo(cmd, global, cmd->val[0]);
 	}
 	ft_free_tab(global->env);
+	free(tmp);
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
 	ft_lst_clear3(&global->head_env, free);
@@ -99,23 +105,23 @@ int	ft_exe(t_global *global, t_cmd *cmd)
 	return (0);
 }
 
-int	ft_search_builtin(t_cmd *cmd, t_global *global)
+int	ft_search_builtin(t_cmd *cmd, char *str, t_global *global)
 {
-	if (cmd->val[0] == NULL)
+	if (str == NULL)
 		return (1);
-	if (!ft_strncmp(cmd->val[0], "echo", 5))
+	if (!ft_strncmp(str, "echo", 5))
 		ft_echo(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "cd", 3))
+	else if (!ft_strncmp(str, "cd", 3))
 		ft_cd(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "env", 4))
+	else if (!ft_strncmp(str, "env", 4))
 		ft_env(global);
-	else if (!ft_strncmp(cmd->val[0], "pwd", 4))
+	else if (!ft_strncmp(str, "pwd", 4))
 		ft_pwd();
-	else if (!ft_strncmp(cmd->val[0], "export", 7))
+	else if (!ft_strncmp(str, "export", 7))
 		ft_export(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "unset", 6))
+	else if (!ft_strncmp(str, "unset", 6))
 		ft_unset(cmd, global);
-	else if (!ft_strncmp(cmd->val[0], "exit", 5))
+	else if (!ft_strncmp(str, "exit", 5))
 		ft_exit(global, cmd);
 	else
 	{
@@ -148,7 +154,7 @@ void	ft_exe_with_pipe(t_cmd *cmd, t_global *global)
 	{
 		// ft_signal(1);
 		init_io(cmd);
-		if (ft_search_builtin(cmd, global) == 1)
+		if (ft_search_builtin(cmd, cmd->val[0], global) == 1)
 			ft_exe(global, cmd);
 		exit(0);
 	}
@@ -160,7 +166,7 @@ void	ft_child_process(t_cmd *cmd, t_global *global)
 		ft_exe_with_pipe(cmd, global);
 	else
 	{
-		if (ft_search_builtin(cmd, global) == 1 && cmd->val[0] != NULL)
+		if (ft_search_builtin(cmd, cmd->val[0], global) == 1 && cmd->val[0] != NULL)
 		{
 			cmd->pid = fork();
 			if (cmd->pid == 0)
