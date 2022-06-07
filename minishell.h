@@ -211,7 +211,7 @@ void	handle_sigint(int sig);
 
 // EXE
 void	ft_execution(t_global *global);
-void	ft_exe(t_global *global, t_cmd *cmd);
+int	ft_exe(t_global *global, t_cmd *cmd);
 int	ft_search_builtin(t_cmd *cmd, t_global *global);
 
 

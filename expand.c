@@ -15,6 +15,7 @@
 char **split_expand(char *str)
 {
 	char **split;
+	char *tmp;
 	int i;
 	int j;
 	int words = 0;
@@ -37,12 +38,14 @@ char **split_expand(char *str)
 		j += i;
 		while (ft_isalnum(str[j]))
 			j++;
-		split[i] = ft_strdup_bis(&str[j - (j - i)], j - i);
-		split[i] = ft_strtrim(split[i], "$\"");
+		tmp = ft_strdup_bis(&str[j - (j - i)], j - i);
+		split[i] = ft_strtrim(tmp, "$\"");
+		free(tmp);
 		if (str[j] == '\'')
 			split[++i] = ft_strdup("\'");
 		i++;
 	}
+	free(str);
 	split[words] = NULL;
 	return (split);
 }
@@ -75,8 +78,8 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 			else
 				printf("%s", split[i]);
 			i++;
-
 		}
+		ft_free_tab(split);
 	}
 }
 
@@ -118,6 +121,7 @@ void	ft_expand_cmd_first(t_global *global)
 		}
 		ft_free_tab(cmd->val);
 		cmd->val = ft_split(split[0], ' ');
+		ft_free_tab(split);
 		j = 0;
 		if (cmd->val[1] != NULL)
 		{
@@ -127,7 +131,6 @@ void	ft_expand_cmd_first(t_global *global)
 				j++;
 			}
 		}
-		ft_free_tab(split);
 		cmd = cmd->next;
 	}
 }
