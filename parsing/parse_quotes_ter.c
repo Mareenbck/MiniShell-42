@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:39:59 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/03 16:50:48 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:09:44 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,18 @@ int	error_quotes(t_cmd *cmd)
 void	dispatch_parsing(t_cmd *cmd)
 {
 	int	i;
-	// int	j;
 
 	i = 0;
 	while (cmd->val[i])
 	{
-		// j = 0;
-		// while (cmd->val[i][j])
-		// {
-		printf("cmd val[%d] : %s\n", i, cmd->val[i]);
-		if (start_with_simple(cmd->val[i]) || start_with_dobles(cmd->val[i]) || start_with_dollar(cmd->val[i]))
-		{
+		if (start_with_simple(cmd->val[i]) || start_with_dobles(cmd->val[i])
+			|| start_with_dollar(cmd->val[i]))
 			delete_quotes_bis(cmd, i);
-			// break ;
-		}
 		if (ft_strchr(cmd->val[i], '\'') && !cmd->expand[i])
 			cmd->val[i] = new_string(cmd->val[i], '\'');
 		if (ft_strchr(cmd->val[i], '\"') && !cmd->expand[i])
 			cmd->val[i] = new_string(cmd->val[i], '\"');
 		i++;
-				// delete_quotes(cmd, i, j);
-			// j++;
-		// }
 	}
 }
 

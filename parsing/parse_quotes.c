@@ -6,10 +6,9 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:41:37 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 14:58:13 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:45:12 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 
@@ -59,56 +58,33 @@ int	count_s_quotes(t_cmd *cmd)
 	return (count);
 }
 
-int	start_with_simple(char *cmd)
+char	*new_string(char *str, char c)
 {
-	// int	i;
+	char	*s;
+	int		i;
+	int		j;
 
-	// i = 0;
-	// while (cmd->val[i])
-	// {
-	if (cmd[0] == '\'')
-		return (1);
-	else
-		return (0);
-		// i++;
-	// }
+	i = 0;
+	j = 0;
+	s = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!s)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] == c)
+			i++;
+		else
+			s[j++] = str[i++];
+	}
+	s[j] = '\0';
+	free(str);
+	return (s);
 }
 
-int	start_with_dobles(char *cmd)
+void	check_if_expand(char *str, int i, t_cmd *cmd)
 {
-	// int	i;
-
-	// i = 0;
-	// while (cmd->val[i])
-	// {
-	// 	if (cmd->val[i][0] == '\"')
-	// 		return (1);
-	// 	i++;
-	// }
-	// return (0);
-
-	if (cmd[0] == '\"')
-		return (1);
+	if (str[0] == '$' && str[1] != '\0' && str[1] != '\"')
+		cmd->expand[i] = 1;
 	else
-		return (0);
-}
-
-int	start_with_dollar(char *cmd)
-{
-	// int	i;
-	// int	j;
-
-	// i = 0;
-	// while (cmd->val[i])
-	// {
-	// 	j = 0;
-	// 	if (cmd->val[i][j] == '$')
-	// 		return (1);
-	// 	i++;
-	// }
-	// return (0);
-	if (cmd[0] == '$')
-		return (1);
-	else
-		return (0);
+		cmd->expand[i] = 0;
 }

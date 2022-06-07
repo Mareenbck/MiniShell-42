@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/02 16:43:27 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:39:30 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,7 @@ void	ft_print_cmd(t_cmd **cmd);
 t_cmd	*ft_init_cmd();
 void	find_token(t_token *token, t_cmd *cmd);
 int		list_len(t_token **head);
-void	parse_path(t_cmd *cmd);
-int	find_back_slash(char c);
+void	check_if_expand(char *str, int i, t_cmd *cmd);
 
 //PIPE
 int			check_pipe_position(t_token *token, t_cmd *cmd);
@@ -150,9 +149,6 @@ int		last_check_redir_o(char *file_name, t_cmd *cmd);
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
 int			is_simple_quotes(char c);
-void		trim_doble_quotes(t_cmd *cmd);
-void		trim_simple_quotes(t_cmd *cmd);
-void		trim_global_quotes(t_token *token);
 
 //QUOTE - PARSE
 int			count_d_quotes(t_cmd *cmd);

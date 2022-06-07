@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:02:21 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/31 15:02:24 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:38:05 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,26 @@ int	is_simple_quotes(char c)
 	return (0);
 }
 
-void	trim_doble_quotes(t_cmd *cmd)
+int	start_with_simple(char *cmd)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cmd->val[i])
-	{
-		j = 0;
-		while (cmd->val[i][j])
-		{
-			if (is_doble_quotes(cmd->val[i][j]))
-				cmd->val[i] = ft_strtrim(cmd->val[i], "\'");
-			j++;
-		}
-		i++;
-	}
+	if (cmd[0] == '\'')
+		return (1);
+	else
+		return (0);
 }
 
-void	trim_simple_quotes(t_cmd *cmd)
+int	start_with_dobles(char *cmd)
 {
-	int	i;
-	int	j;
+	if (cmd[0] == '\"')
+		return (1);
+	else
+		return (0);
+}
 
-	i = 0;
-	while (cmd->val[i])
-	{
-		j = 0;
-		while (cmd->val[i][j])
-		{
-			if (is_simple_quotes(cmd->val[i][j]))
-				cmd->val[i] = ft_strtrim(cmd->val[i], "\'");
-			j++;
-		}
-		i++;
-	}
+int	start_with_dollar(char *cmd)
+{
+	if (cmd[0] == '$')
+		return (1);
+	else
+		return (0);
 }

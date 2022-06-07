@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 13:55:22 by marinebas         #+#    #+#             */
-/*   Updated: 2022/06/01 15:48:42 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:34:09 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 			env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
 			if (env)
 				printf("%s", env->var_value);
-			else
-				printf("%s", split[i]);
 			i++;
 		}
 		ft_free_tab(split);
