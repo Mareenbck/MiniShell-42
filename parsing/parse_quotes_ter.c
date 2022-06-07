@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:39:59 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 16:09:44 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 17:17:48 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	dispatch_parsing(t_cmd *cmd)
 		if (start_with_simple(cmd->val[i]) || start_with_dobles(cmd->val[i])
 			|| start_with_dollar(cmd->val[i]))
 			delete_quotes_bis(cmd, i);
-		if (ft_strchr(cmd->val[i], '\'') && !cmd->expand[i])
+		else if (ft_strchr(cmd->val[i], '\'') && !cmd->expand[i])
 			cmd->val[i] = new_string(cmd->val[i], '\'');
-		if (ft_strchr(cmd->val[i], '\"') && !cmd->expand[i])
+		else if (ft_strchr(cmd->val[i], '\"') && !cmd->expand[i])
 			cmd->val[i] = new_string(cmd->val[i], '\"');
 		i++;
 	}
