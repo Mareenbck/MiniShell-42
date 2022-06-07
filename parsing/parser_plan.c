@@ -126,6 +126,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 		{
 			if (check_redir_o_position(token, cmd) == 1)
 			{
+				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
 			token = token->next;
