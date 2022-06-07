@@ -46,7 +46,9 @@ int	ft_change_env(char *name, char *value, t_global *global)
 		}
 		i++;
 	}
-	ft_insert_tab(global->env, ft_strjoin(tmp, value));
+	tmp = ft_strjoin(tmp, value);
+	ft_insert_tab(global->env, tmp);
+	free(tmp);
 	return (1);
 }
 

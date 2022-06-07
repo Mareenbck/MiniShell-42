@@ -236,4 +236,7 @@ void parse_execution(t_global *global);
 void	ft_free_list(t_global *global);
 int ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 void ft_print(t_token **head);
+
+char	*new_string(char *str, char c);
+
 #endif
