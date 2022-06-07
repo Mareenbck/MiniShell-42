@@ -22,9 +22,10 @@ int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 	{
 		ft_free_tab(global->env);
 		ft_free_tab(split_path);
-		ft_lst_clear(&global->head, free);
-		ft_lst_clear2(&global->headcmd, free);
-		ft_lst_clear3(&global->head_env, free);
+		// ft_lst_clear(&global->head, free);
+		// ft_lst_clear2(&global->headcmd, free);
+		// ft_lst_clear3(&global->head_env, free);
+		perror("Command not Found");
 		return (1);
 	}
 	// free(cmd->val[0]);
@@ -66,9 +67,11 @@ int	ft_exe(t_global *global, t_cmd *cmd)
 		split_path = ft_split_envp(&global->head_env, "PATH");
 		if (!split_path)
 		{
+			ft_free_tab(global->env);
 			ft_lst_clear(&global->head, free);
 			ft_lst_clear2(&global->headcmd, free);
 			perror("Command Not Found1");
+			return (1);
 		}
 		if (cmd->expand[i])
 			return (ft_expand_cmd(global, cmd, split_path));
@@ -89,7 +92,7 @@ int	ft_exe(t_global *global, t_cmd *cmd)
 				ft_lst_clear2(&global->headcmd, free);
 				ft_lst_clear3(&global->head_env, free);
 				ft_free_tab(global->env);
-				perror("Command Not Found");
+				perror("Command Not Found2");
 				return (1);
 			}
 		}
@@ -99,7 +102,7 @@ int	ft_exe(t_global *global, t_cmd *cmd)
 			ft_lst_clear2(&global->headcmd, free);
 			ft_lst_clear3(&global->head_env, free);
 			ft_free_tab(global->env);
-			perror("Command Not Found");
+			perror("Command Not Found3");
 		}
 	}
 	return (0);
@@ -149,13 +152,17 @@ void	ft_exe_with_pipe(t_cmd *cmd, t_global *global)
 {
 	cmd->pid = fork();
 	if (cmd->pid < 0)
-		ft_error("Error fork", ERROR);
+		perror("Error fork");
 	if (cmd->pid == 0)
 	{
 		// ft_signal(1);
 		init_io(cmd);
 		if (ft_search_builtin(cmd, cmd->val[0], global) == 1)
 			ft_exe(global, cmd);
+		ft_lst_clear2(&global->headcmd, free);
+		ft_lst_clear(&global->head, free);
+		ft_lst_clear3(&global->head_env, free);
+		ft_free_tab(global->env);
 		exit(0);
 	}
 }
@@ -173,6 +180,10 @@ void	ft_child_process(t_cmd *cmd, t_global *global)
 			{
 				init_io(cmd);
 				ft_exe(global, cmd);
+				ft_lst_clear2(&global->headcmd, free);
+				ft_lst_clear(&global->head, free);
+				ft_lst_clear3(&global->head_env, free);
+				// ft_free_tab(global->env);
 				exit(0);
 			}
 		}
@@ -189,6 +200,7 @@ void	ft_parent_process(t_global *global)
 		waitpid(cmd->pid, NULL, 0);
 		cmd = cmd->next;
 	}
+
 }
 
 void	parse_execution(t_global *global)
@@ -202,7 +214,7 @@ void	parse_execution(t_global *global)
 		if (cmd->pipe)
 		{
 			if (pipe(fd_pipe) == -1)
-				ft_error("Error Pipe", ERROR);
+				perror("Error Pipe");
 			cmd->output = fd_pipe[1];
 			cmd->next->input = fd_pipe[0];
 			ft_exe_with_pipe(cmd, global);

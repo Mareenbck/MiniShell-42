@@ -53,7 +53,6 @@ void	dispatch_parsing(t_cmd *cmd)
 		// j = 0;
 		// while (cmd->val[i][j])
 		// {
-		printf("cmd val[%d] : %s\n", i, cmd->val[i]);
 		if (start_with_simple(cmd->val[i]) || start_with_dobles(cmd->val[i]) || start_with_dollar(cmd->val[i]))
 		{
 			delete_quotes_bis(cmd, i);
@@ -75,7 +74,7 @@ int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 	(void)token;
 	if (error_quotes(cmd) == 1)
 	{
-		ft_error("Syntax error", 2);
+		perror("Syntax error");
 		ft_lst_clear(&global->head, free);
 		ft_lst_clear2(&global->headcmd, free);
 		return (1);

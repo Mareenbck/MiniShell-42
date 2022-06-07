@@ -33,12 +33,12 @@ int	check_redir_i_position(t_token *token, t_cmd *cmd)
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
 	{
-		ft_error("Error syntax", 2);
+		perror("Error syntax");
 		return (1);
 	}
 	if (token->prev == NULL)
 	{
-		ft_error("Error syntax", 2);
+		perror("Error syntax");
 		return (1);
 	}
 	return (0);
@@ -49,7 +49,7 @@ int	check_redir_o_position(t_token *token, t_cmd *cmd)
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
 	{
-		ft_error("Error Syntax", 2);
+		perror("Error Syntax");
 		return (1);
 	}
 	return (0);

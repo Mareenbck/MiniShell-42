@@ -83,8 +83,16 @@ int	ft_export(t_cmd *cmd, t_global *global)
 		{
 			sign = init_sign(cmd->val[i]);
 			name = edit_name(cmd->val[i], '=');
-			if (!ft_str_isalnum(name))
-				ft_error("Syntax Error", ERROR);
+			if (!name)
+			{
+				free(sign);
+				printf("not a valid identifier\n");
+				return (1);
+			}
+			else if (!ft_str_isalnum(name))
+			{
+				perror("Syntax Error");
+			}
 			env = find_name(&global->head_env, name, (ft_strlen(name) + 1));
 			if (env)
 			{
@@ -112,9 +120,9 @@ int	ft_export(t_cmd *cmd, t_global *global)
 				ft_lst_insert(&global->head_env, new_env);
 				free(name);
 			}
+			free(sign);
 		}
 		i++;
-		free(sign);
 	}
 	// ft_print_env(&global->head_env);
 	return (0);

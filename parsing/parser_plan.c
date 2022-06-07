@@ -117,7 +117,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			}
 			else
 			{
-				ft_error("syntax error near unexpected token `|'", 2);
+				perror("syntax error near unexpected token `|'");
 				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
@@ -131,7 +131,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			token = token->next;
 			if (check_ambiguious_args(token->val, cmd))
 			{
-				ft_error("ambiguous redirect", 2);
+				perror("ambiguous redirect");
 				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
@@ -161,7 +161,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			}
 			else
 			{
-				ft_error("Syntax error", 2);
+				perror("Syntax error");
 				ft_lst_clear2(&cmd, free);
 				return (1);
 			}
@@ -175,7 +175,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			}
 			else
 			{
-				ft_error("Syntax error", 2);
+				perror("Syntax error");
 				ft_lst_clear2(&cmd, free);
 				return (1);
 			}

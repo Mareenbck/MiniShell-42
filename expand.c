@@ -76,7 +76,7 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 			if (env)
 				printf("%s", env->var_value);
 			else
-				printf("%s", split[i]);
+				printf(" ");
 			i++;
 		}
 		ft_free_tab(split);

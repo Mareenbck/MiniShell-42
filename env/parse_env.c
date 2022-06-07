@@ -38,7 +38,7 @@ char	**ft_split_envp(t_env **head_env, char *str)
 		if (!split_path)
 		{
 			ft_free_tab(split_path);
-			ft_error("Error\n", ALLOCATION_FAIL);
+			perror("Error\n");
 			return (NULL);
 		}
 		return (split_path);
