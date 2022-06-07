@@ -6,17 +6,17 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 14:13:35 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 15:15:06 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:58:16 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_insert_tab(char **tab, char *name)
+void	ft_insert_tab(char **tab, char *name)
 {
 	int	i;
-	i = 0;
 
+	i = 0;
 	while (tab[i])
 		i++;
 	tab[i] = ft_strdup(name);

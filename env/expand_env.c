@@ -19,13 +19,16 @@ int check_name(char *token)
 	i = 0;
 	// printf("token : %s\n", token);
 	if (ft_isdigit(token[i]))
-		return (ft_wrong("Wrong args2"));
+	{
+		printf("not a valid identifier\n");
+		return (1);
+	}
 	while (token[i] != '=' && token[i] != '\0')
 	{
 		if (!ft_isalnum(token[i]) && !ft_strchr("_+=", token[i]))
 		{
-			printf("token[i] : %c\n", token[i]);
-			return (ft_wrong("Wrong args"));
+			printf("not a valid identifier\n");
+			return (1);
 		}
 		i++;
 	}

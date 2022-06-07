@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:39:59 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 17:17:48 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:29:36 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 	(void)token;
 	if (error_quotes(cmd) == 1)
 	{
-		ft_error("Syntax error", 2);
+		perror("Syntax error");
 		ft_lst_clear(&global->head, free);
 		ft_lst_clear2(&global->headcmd, free);
 		return (1);

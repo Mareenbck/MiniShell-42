@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 10:19:32 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 15:15:25 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:57:11 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 		g_exit_status= SUCCESS;
 		printf("exit\n");
 		return (1);
-		// ft_error("exit\n", SUCCESS);
 	}
 	if (!ft_is_valid_num(cmd->val[1]))
 	{
 		g_exit_status = 2;
 		printf("exit: %s: numeric argument required\n", cmd->val[1]);
-		// ft_free_list(global);
 		return (1);
 	}
 	if (cmd->val[2] != NULL)
@@ -62,7 +60,6 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 	{
 		g_exit_status = ft_atoi(cmd->val[1]);
 		printf("exit\n");
-		// ft_free_list(global);
 	}
 	return (global->exit);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:04:52 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/09 11:05:06 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:55:39 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	not_valid(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -27,11 +27,23 @@ int	not_valid(char *str)
 	return (1);
 }
 
+void	ft_unset_bis(t_global *global, int i)
+{
+	while (global->env[i] && global->env[i + 1])
+	{
+		free(global->env[i]);
+		global->env[i] = ft_strdup(global->env[i + 1]);
+		i++;
+	}
+	free(global->env[i]);
+	global->env[i] = NULL;
+}
+
 int	ft_unset(t_cmd *cmd, t_global *global)
 {
-	int i;
-	char *name;
-	t_token *token;
+	int		i;
+	char	*name;
+	t_token	*token;
 
 	i = -1;
 	token = global->head->next;
@@ -48,21 +60,10 @@ int	ft_unset(t_cmd *cmd, t_global *global)
 	{
 		name = edit_name(global->env[i], '=');
 		if (ft_strcmp(name, cmd->val[1]) == 0)
-		{
-			while (global->env[i] && global->env[i + 1])
-			{
-				free(global->env[i]);
-				global->env[i] = ft_strdup(global->env[i + 1]);
-				i++;
-			}
-			free(global->env[i]);
-			global->env[i] = NULL;
-		}
+			ft_unset_bis(global, i);
 		free(name);
 	}
 	ft_lst_clear3(&global->head_env, free);
-	// free(global->sorted_env);
-	// ft_free_tab(global->env);
 	ft_init_list_env(&global->head_env, global);
 	return (0);
 }

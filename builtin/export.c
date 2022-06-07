@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:18:49 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 15:16:00 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:56:06 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_print_export(t_global *global)
 
 int	ft_change_env(char *name, char *value, t_global *global)
 {
-	char **env;
-	int i;
-	char *tmp;
+	char	**env;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	env = global->env;
@@ -52,9 +52,9 @@ int	ft_change_env(char *name, char *value, t_global *global)
 	return (1);
 }
 
-bool ft_str_isalnum(char *str)
+bool	ft_str_isalnum(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ft_isalnum(str[i]))
@@ -83,8 +83,16 @@ int	ft_export(t_cmd *cmd, t_global *global)
 		{
 			sign = init_sign(cmd->val[i]);
 			name = edit_name(cmd->val[i], '=');
-			if (!ft_str_isalnum(name))
-				ft_error("Syntax Error", ERROR);
+			if (!name)
+			{
+				free(sign);
+				printf("not a valid identifier\n");
+				return (1);
+			}
+			else if (!ft_str_isalnum(name))
+			{
+				perror("Syntax Error");
+			}
 			env = find_name(&global->head_env, name, (ft_strlen(name) + 1));
 			if (env)
 			{
@@ -112,9 +120,9 @@ int	ft_export(t_cmd *cmd, t_global *global)
 				ft_lst_insert(&global->head_env, new_env);
 				free(name);
 			}
+			free(sign);
 		}
 		i++;
-		free(sign);
 	}
 	// ft_print_env(&global->head_env);
 	return (0);
