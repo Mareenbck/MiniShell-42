@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plan.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 14:02:19 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 19:35:46 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,66 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 				return (1);
 			}
 		}
-		else
-			find_redir(token, cmd);
+		else if (token->token == REDIR_OUT)
+		{
+			if (check_redir_o_position(token, cmd) == 1)
+			{
+				ft_lst_clear2(&cmd, free);
+				return (1);
+			}
+			token = token->next;
+			if (check_ambiguious_args(token->val, cmd))
+			{
+				ft_error("ambiguous redirect", 2);
+				ft_lst_clear2(&cmd, free);
+				return (1);
+			}
+			else
+				redir_out(cmd, token->val);
+		}
+		else if (token->token == REDIR_IN)
+		{
+			if (check_redir_i_position(token, cmd) == 1)
+			{
+				ft_lst_clear2(&cmd, free);
+				return (1);
+			}
+			token = token->next;
+			if (check_access(cmd, token->val))
+			{
+				perror(token->val);
+				ft_lst_clear2(&cmd, free);
+				return (1);
+			}
+		}
+		else if (token->token == APPEND_OUT)
+		{
+			if (!check_append_o(token, cmd))
+			{
+				token = token->next;
+				append_out(cmd, token->val);
+			}
+			else
+			{
+				ft_error("Syntax error", 2);
+				ft_lst_clear2(&cmd, free);
+				return (1);
+			}
+		}
+		else if (token->token == APPEND_IN)
+		{
+			if (!check_heredoc(token, cmd))
+			{
+				token = token->next;
+				ft_heredoc(token->val);
+			}
+			else
+			{
+				ft_error("Syntax error", 2);
+				ft_lst_clear2(&cmd, free);
+				return (1);
+			}
+		}
 		token = token->next;
 	}
 	ft_lstaddback2(comd, cmd);

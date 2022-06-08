@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:15:11 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 19:15:22 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:25:35 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ void	ft_free_list(t_global *global)
 	ft_lst_clear2(&global->headcmd, free);
 	ft_free_tab(global->env);
 }
+
+void	ft_free_list2(t_global *global)
+{
+	ft_lst_clear3(&global->head_env, free);
+	ft_lst_clear(&global->head, free);
+	ft_lst_clear2(&global->headcmd, free);
+}
+
 
 void	ft_free_only_list(t_global *global)
 {
@@ -67,7 +75,7 @@ void	ft_quit(t_global *global)
 {
 	printf("exit\n");
 	ft_close(global);
-	global->exit = true;
+	global->exit = 1;
 	ft_free_list(global);
 	exit(0);
 }
@@ -88,6 +96,8 @@ void	ft_close(t_global *global)
 				close(cmd->input);
 			if (cmd->output != STDOUT_FILENO)
 				close(cmd->output);
+			if (cmd->pipe)
+				close(cmd->next->input);
 			cmd = cmd->next;
 		}
 	}
@@ -124,7 +134,7 @@ int	main(int ac, char **av, char **envp)
 	}
 	ft_init_minishell(&global, envp);
 	g_exit_status = 0;
-	while (!global.exit)
+	while (global.exit != 1)
 	{
 		ft_signal(2);
 		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
@@ -143,9 +153,6 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(line);
 	}
-	// close(STDIN_FILENO);
-	// close(STDOUT_FILENO);
-	// close(STDERR_FILENO);
 	ft_close(&global);
 	ft_free_list(&global);
 	exit(g_exit_status);

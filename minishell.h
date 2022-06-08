@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:13:33 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 19:14:20 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:22:45 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_env
 
 typedef struct s_global
 {
-	bool	exit;
+	int	exit;
 	char	**env;
 	char	**sorted_env;
 	int		exit_status;
@@ -207,7 +207,7 @@ void		handle_sigint(int sig);
 
 void	ft_free_only_list(t_global *global);
 void	ft_close_cmd(t_global *global);
-
+void	ft_free_list2(t_global *global);
 
 // EXPAND ENV
 int			check_name(char *token);

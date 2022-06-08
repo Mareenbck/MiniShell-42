@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:11:15 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 19:09:28 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:20:54 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 			ft_expand_echo(cmd, global, cmd->val[0]);
 			free(tmp);
 			ft_free_list(global);
-			return(1);
+			return (1);
 		}
 	}
 	free(tmp);
@@ -75,8 +75,10 @@ void	ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 		i = 0;
 		while (split[i])
 		{
-			env = find_name(&global->head_env,
-					&split[i][1], ft_strlen(split[i]));
+			if (!ft_strchr(split[i], '$'))
+				env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
+			else
+				env = find_name(&global->head_env, &split[i][1], ft_strlen(&split[i][1]));
 			if (env)
 				printf("%s", env->var_value);
 			else if (!env && split[i][0] != '$')
