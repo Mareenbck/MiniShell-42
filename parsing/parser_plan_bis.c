@@ -6,20 +6,18 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:14:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 13:39:40 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 18:14:35 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	find_redir(t_token *token, t_cmd *cmd)
+int	find_redirio(t_token *token, t_cmd *cmd)
 {
 	if (token->token == REDIR_OUT)
 	{
 		if (check_redir_o_position(token, cmd) == 1)
-		{
 			return (1);
-		}
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
@@ -42,6 +40,13 @@ int	find_redir(t_token *token, t_cmd *cmd)
 			return (1);
 		}
 	}
+	return (0);
+}
+
+int	find_redir(t_token *token, t_cmd *cmd)
+{
+	if (token->token == REDIR_OUT || token->token == REDIR_IN)
+		find_redirio(token, cmd);
 	else if (token->token == APPEND_OUT)
 	{
 		if (!check_append_o(token, cmd))

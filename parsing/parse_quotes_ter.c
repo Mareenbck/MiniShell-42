@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:39:59 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 17:58:36 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 18:07:33 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,16 @@ void	dispatch_parsing(t_cmd *cmd)
 	}
 }
 
-int    utils_quotes(t_cmd *cmd)
+int	utils_quotes(t_cmd *cmd)
 {
-    int    i;
-    int    j;
-	int med;
-    i = 0;
-    med = 0;
-    while (cmd->val[i])
-    {
+	int	i;
+	int	j;
+	int	med;
+
+	i = 0;
+	med = 0;
+	while (cmd->val[i])
+	{
 		j = 0;
 		while (cmd->val[i][j])
 		{
@@ -70,11 +71,10 @@ int    utils_quotes(t_cmd *cmd)
 				med = 0;
 			j++;
 		}
-        i++;
-    }
-    return (med);
+		i++;
+	}
+	return (med);
 }
-
 
 int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 {
