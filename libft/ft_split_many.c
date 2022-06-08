@@ -6,47 +6,32 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 16:54:31 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 16:54:42 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 11:14:12 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-int include_charset(char c, char *charset)
+int	count_words(char *str, char *charset)
 {
-	int i;
-
-	i = 0;
-	while (charset[i])
-	{
-		if (c == charset[i])
-			return (1);
-		i++;
-	}
-	if (!c)
-		return (1);
-	return (0);
-}
-
-int count_words(char *str, char *charset)
-{
-	int i;
-	int words;
+	int	i;
+	int	words;
 
 	words = 0;
 	i = 0;
 	while (str[i])
 	{
-		if (include_charset(str[i], charset) == 0 && include_charset(str[i + 1], charset) == 1)
+		if (include_charset(str[i], charset) == 0
+			&& include_charset(str[i + 1], charset) == 1)
 			words++;
 		i++;
 	}
 	return (words);
 }
 
-void ft_strcpy_b(char *dest, char *str, char *charset)
+void	ft_strcpy_b(char *dest, char *str, char *charset)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (include_charset(str[i], charset) == 0)
@@ -57,11 +42,11 @@ void ft_strcpy_b(char *dest, char *str, char *charset)
 	dest[i] = '\0';
 }
 
-char **ft_split_words(char *str, char *charset, char **split)
+char	**ft_split_words(char *str, char *charset, char **split)
 {
-	int words;
-	int i;
-	int j;
+	int	words;
+	int	i;
+	int	j;
 
 	i = 0;
 	words = 0;
@@ -84,9 +69,9 @@ char **ft_split_words(char *str, char *charset, char **split)
 	return (split);
 }
 
-static char **ft_free(char **split)
+static char	**ft_free(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split[i])
@@ -98,11 +83,11 @@ static char **ft_free(char **split)
 	return (NULL);
 }
 
-char **ft_split_many(char *str, char *charset)
+char	**ft_split_many(char *str, char *charset)
 {
-	char **res;
-	int words;
-	char **split;
+	char	**res;
+	int		words;
+	char	**split;
 
 	words = count_words(str, charset);
 	res = (char **)malloc(sizeof(char *) * (words + 1));

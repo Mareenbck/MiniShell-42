@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 11:43:58 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/01/12 16:30:24 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/08 11:11:39 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static char	**ft_split_words(char const *s, char c, char **split)
 	}
 	return (split);
 }
-
 
 char	**ft_split(char const *s, char c)
 {

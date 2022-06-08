@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 16:39:30 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:05:19 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,10 @@ void 		ft_lst_insert(t_env **head_env, t_env *new);
 int			ft_wrong(char *str);
 void ft_lst_delone3(t_env *env, void (*del)(void *));
 void	ft_close(t_global *global);
+void	ft_lstaddfront(t_env **alst, t_env *new);
+void	ft_lst_delone(t_token *token, void (*del)(void *));
+void	ft_lst_delone2(t_cmd *cmd, void (*del)(void *));
+void	ft_lst_delone3(t_env *env, void (*del)(void *));
 
 // INIT_ENV
 void	ft_init_list_env(t_env **head_env, t_global *global);

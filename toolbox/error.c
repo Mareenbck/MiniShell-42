@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sort_tab.c                                  :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/09 16:48:16 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/02/05 11:25:59 by mbascuna         ###   ########.fr       */
+/*   Created: 2022/06/08 11:34:18 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/08 11:47:44 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	**ft_sort_tab(char **tab)
+void	ft_error(char *msg, int exit_status)
 {
-	char	*tmp;
-	int		i;
-	int		j;
+	printf("%s\n", msg);
+	g_exit_status = exit_status;
+}
+
+int	ft_wrong(char *str)
+{
+	printf("%s\n", str);
+	return (1);
+}
+
+char	**ft_free_tab(char **tab)
+{
+	int	i;
 
 	i = 0;
 	while (tab[i])
 	{
-		j = 0;
-		while (tab[j])
-		{
-			tmp = NULL;
-			if (ft_strncmp(tab[i], tab[j], ft_strlen(tab[i])) < 0)
-			{
-				tmp = tab[i];
-				tab[i] = tab[j];
-				tab[j] = tmp;
-			}
-			j++;
-		}
+		free(tab[i]);
 		i++;
 	}
-	return (tab);
+	free(tab);
+	return (NULL);
 }

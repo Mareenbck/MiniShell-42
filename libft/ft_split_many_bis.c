@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sort_tab.c                                  :+:      :+:    :+:   */
+/*   ft_split_many_bis.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/09 16:48:16 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/02/05 11:25:59 by mbascuna         ###   ########.fr       */
+/*   Created: 2022/06/08 11:10:23 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/08 11:11:04 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**ft_sort_tab(char **tab)
+int	include_charset(char c, char *charset)
 {
-	char	*tmp;
-	int		i;
-	int		j;
+	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (charset[i])
 	{
-		j = 0;
-		while (tab[j])
-		{
-			tmp = NULL;
-			if (ft_strncmp(tab[i], tab[j], ft_strlen(tab[i])) < 0)
-			{
-				tmp = tab[i];
-				tab[i] = tab[j];
-				tab[j] = tmp;
-			}
-			j++;
-		}
+		if (c == charset[i])
+			return (1);
 		i++;
 	}
-	return (tab);
+	if (!c)
+		return (1);
+	return (0);
 }
