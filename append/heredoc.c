@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:43:07 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 15:06:54 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 10:23:47 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_heredoc(char *lim)
 	heredoc = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (heredoc == -1)
 	{
-		perror("here_doc ntm");
+		perror("Command not found");
 		return (EXIT_FAILURE);
 	}
 	while (1)
@@ -44,6 +44,8 @@ int	ft_heredoc(char *lim)
 		if (!ft_strncmp(lim, str, ft_strlen(lim)))
 			break ;
 		write(heredoc, str, ft_strlen(str));
+		free(str);
 	}
+	free(str);
 	return (heredoc);
 }

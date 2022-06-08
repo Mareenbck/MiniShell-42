@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 18:50:12 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 09:54:26 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_exe(t_global *global, t_cmd *cmd)
 			ft_free_tab(global->env);
 			ft_lst_clear(&global->head, free);
 			ft_lst_clear2(&global->headcmd, free);
-			perror("Command Not Found1");
+			perror("Command Not Found");
 			return (1);
 		}
 		if (cmd->expand[i])
@@ -86,7 +86,7 @@ int	ft_exe(t_global *global, t_cmd *cmd)
 				ft_lst_clear2(&global->headcmd, free);
 				ft_lst_clear3(&global->head_env, free);
 				ft_free_tab(global->env);
-				perror("Command Not Found2");
+				perror("Command Not Found");
 				return (1);
 			}
 		}
@@ -96,7 +96,7 @@ int	ft_exe(t_global *global, t_cmd *cmd)
 			ft_lst_clear2(&global->headcmd, free);
 			ft_lst_clear3(&global->head_env, free);
 			ft_free_tab(global->env);
-			perror("Command Not Found3");
+			perror("Command Not Found");
 		}
 	}
 	return (0);

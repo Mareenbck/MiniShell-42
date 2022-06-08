@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:26:40 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 18:27:01 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 09:54:32 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 		ft_lst_clear3(&global->head_env, free);
 		ft_lst_clear(&global->head, free);
 		ft_lst_clear2(&global->headcmd, free);
-		ft_error("Command not found2", NOTFOUND);
+		ft_error("Command not found", NOTFOUND);
 	}
 	else
 	{
