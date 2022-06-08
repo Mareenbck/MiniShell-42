@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:13:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 16:06:42 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:20:18 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,12 @@ void	ft_free_list(t_global *global)
 		ft_lst_clear(&global->head, free);
 	if (&global->headcmd != NULL)
 		ft_lst_clear2(&global->headcmd, free);
-	// free(global->sorted_env);
-	// free(global->env);
 	ft_free_tab(global->env);
-	// ft_free_tab(global->sorted_env);
 }
 
 int	init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
-	// ft_print(&global->head);
 	if (!analize_cmd(&global->headcmd, global))
 		return (0);
 	else
@@ -91,7 +87,6 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(line);
 	}
-	// ft_close(&global);
 	ft_free_list(&global);
 	exit(g_exit_status);
 }

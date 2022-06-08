@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 12:05:19 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:22:00 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,23 +178,23 @@ void		ft_lst_clear2(t_cmd **head, void (*del)(void *));
 void		ft_lst_clear3(t_env **head, void (*del)(void *));
 void 		ft_lst_insert(t_env **head_env, t_env *new);
 int			ft_wrong(char *str);
-void ft_lst_delone3(t_env *env, void (*del)(void *));
-void	ft_close(t_global *global);
-void	ft_lstaddfront(t_env **alst, t_env *new);
-void	ft_lst_delone(t_token *token, void (*del)(void *));
-void	ft_lst_delone2(t_cmd *cmd, void (*del)(void *));
-void	ft_lst_delone3(t_env *env, void (*del)(void *));
+void		ft_lst_delone3(t_env *env, void (*del)(void *));
+void		ft_close(t_global *global);
+void		ft_lstaddfront(t_env **alst, t_env *new);
+void		ft_lst_delone(t_token *token, void (*del)(void *));
+void		ft_lst_delone2(t_cmd *cmd, void (*del)(void *));
+void		ft_lst_delone3(t_env *env, void (*del)(void *));
 
 // INIT_ENV
 void	ft_init_list_env(t_env **head_env, t_global *global);
 void	ft_init_env(t_global *global, char **envp);
-t_env  *create_var_env(char *name, char *value);
-t_env *ft_init_var_env();
-char *init_var_name(char *str, char c);
+t_env	*create_var_env(char *name, char *value);
+t_env	*ft_init_var_env();
+char	*init_var_name(char *str, char c);
 void	ft_print_export(t_global *global);
-char *init_sign(char *name);
-void ft_print_env(t_env **head);
-char *edit_name(char *str, char c);
+char	*init_sign(char *name);
+void	ft_print_env(t_env **head);
+char	*edit_name(char *str, char c);
 void	ft_init_sorted_env(t_global *global);
 
 // PARSE ENV

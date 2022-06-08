@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 11:30:28 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 15:06:01 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:20:31 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,3 @@ void	ft_signal(int i)
 		signal(SIGQUIT, SIG_IGN);
 	}
 }
-
