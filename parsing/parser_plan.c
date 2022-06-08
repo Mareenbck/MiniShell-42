@@ -144,7 +144,10 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 		else if (token->token == REDIR_IN)
 		{
 			if (check_redir_i_position(token, cmd) == 1)
+			{
+				ft_lst_clear2(&cmd, free);
 				return (1);
+			}
 			token = token->next;
 			if (check_access(cmd, token->val))
 			{
