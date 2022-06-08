@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 11:13:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 16:02:29 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/08 19:15:11 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/08 19:15:22 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ void	ft_free_list(t_global *global)
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
 	ft_free_tab(global->env);
+}
+
+void	ft_free_only_list(t_global *global)
+{
+	ft_lst_clear3(&global->head_env, free);
+	ft_lst_clear(&global->head, free);
+	ft_lst_clear2(&global->headcmd, free);
+	perror("Command Not Found2");
 }
 
 int	ft_free_list_and_error(t_global *global)
@@ -58,28 +66,50 @@ int	init_token_cmd_list(char *line, t_global *global)
 void	ft_quit(t_global *global)
 {
 	printf("exit\n");
+	ft_close(global);
 	global->exit = true;
 	ft_free_list(global);
 	exit(0);
 }
 
-// void	ft_close(t_global *global)
-// {
-// 	t_cmd *cmd;
+void	ft_close(t_global *global)
+{
+	t_cmd *cmd;
 
-// 	cmd = global->headcmd;
-// 	if (cmd)
-// 	{
-// 		while (cmd->next)
-// 		{
-// 			close(cmd->input);
-// 			close(cmd->output);
-// 			cmd = cmd->next;
-// 		}
-// 	}
-// 	close(STDIN_FILENO);
-// 	close(STDOUT_FILENO);
-// }
+	close(STDERR_FILENO);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	cmd = global->headcmd;
+	if (cmd)
+	{
+		while (cmd->next)
+		{
+			if (cmd->input != STDIN_FILENO)
+				close(cmd->input);
+			if (cmd->output != STDOUT_FILENO)
+				close(cmd->output);
+			cmd = cmd->next;
+		}
+	}
+}
+
+void	ft_close_cmd(t_global *global)
+{
+	t_cmd *cmd;
+
+	cmd = global->headcmd;
+	if (cmd)
+	{
+		while (cmd->next)
+		{
+			if (cmd->input != STDIN_FILENO)
+				close(cmd->input);
+			if (cmd->output != STDOUT_FILENO)
+				close(cmd->output);
+			cmd = cmd->next;
+		}
+	}
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -113,6 +143,10 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(line);
 	}
+	// close(STDIN_FILENO);
+	// close(STDOUT_FILENO);
+	// close(STDERR_FILENO);
+	ft_close(&global);
 	ft_free_list(&global);
 	exit(g_exit_status);
 }

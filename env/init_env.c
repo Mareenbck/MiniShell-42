@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 08:45:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 14:26:08 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:41:37 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_env	*ft_init_var_env(void)
+{
+	t_env	*new_var_env;
+
+	new_var_env = malloc(sizeof(t_env));
+	if (!new_var_env)
+		return (NULL);
+	new_var_env->declare = NULL;
+	new_var_env->var_name = NULL;
+	new_var_env->var_value = NULL;
+	new_var_env->var_sign = NULL;
+	new_var_env->next = NULL;
+	new_var_env->prev = NULL;
+	return (new_var_env);
+}
 
 void	ft_init_env(t_global *global, char **envp)
 {
@@ -20,7 +36,7 @@ void	ft_init_env(t_global *global, char **envp)
 	while (envp[i])
 		i++;
 	global->env = (char **)malloc(sizeof(t_env) * i + 1);
-	if(!global->env)
+	if (!global->env)
 		perror("Error\n");
 	i = 0;
 	while (envp[i])
@@ -29,7 +45,6 @@ void	ft_init_env(t_global *global, char **envp)
 		i++;
 	}
 	global->env[i] = NULL;
-	// ft_init_sorted_env(global);
 }
 
 void	ft_init_sorted_env(t_global *global)
@@ -40,7 +55,7 @@ void	ft_init_sorted_env(t_global *global)
 	while (global->env[i])
 		i++;
 	global->sorted_env = (char **)malloc(sizeof(t_env) * i + 1);
-	if(!global->sorted_env)
+	if (!global->sorted_env)
 		perror("Error\n");
 	i = 0;
 	while (global->env[i])
@@ -52,132 +67,32 @@ void	ft_init_sorted_env(t_global *global)
 	ft_sort_tab(global->sorted_env);
 }
 
-//POUR TEST__ A VIRER PLUS TARD
-void ft_print_env(t_env **head)
+void	ft_print_env(t_env **head)
 {
-	t_env *tmp;
+	t_env	*tmp;
+	int		i;
 
 	tmp = *head;
-	int i = 0;
-
+	i = 0;
 	while (tmp != NULL)
 	{
-		printf("%d > name : %s  sign : %s value : %s \n", i, tmp->var_name, tmp->var_sign, tmp->var_value);
+		printf("%d > name : %s  sign : %s value : %s \n",
+			i, tmp->var_name, tmp->var_sign, tmp->var_value);
 		i++;
 		tmp = tmp->next;
 	}
 }
 
-t_env *ft_init_var_env()
-{
-	t_env *new_var_env;
-
-	new_var_env = malloc(sizeof(t_env));
-	if (!new_var_env)
-		return (NULL);
-	new_var_env->declare = NULL;
-	new_var_env->var_name = NULL;
-	new_var_env->var_value = NULL;
-	new_var_env->var_sign = NULL;
-	new_var_env->next = NULL;
-	new_var_env->prev = NULL;
-	//ft_lst_clear3(&new_var_env, free);
-	return (new_var_env);
-}
-
-t_env  *create_var_env(char *name, char *env)
-{
-	t_env *new_var_env;
-
-	new_var_env = ft_init_var_env();
-	new_var_env->declare = ft_strdup("declare -x");
-	new_var_env->var_name = ft_strdup(name);
-	new_var_env->var_value = check_value(env);
-	new_var_env->var_sign = init_sign(env);
-	new_var_env->next = NULL;
-	new_var_env->prev = NULL;
-	return (new_var_env);
-}
-
-char *edit_name(char *str, char c)
-{
-	int i;
-	char *res;
-
-	i = 0;
-	if (str[i] != c && str[i] != '+')
-	{
-		while (str[i] != c)
-		{
-			i++;
-			if (str[i] == '\0')
-			{
-				res = ft_strdup(str);
-				return (res);
-			}
-		}
-		while (ft_strchr("=+", str[i]))
-			i--;
-		i++;
-		res = (char *)malloc(sizeof(char) * (i + 1));
-		if (!res)
-			return (NULL);
-		res[i] = '\0';
-		while (--i >= 0)
-			res[i] = str[i];
-		return (res);
-	}
-	else
-		return (NULL);
-}
-
-char *init_sign(char *name)
-{
-	size_t i;
-	size_t j;
-	int size;
-	char *res;
-
-	i = 0;
-	if (name[i] != '=')
-	{
-		while (name[i] != '=' && name[i] != '\0')
-			i++;
-		j = i;
-		if (name[j] == '=')
-		{
-			j--;
-			if (name[j] == '+')
-				j--;
-		}
-		res = (char *)malloc(sizeof(char) * (i - j + 1));
-		if (!res)
-			return (NULL);
-		size = 0;
-		while (j++ < i)
-			res[size++] = name[j];
-		res[size] = '\0';
-		return (res);
-	}
-	else
-		return (NULL);
-}
-
 void	ft_init_list_env(t_env **head_env, t_global *global)
 {
-	int	i;
-	char *name;
-	// char *value;
-	// char *sign;
-	t_env *new_var_env;
+	int		i;
+	char	*name;
+	t_env	*new_var_env;
 
-	// envp = ft_sort_tab(envp);
 	i = 0;
 	ft_init_sorted_env(global);
 	while (global->sorted_env[i])
 	{
-		// value = check_value(global->sorted_env[i]);
-		// sign = init_sign(global->sorted_env[i]);
 		if (!check_name(global->sorted_env[i]))
 			name = edit_name(global->sorted_env[i], '=');
 		new_var_env = create_var_env(name, global->sorted_env[i]);
@@ -187,5 +102,4 @@ void	ft_init_list_env(t_env **head_env, t_global *global)
 	}
 	ft_lstaddback3(head_env, ft_init_var_env());
 	free(global->sorted_env);
-	// ft_print_env(head_env);
 }

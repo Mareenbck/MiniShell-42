@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes_bis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 16:12:41 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/08 19:14:41 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/08 19:14:42 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	delete_quotes_bis(t_cmd *cmd, int i)
 	char	*tmp;
 
 	if (start_with_dollar(cmd->val[i]) && (cmd->val[i][1] == '\"'))
-		cmd->expand[i] = 0;
+		cmd->expand[i] = 2;
 	if (start_with_simple(cmd->val[i]))
 	{
 		if (is_empty_string(cmd->val[i]))

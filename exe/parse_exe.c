@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_exe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:18:52 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 10:19:06 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/08 17:33:04 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	ft_parse_execution(t_global *global)
 			cmd->output = fd_pipe[1];
 			cmd->next->input = fd_pipe[0];
 			ft_exe_with_pipe(cmd, global);
-			if (cmd->input != STDIN_FILENO)
-				close(cmd->input);
 		}
 		else
 			ft_child_process(cmd, global);
@@ -37,6 +35,7 @@ void	ft_parse_execution(t_global *global)
 		cmd = cmd->next;
 	}
 	ft_parent_process(global);
+	ft_close_cmd(global);
 	ft_lst_clear2(&global->headcmd, free);
 	ft_lst_clear(&global->head, free);
 }
