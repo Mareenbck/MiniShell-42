@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 19:24:57 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:24:32 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,117 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 				return (1);
 			}
 		}
-		token	= find_redir(token, cmd);
+		else if (token->token == REDIR_OUT)
+			token = ana_redir_out(token, cmd);
+		else if (token->token == REDIR_IN)
+			token = ana_redir_in(token, cmd);
+		else if (token->token == APPEND_OUT)
+			token = ana_append_out(token, cmd);
+		else if (token->token == APPEND_IN)
+			token = ana_append_in(token, cmd);
 		token = token->next;
 	}
 	ft_lstaddback2(comd, cmd);
 	ft_lstaddback2(comd, ft_init_cmd(list_len(&global->head)));
 	return (0);
 }
+
+// int	analize_cmd(t_cmd **comd, t_global *global)
+// {
+// 	t_token	*token;
+// 	t_cmd	*cmd;
+// 	int		i;
+
+// 	token = global->head;
+// 	cmd = create_cmd(list_len(&global->head));
+// 	i = 0;
+// 	while (token != NULL)
+// 	{
+// 		while (token->token == WORD)
+// 		{
+// 			cmd->expand[i] = 0;
+// 			if (token->expand)
+// 				cmd->expand[i] = 1;
+// 			cmd->val[i] = ft_strdup(token->val);
+// 			token = token->next;
+// 			i++;
+// 		}
+// 		cmd->val[i] = NULL;
+// 		if (token->token == PIPE)
+// 		{
+// 			if (!check_pipe_position(token, cmd))
+// 			{
+// 				cmd->pipe = true;
+// 				ft_lstaddback2(comd, cmd);
+// 				cmd = create_cmd(list_len(&global->head));
+// 				i = 0;
+// 			}
+// 			else
+// 			{
+// 				ft_error("syntax error near unexpected token `|'", 2);
+// 				ft_lst_clear2(&cmd, free);
+// 				return (1);
+// 			}
+// 		}
+// 		else if (token->token == REDIR_OUT)
+// 		{
+// 			if (check_redir_o_position(token, cmd) == 1)
+// 			{
+// 				return (1);
+// 			}
+// 			token = token->next;
+// 			if (check_ambiguious_args(token->val, cmd))
+// 			{
+// 				ft_error("ambiguous redirect", 2);
+// 				ft_lst_clear2(&cmd, free);
+// 				return (1);
+// 			}
+// 			else
+// 				redir_out(cmd, token->val);
+// 		}
+// 		else if (token->token == REDIR_IN)
+// 		{
+// 			if (check_redir_i_position(token, cmd) == 1)
+// 				return (1);
+// 			token = token->next;
+// 			if (check_access(cmd, token->val))
+// 			{
+// 				perror(token->val);
+// 				ft_lst_clear2(&cmd, free);
+// 				return (1);
+// 			}
+// 		}
+// 		else if (token->token == APPEND_OUT)
+// 		{
+// 			if (!check_append_o(token, cmd))
+// 			{
+// 				token = token->next;
+// 				append_out(cmd, token->val);
+// 			}
+// 			else
+// 			{
+// 				ft_error("Syntax error", 2);
+// 				ft_lst_clear2(&cmd, free);
+// 				return (1);
+// 			}
+// 		}
+// 		else if (token->token == APPEND_IN)
+// 		{
+// 			if (!check_heredoc(token, cmd))
+// 			{
+// 				token = token->next;
+// 				ft_heredoc(token->val);
+// 			}
+// 			else
+// 			{
+// 				ft_error("Syntax error", 2);
+// 				ft_lst_clear2(&cmd, free);
+// 				return (1);
+// 			}
+// 		}
+// 		token = token->next;
+// 	}
+// 	ft_lstaddback2(comd, cmd);
+// 	ft_lstaddback2(comd, ft_init_cmd(list_len(&global->head)));
+// 	return (0);
+// }
