@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/29 13:25:45 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 11:11:22 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/08 12:24:36 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/08 12:25:32 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
@@ -81,5 +82,6 @@ char		*ft_strcat(char *dest, char *src);
 char		*ft_strcpy(char *dest, char *src);
 char		**ft_split_many(char *str, char *charset);
 int			include_charset(char c, char *charset);
+bool		ft_str_isalnum(char *str);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:04:52 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 18:55:39 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:20:30 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,24 @@ int	not_valid(char *str)
 	return (1);
 }
 
-void	ft_unset_bis(t_global *global, int i)
+int	ft_check_args(t_global *global)
+{
+	t_token	*token;
+
+	token = global->head->next;
+	while (token->next != NULL)
+	{
+		if (!not_valid(token->val))
+		{
+			printf("unset: not a valid identifier\n");
+			return (1);
+		}
+		token = token->next;
+	}
+	return (0);
+}
+
+void	ft_shift_env(t_global *global, int i)
 {
 	while (global->env[i] && global->env[i + 1])
 	{
@@ -43,24 +60,15 @@ int	ft_unset(t_cmd *cmd, t_global *global)
 {
 	int		i;
 	char	*name;
-	t_token	*token;
 
 	i = -1;
-	token = global->head->next;
-	while (token->next != NULL)
-	{
-		if (!not_valid(token->val))
-		{
-			printf("unset: not a valid identifier\n");
-			return (1);
-		}
-		token = token->next;
-	}
+	if (cmd->val[1] == NULL || ft_check_args(global))
+		return (1);
 	while (global->env[++i])
 	{
 		name = edit_name(global->env[i], '=');
 		if (ft_strcmp(name, cmd->val[1]) == 0)
-			ft_unset_bis(global, i);
+			ft_shift_env(global, i);
 		free(name);
 	}
 	ft_lst_clear3(&global->head_env, free);

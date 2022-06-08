@@ -16,7 +16,8 @@ SRCS			= ft_isalnum.c ft_isprint.c ft_isalpha.c \
 				  ft_putnbr_fd.c ft_sort_int_tab.c ft_atoll.c \
 				  get_next_line.c ft_count_words.c ft_isspace.c \
 				  ft_strcmp.c ft_sort_tab.c ft_strcat.c \
-				  ft_strcpy.c ft_split_many.c ft_split_many_bis.c
+				  ft_strcpy.c ft_split_many.c ft_split_many_bis.c \
+				  ft_str_isalnum.c \
 
 BONUS			= ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
 				  ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
