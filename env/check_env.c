@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:45:54 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 14:25:36 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:23:35 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int check_name(char *token)
+int	check_name(char *token)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	// printf("token : %s\n", token);
 	if (ft_isdigit(token[i]))
 	{
 		printf("not a valid identifier\n");
@@ -35,16 +34,14 @@ int check_name(char *token)
 	return (0);
 }
 
-//Trim ttes les quotes mais l'affichage est gere avec le signe.
-//si sign est = alors on entoure la value de quotes
-char *check_value(char *token)
+char	*check_value(char *token)
 {
-	char *value;
-	char *tmp;
+	char	*value;
+	char	*tmp;
 
 	value = ft_strchr(token, '=');
 	if (!value)
-		return(ft_strdup(""));
+		return (ft_strdup(""));
 	else
 		value = ft_strdup(&value[1]);
 	if (value[0] == '\"' || value[0] == '\'')
@@ -55,4 +52,3 @@ char *check_value(char *token)
 	}
 	return (value);
 }
-

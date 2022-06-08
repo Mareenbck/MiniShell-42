@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:28:15 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 19:01:44 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:08:39 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ bool	find_n(char *str, char c)
 
 void	ft_print(t_cmd *cmd, int i)
 {
-	if (start_with_dollar(cmd->val[i]) && cmd->expand[i])
+	char	*tmp;
+
+	if (start_with_dollar(cmd->val[i]) && cmd->expand[i] == 2)
 	{
-		write(cmd->output, &cmd->val[i][1], ft_strlen(&cmd->val[i][1]));
+		tmp = ft_strtrim(&cmd->val[i][1], "\"$");
+		write(cmd->output, tmp, ft_strlen(tmp));
 		write(cmd->output, " ", 1);
+		free(tmp);
 	}
 	else if (start_with_dollar(cmd->val[i]) && !cmd->expand[i])
 	{
@@ -59,7 +63,7 @@ int	ft_echo(t_cmd *cmd, t_global *global)
 	}
 	while (cmd->val[i] != NULL)
 	{
-		if (cmd->expand[i])
+		if (cmd->expand[i] == 1)
 			ft_expand_echo(cmd, global, cmd->val[i]);
 		else
 			ft_print(cmd, i);

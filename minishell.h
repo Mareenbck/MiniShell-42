@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 12:27:20 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 21:20:59 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/08 22:07:48 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/08 22:07:50 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -100,7 +102,7 @@ typedef struct s_env
 
 typedef struct s_global
 {
-	bool	exit;
+	int	exit;
 	char	**env;
 	char	**sorted_env;
 	int		exit_status;
@@ -211,6 +213,10 @@ t_env		*find_name(t_env **head_env, char *var, size_t len);
 void		ft_signal(int i);
 void		handle_sigint(int sig);
 
+void	ft_free_only_list(t_global *global);
+void	ft_close_cmd(t_global *global);
+void	ft_free_list2(t_global *global);
+
 // EXPAND ENV
 int			check_name(char *token);
 char		*check_value(char *token);
@@ -224,9 +230,40 @@ void		ft_free_list(t_global *global);
 int			ft_free_list_and_error(t_global *global);
 int			ft_free_list_not_env(t_global *global);
 
+// ENV
+/* check_env.c */
+int	check_name(char *token);
+char	*check_value(char *token);
+/* fill_env.c */
+char	*init_sign(char *name);
+char	*fill_sign(int j, int i, char *name, char *res);
+char	*edit_name(char *str, char c);
+char	*fill_name(int i, char *str, char *res);
+t_env	*create_var_env(char *name, char *env);
+/* init_env.c */
+t_env	*ft_init_var_env(void);
+void	ft_init_list_env(t_env **head_env, t_global *global);
+void	ft_print_env(t_env **head);
+void	ft_init_sorted_env(t_global *global);
+void	ft_init_env(t_global *global, char **envp);
+/* parse_env.c */
+t_env	*find_name(t_env **head_env, char *var, size_t len);
+char	**ft_split_envp(t_env **head_env, char *str);
+char	*find_binary(char **split_path, char *cmd);
+
+// EXPAND
 /* expand.c */
 int			ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 void		ft_expand_args(t_global *global, t_cmd *cmd, int i);
+int	ft_count_cmd(char *str);
+char	**split_expand(char *str);
+char	**ft_create_cmd(char **split, t_global *global);
+void	ft_init_expand(t_cmd *cmd);
+void	ft_expand_cmd_first(t_global *global);
+/* expand_cmd.c */
+int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
+void	ft_expand_args(t_global *global, t_cmd *cmd, int i);
+void	ft_expand_echo(t_cmd *cmd, t_global *global, char *str);
 
 // EXE
 /* exe.c */

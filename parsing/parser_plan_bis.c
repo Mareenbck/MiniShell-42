@@ -5,12 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 15:14:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 21:58:54 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/08 22:06:55 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/08 22:07:10 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../minishell.h"
+
 
 int	check_redir_in(t_token *token, t_cmd *cmd)
 {
@@ -112,4 +114,3 @@ t_token	*ana_append_out(t_token *token, t_cmd *cmd)
 // 	else if (token->token == APPEND_OUT)
 // 		token = ana_append_out(token, cmd);
 // 	return (token);
-// }

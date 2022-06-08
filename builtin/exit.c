@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 10:19:32 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 18:57:11 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 19:58:49 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	ft_is_valid_num(char *s)
 
 int	ft_exit(t_global *global, t_cmd *cmd)
 {
-	global->exit = true;
+	global->exit = 1;
 	if (cmd->val[1] == NULL)
 	{
 		g_exit_status = SUCCESS;
@@ -48,11 +48,13 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 	{
 		g_exit_status = 2;
 		printf("exit: %s: numeric argument required\n", cmd->val[1]);
-		return (1);
+		ft_free_list(global);
+		ft_close(global);
+		exit(g_exit_status);
 	}
 	if (cmd->val[2] != NULL)
 	{
-		global->exit = false;
+		global->exit = -1;
 		g_exit_status = 1;
 		printf("exit: too many arguments\n");
 	}
@@ -60,6 +62,9 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 	{
 		g_exit_status = ft_atoi(cmd->val[1]);
 		printf("exit\n");
+		ft_close(global);
+		ft_free_list(global);
+		exit(g_exit_status);
 	}
 	return (global->exit);
 }

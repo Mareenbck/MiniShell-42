@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/20 12:36:44 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 21:24:32 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/08 22:07:35 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/08 22:07:38 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			token = ana_append_out(token, cmd);
 		else if (token->token == APPEND_IN)
 			token = ana_append_in(token, cmd);
+
 		token = token->next;
 	}
 	ft_lstaddback2(comd, cmd);
