@@ -30,7 +30,7 @@ bool	ft_is_valid_num(char *s)
 		i++;
 	if (sign > 1 || s[i])
 		return (false);
-	if (ft_atoll(s) > 2147483647 || ft_atoll(s) < -2147483648)
+	if (ft_atoll(s) > INT_MAX || ft_atoll(s) < INT_MIN)
 		return (false);
 	return (true);
 }
@@ -40,7 +40,7 @@ int	ft_exit(t_global *global, t_cmd *cmd)
 	global->exit = true;
 	if (cmd->val[1] == NULL)
 	{
-		g_exit_status= SUCCESS;
+		g_exit_status = SUCCESS;
 		printf("exit\n");
 		return (1);
 	}

@@ -57,3 +57,17 @@ int	check_access(t_cmd *cmd, char *file_name)
 		return (0);
 	}
 }
+
+void	init_io(t_cmd *cmd)
+{
+	if (cmd->input != STDIN_FILENO)
+	{
+		dup2(cmd->input, STDIN_FILENO);
+		close(cmd->input);
+	}
+	if (cmd->output != STDOUT_FILENO)
+	{
+		dup2(cmd->output, STDOUT_FILENO);
+		close(cmd->output);
+	}
+}

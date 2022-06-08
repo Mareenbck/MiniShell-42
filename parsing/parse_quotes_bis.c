@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quotes_bis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 17:21:17 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:08:20 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	delete_quotes_help(t_cmd *cmd, int i)
 
 	if (is_empty_string(cmd->val[i]))
 		cmd->val[i] = ft_strdup("");
-	tmp = ft_strtrim(cmd->val[i], "\'");
-	free(tmp);
-	tmp = ft_strtrim(cmd->val[i], "\"");
+	tmp = ft_strtrim(cmd->val[i], "\'\"");
 	free(cmd->val[i]);
 	cmd->val[i] = new_string(tmp, '\'');
 }

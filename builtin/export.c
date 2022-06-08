@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:18:49 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 18:56:06 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:01:28 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_print_export(t_global *global)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = global->head_env;
 	while (tmp->next != NULL)
@@ -22,7 +22,8 @@ void	ft_print_export(t_global *global)
 		if (*tmp->var_value == '\0' && *tmp->var_sign == '\0')
 			printf("%s %s%s\n", tmp->declare, tmp->var_name, tmp->var_sign);
 		else
-			printf("%s %s%s\"%s\"\n", tmp->declare, tmp->var_name, tmp->var_sign, tmp->var_value);
+			printf("%s %s%s\"%s\"\n", tmp->declare,
+				tmp->var_name, tmp->var_sign, tmp->var_value);
 		tmp = tmp->next;
 	}
 }
@@ -36,7 +37,7 @@ int	ft_change_env(char *name, char *value, t_global *global)
 	i = 0;
 	env = global->env;
 	tmp = ft_strjoin(name, "=");
-	while(env[i])
+	while (env[i])
 	{
 		if (!ft_strncmp(env[i], tmp, ft_strlen(tmp)))
 		{
@@ -52,29 +53,53 @@ int	ft_change_env(char *name, char *value, t_global *global)
 	return (1);
 }
 
-bool	ft_str_isalnum(char *str)
+void	ft_insert_new_env(char *cmd, t_global *global, char *name)
 {
-	int	i;
+	t_env	*new_env;
 
-	i = 0;
-	while (ft_isalnum(str[i]))
-		i++;
-	if (str[i] == '\0')
-		return (true);
+	if (ft_strchr(cmd, '='))
+		ft_insert_tab(global->env, cmd);
+	new_env = create_var_env(name, cmd);
+	ft_lst_insert(&global->head_env, new_env);
+	free(name);
+}
+
+void	ft_change_export(t_global *global, char *name, char *sign, char *cmd)
+{
+	t_env	*env;
+	char	*value;
+
+	env = find_name(&global->head_env, name, (ft_strlen(name) + 1));
+	if (env)
+	{
+		if (sign[0] == '+')
+		{
+			value = check_value(cmd);
+			env->var_value = ft_strjoin(env->var_value, value);
+			free(value);
+			ft_change_env(name, env->var_value, global);
+		}
+		else
+		{
+			free(env->var_sign);
+			env->var_sign = init_sign(cmd);
+			free(env->var_value);
+			env->var_value = check_value(cmd);
+			ft_change_env(name, env->var_value, global);
+		}
+	}
 	else
-		return (false);
+		ft_insert_new_env(cmd, global, name);
+	free(sign);
 }
 
 int	ft_export(t_cmd *cmd, t_global *global)
 {
-	t_env *env;
-	t_env *new_env;
-	char *value;
-	char *sign;
-	char *name;
-	int i = 1;
+	char	*sign;
+	char	*name;
+	int		i;
 
-	env = NULL;
+	i = 1;
 	if (cmd->val[i] == NULL)
 		ft_print_export(global);
 	while (cmd->val[i] != NULL)
@@ -83,47 +108,15 @@ int	ft_export(t_cmd *cmd, t_global *global)
 		{
 			sign = init_sign(cmd->val[i]);
 			name = edit_name(cmd->val[i], '=');
-			if (!name)
+			if (!name || !ft_str_isalnum(name))
 			{
 				free(sign);
 				printf("not a valid identifier\n");
 				return (1);
 			}
-			else if (!ft_str_isalnum(name))
-			{
-				perror("Syntax Error");
-			}
-			env = find_name(&global->head_env, name, (ft_strlen(name) + 1));
-			if (env)
-			{
-				if (sign[0] == '+')
-				{
-					value = check_value(cmd->val[i]);
-					env->var_value = ft_strjoin(env->var_value, value);
-					free(value);
-					ft_change_env(name, env->var_value, global);
-				}
-				else
-				{
-					free(env->var_sign);
-					env->var_sign = init_sign(cmd->val[i]);;
-					free(env->var_value);
-					env->var_value = check_value(cmd->val[i]);
-					ft_change_env(name, env->var_value, global);
-				}
-			}
-			else
-			{
-				if (ft_strchr(cmd->val[i], '='))
-					ft_insert_tab(global->env, cmd->val[i]);
-				new_env = create_var_env(name, cmd->val[i]);
-				ft_lst_insert(&global->head_env, new_env);
-				free(name);
-			}
-			free(sign);
+			ft_change_export(global, name, sign, cmd->val[i]);
 		}
 		i++;
 	}
-	// ft_print_env(&global->head_env);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:38:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 16:39:30 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 12:21:55 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 # include <sys/ioctl.h>
 # include <errno.h>
 # include <string.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
 # include "libft/libft.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 
 extern int g_exit_status;
@@ -145,6 +146,7 @@ int		ft_heredoc(char *lim);
 int		check_access(t_cmd *cmd, char *file_name);
 int		check_ambiguious_args(char *file_name, t_cmd *cmd);
 int		last_check_redir_o(char *file_name, t_cmd *cmd);
+void	init_io(t_cmd *cmd);
 
 //QUOTE - TRIM
 int			is_doble_quotes(char c);
@@ -205,22 +207,8 @@ t_env	*find_name(t_env **head_env, char *var, size_t len);
 void	ft_signal(int i);
 void	handle_sigint(int sig);
 
-// EXE
-void	ft_execution(t_global *global);
-int	ft_exe(t_global *global, t_cmd *cmd);
-int	ft_search_builtin(t_cmd *cmd, char *str, t_global *global);
 
 
-// BUILTIN
-int	ft_echo(t_cmd * cmd, t_global *global);
-int	ft_pwd(void);
-int	ft_cd(t_cmd *cmd, t_global *global);
-int	ft_env(t_global *global);
-int	ft_export(t_cmd *cmd, t_global *global);
-int	ft_change_env(char *name, char *value, t_global *global);
-int	ft_exit(t_global *global, t_cmd *cmd);
-int	ft_unset(t_cmd *cmd, t_global *global);
-void ft_insert_tab(char **tab, char *name);
 
 // EXPAND ENV
 int check_name(char *token);
@@ -228,11 +216,58 @@ char *check_value(char *token);
 void ft_expand_cmd_first(t_global *global);
 void ft_expand_echo(t_cmd *cmd, t_global *global, char *str);
 
-void parse_execution(t_global *global);
+void ft_parse_execution(t_global *global);
 void	ft_free_list(t_global *global);
 int ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
-void ft_print(t_token **head);
 
 char	*new_string(char *str, char c);
+void	ft_free_list(t_global *global);
+int	ft_free_list_and_error(t_global *global);
+int	ft_free_list_not_env(t_global *global);
+
+/* expand.c */
+int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
+void	ft_expand_args(t_global *global, t_cmd *cmd, int i);
+
+// EXE
+/* exe.c */
+int		ft_execve(t_global *global, t_cmd *cmd);
+int		ft_search_builtin(t_cmd *cmd, char *str, t_global *global);
+void	ft_exe_with_pipe(t_cmd *cmd, t_global *global);
+void	ft_child_process(t_cmd *cmd, t_global *global);
+void	ft_parent_process(t_global *global);
+/* parse_exe.c */
+void	ft_parse_execution(t_global *global);
+
+// BUILTIN
+/* cd.c */
+char	*ft_change_oldpwd(t_global *global);
+void	ft_go_home(t_global *global);
+void	ft_go_new_path(t_cmd *cmd);
+void	ft_save_new_pwd(t_global *global);
+int		ft_cd(t_cmd *cmd, t_global *global);
+/* echo.c */
+void	ft_print(t_cmd *cmd, int i);
+bool	find_n(char *str, char c);
+int		ft_echo(t_cmd * cmd, t_global *global);
+/* env.c */
+void	ft_insert_tab(char **tab, char *name);
+int		ft_env(t_global *global);
+/* exit.c */
+bool	ft_is_valid_num(char *s);
+int	ft_exit(t_global *global, t_cmd *cmd);
+/* export.c */
+void	ft_print_export(t_global *global);
+int		ft_change_env(char *name, char *value, t_global *global);
+void	ft_insert_new_env(char *cmd, t_global *global, char *name);
+void	ft_change_export(t_global *global, char *name, char *sign, char *cmd);
+int		ft_export(t_cmd *cmd, t_global *global);
+/* pwd.c */
+int	ft_pwd(void);
+/* unset.c */
+int		ft_unset(t_cmd *cmd, t_global *global);
+void	ft_shift_env(t_global *global, int i);
+int		ft_check_args(t_global *global);
+int		not_valid(char *str);
 
 #endif

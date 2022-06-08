@@ -12,6 +12,44 @@
 
 #include "minishell.h"
 
+int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
+{
+	t_env	*env;
+	char	*tmp;
+
+	env = find_name(&global->head_env,
+			&cmd->val[0][1], ft_strlen(&cmd->val[0][1]));
+	if (!env)
+	{
+		ft_free_tab(global->env);
+		ft_free_tab(split_path);
+		perror("Command not Found");
+		return (1);
+	}
+	tmp = ft_strdup(env->var_value);
+	if (ft_search_builtin(cmd, tmp, global) == 0)
+		ft_free_tab(split_path);
+	else
+	{
+		cmd->path = find_binary(split_path, env->var_value);
+		if (!cmd->path)
+			ft_expand_echo(cmd, global, cmd->val[0]);
+	}
+	free(tmp);
+	ft_free_list(global);
+	return (0);
+}
+
+void	ft_expand_args(t_global *global, t_cmd *cmd, int i)
+{
+	t_env	*env;
+
+	env = find_name(&global->head_env,
+			&cmd->val[i][1], ft_strlen(&cmd->val[i][1]));
+	if (env)
+		ft_strcpy(cmd->val[i], env->var_value);
+}
+
 char **split_expand(char *str)
 {
 	char **split;
