@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 12:27:20 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 16:03:57 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 19:19:43 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,11 @@ void		ft_print_cmd(t_cmd **cmd);
 void		find_token(t_token *token, t_cmd *cmd);
 int			list_len(t_token **head);
 void		check_if_expand(char *str, int i, t_cmd *cmd);
-int			find_redir(t_token *token, t_cmd *cmd);
+
+//ANALIZE CMD
+int	analize_redir_o(t_token *token, t_cmd *cmd);
+int	ana_pipe(t_token *token, t_cmd *cmd, t_global *global);
+t_token *find_redir(t_token *token, t_cmd *cmd);
 
 
 //PIPE
