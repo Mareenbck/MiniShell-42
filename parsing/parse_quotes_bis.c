@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 15:05:47 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 17:21:17 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:12:41 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	delete_quotes_help(t_cmd *cmd, int i)
 
 	if (is_empty_string(cmd->val[i]))
 		cmd->val[i] = ft_strdup("");
-	tmp = ft_strtrim(cmd->val[i], "\'");
-	free(tmp);
-	tmp = ft_strtrim(cmd->val[i], "\"");
+	tmp = ft_strtrim(cmd->val[i], "\'\"");
+	printf("tmp = %s\n", tmp);
 	free(cmd->val[i]);
 	cmd->val[i] = new_string(tmp, '\'');
 }
@@ -54,7 +53,7 @@ void	delete_quotes(t_cmd *cmd, int i, int j)
 {
 	if (is_simple_quotes(cmd->val[i][j]))
 		delete_quotes_help(cmd, i);
-	else if (is_doble_quotes(cmd->val[i][j]))
+	if (is_doble_quotes(cmd->val[i][j]))
 		delete_quotes_help2(cmd, i);
 }
 
@@ -64,7 +63,7 @@ void	delete_quotes_ter(t_cmd *cmd, int i)
 
 	if (is_empty_string(cmd->val[i]))
 		cmd->val[i] = ft_strdup("");
-	tmp = ft_strtrim(cmd->val[i], "\"\'");
+	tmp = ft_strtrim(cmd->val[i], "\"");
 	check_if_expand(tmp, i, cmd);
 	if (!cmd->expand[i])
 	{

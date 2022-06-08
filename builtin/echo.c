@@ -25,7 +25,7 @@ bool	find_n(char *str, char c)
 		return (false);
 }
 
-void	ft_echo_bis(t_cmd *cmd, int i)
+void	ft_print(t_cmd *cmd, int i)
 {
 	if (start_with_dollar(cmd->val[i]) && cmd->expand[i])
 	{
@@ -62,12 +62,10 @@ int	ft_echo(t_cmd *cmd, t_global *global)
 		if (cmd->expand[i])
 			ft_expand_echo(cmd, global, cmd->val[i]);
 		else
-			ft_echo_bis(cmd, i);
+			ft_print(cmd, i);
 		i++;
 	}
 	if (!option)
-	{
 		printf("\n");
-	}
 	return (0);
 }

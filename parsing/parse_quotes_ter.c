@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:39:59 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/07 18:29:36 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 17:58:36 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,6 @@ int	is_empty_string(char *str)
 		return (0);
 }
 
-int	error_quotes(t_cmd *cmd)
-{
-	int	countd;
-	int	counts;
-
-	countd = count_d_quotes(cmd);
-	counts = count_s_quotes(cmd);
-	if (counts % 2 != 0 && countd % 2 == 0 && countd >= 2)
-		return (0);
-	if (countd % 2 != 0 && counts % 2 == 0 && counts >= 2)
-		return (0);
-	if (countd % 2 != 0)
-		return (1);
-	else if (counts % 2 != 0)
-		return (1);
-	return (0);
-}
-
 void	dispatch_parsing(t_cmd *cmd)
 {
 	int	i;
@@ -53,17 +35,52 @@ void	dispatch_parsing(t_cmd *cmd)
 			|| start_with_dollar(cmd->val[i]))
 			delete_quotes_bis(cmd, i);
 		else if (ft_strchr(cmd->val[i], '\'') && !cmd->expand[i])
+		{
 			cmd->val[i] = new_string(cmd->val[i], '\'');
-		else if (ft_strchr(cmd->val[i], '\"') && !cmd->expand[i])
 			cmd->val[i] = new_string(cmd->val[i], '\"');
+		}
+		else if (ft_strchr(cmd->val[i], '\"') && !cmd->expand[i])
+		{
+			cmd->val[i] = new_string(cmd->val[i], '\"');
+			cmd->val[i] = new_string(cmd->val[i], '\'');
+		}
 		i++;
 	}
 }
 
+int    utils_quotes(t_cmd *cmd)
+{
+    int    i;
+    int    j;
+	int med;
+    i = 0;
+    med = 0;
+    while (cmd->val[i])
+    {
+		j = 0;
+		while (cmd->val[i][j])
+		{
+			if (med == 0 && cmd->val[i][j] == '\'')
+				med = -1;
+			else if (med == 0 && cmd->val[i][j] == '"')
+				med = -2;
+			else if (med == -1 && cmd->val[i][j] == '\'')
+				med = 0;
+			else if (med == -2 && cmd->val[i][j] == '"')
+				med = 0;
+			j++;
+		}
+        i++;
+    }
+    return (med);
+}
+
+
 int	last_call_quotes(t_cmd *cmd, t_token *token, t_global *global)
 {
+	(void)global;
 	(void)token;
-	if (error_quotes(cmd) == 1)
+	if (utils_quotes(cmd))
 	{
 		perror("Syntax error");
 		ft_lst_clear(&global->head, free);

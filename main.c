@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:13:14 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 12:20:18 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:02:29 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,20 @@ void	ft_init_minishell(t_global *global, char **envp)
 
 void	ft_free_list(t_global *global)
 {
-	if (&global->head_env != NULL)
-		ft_lst_clear3(&global->head_env, free);
-	if (&global->head != NULL)
-		ft_lst_clear(&global->head, free);
-	if (&global->headcmd != NULL)
-		ft_lst_clear2(&global->headcmd, free);
+	ft_lst_clear3(&global->head_env, free);
+	ft_lst_clear(&global->head, free);
+	ft_lst_clear2(&global->headcmd, free);
 	ft_free_tab(global->env);
+}
+
+int	ft_free_list_and_error(t_global *global)
+{
+	ft_lst_clear3(&global->head_env, free);
+	ft_lst_clear(&global->head, free);
+	ft_lst_clear2(&global->headcmd, free);
+	ft_free_tab(global->env);
+	perror("Command Not Found1");
+	return (1);
 }
 
 int	init_token_cmd_list(char *line, t_global *global)
@@ -55,6 +62,24 @@ void	ft_quit(t_global *global)
 	ft_free_list(global);
 	exit(0);
 }
+
+// void	ft_close(t_global *global)
+// {
+// 	t_cmd *cmd;
+
+// 	cmd = global->headcmd;
+// 	if (cmd)
+// 	{
+// 		while (cmd->next)
+// 		{
+// 			close(cmd->input);
+// 			close(cmd->output);
+// 			cmd = cmd->next;
+// 		}
+// 	}
+// 	close(STDIN_FILENO);
+// 	close(STDOUT_FILENO);
+// }
 
 int	main(int ac, char **av, char **envp)
 {
@@ -79,10 +104,11 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		if (!init_token_cmd_list(line, &global))
 		{
+			//ft_print_cmd(&global.headcmd);
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
 				ft_expand_cmd_first(&global);
-				parse_execution(&global);
+				ft_parse_execution(&global);
 			}
 		}
 		free(line);
