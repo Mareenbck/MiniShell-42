@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 22:07:35 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 11:21:09 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 11:48:01 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			cmd = ft_fill_pipe(token, cmd, global);
 			if (!cmd)
 				return (1);
+			else
+				token = token->next;
 		}
 		token = ft_if_redir(cmd, token);
 		if (!token)

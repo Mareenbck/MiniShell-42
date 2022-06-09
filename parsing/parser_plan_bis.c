@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 10:02:47 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 11:15:34 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 11:47:32 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_token	*check_redir_out(t_token *token, t_cmd *cmd)
 		else
 			redir_out(cmd, token->val);
 	}
-	printf("token : %s\n", token->val);
 	return (token);
 }
 
@@ -128,7 +127,7 @@ t_token	*ft_if_redir(t_cmd *cmd, t_token *token)
 	if (token->token == REDIR_OUT)
 	{
 		token = check_redir_out(token, cmd);
-		if (!check_redir_out(token, cmd))
+		if (!token)
 			return (NULL);
 		else
 			return (token->next);
