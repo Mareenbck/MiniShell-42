@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plan_bis.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 22:06:55 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 09:54:27 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 10:02:47 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 10:04:03 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 int	check_redir_in(t_token *token, t_cmd *cmd)
 {
@@ -103,3 +104,32 @@ t_token	*ft_fill_cmdval(t_cmd *cmd, t_token *token)
 	cmd->val[i] = NULL;
 	return (token);
 }
+
+t_cmd	*ft_fill_pipe(t_token *token, t_cmd *cmd, t_global *global)
+{
+	if (!check_pipe_position(token, cmd))
+	{
+		cmd->pipe = true;
+		ft_lstaddback2(&global->headcmd, cmd);
+		cmd = create_cmd(list_len(&global->head));
+	}
+	else
+	{
+		ft_error("syntax error near unexpected token `|'", 2);
+		ft_lst_clear2(&cmd, free);
+		return NULL;
+	}
+	return (cmd);
+}
+
+// t_token	*find_redir(t_token *token, t_cmd *cmd)
+// {
+// 	if (token->token == REDIR_IN)
+// 		token = ana_redir_in(token, cmd);
+// 	else if (token->token == REDIR_OUT)
+// 		token = ana_redir_out(token, cmd);
+// 	else if (token->token == APPEND_IN)
+// 		token = ana_append_in(token, cmd);
+// 	else if (token->token == APPEND_OUT)
+// 		token = ana_append_out(token, cmd);
+// 	return (token);
