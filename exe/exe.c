@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 09:25:18 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:36:55 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_exe_with_pipe(t_cmd *cmd, t_global *global)
 			if (ft_execve(global, cmd))
 			{
 				ft_close(global);
-				ft_free_list(global);
+				ft_free_list2(global);
 				exit(127);
 			}
 		}
@@ -103,7 +103,7 @@ void	ft_child_process(t_cmd *cmd, t_global *global)
 				init_io(cmd);
 				if (ft_execve(global, cmd))
 				{
-					printf("\n");
+					// printf("\n");
 					ft_close(global);
 					ft_free_list2(global);
 					exit(127);

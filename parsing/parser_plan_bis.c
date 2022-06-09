@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 10:02:47 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 11:49:55 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 11:52:43 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/09 13:07:23 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_token	*check_redir_out(t_token *token, t_cmd *cmd)
 		else
 			redir_out(cmd, token->val);
 	}
-	printf("token : %s\n", token->val);
 	return (token);
 }
 
@@ -164,15 +163,3 @@ t_token	*ft_if_append(t_cmd *cmd, t_token *token)
 	}
 	return (token);
 }
-
-// t_token	*find_redir(t_token *token, t_cmd *cmd)
-// {
-// 	if (token->token == REDIR_IN)
-// 		token = ana_redir_in(token, cmd);
-// 	else if (token->token == REDIR_OUT)
-// 		token = ana_redir_out(token, cmd);
-// 	else if (token->token == APPEND_IN)
-// 		token = ana_append_in(token, cmd);
-// 	else if (token->token == APPEND_OUT)
-// 		token = ana_append_out(token, cmd);
-// 	return (token);

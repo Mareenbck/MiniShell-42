@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:43:07 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 10:23:47 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:59:18 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int	ft_heredoc(char *lim)
 		free(str);
 	}
 	free(str);
+	close(heredoc);
 	return (heredoc);
 }
