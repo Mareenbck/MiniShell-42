@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 10:55:28 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 20:35:34 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:52:18 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ int	check_append_o(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
+	{
+		perror("Syntax Error");
 		return (1);
+	}
 	return (0);
 }
 
@@ -24,7 +27,10 @@ int	check_heredoc(t_token *token, t_cmd *cmd)
 {
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
+	{
+		perror("Syntax Error");
 		return (1);
+	}
 	return (0);
 }
 
@@ -45,7 +51,7 @@ int	check_redir_o_position(t_token *token, t_cmd *cmd)
 	(void)cmd;
 	if (token->next->token != WORD && token->next != NULL)
 	{
-		perror("Error Syntax");
+		perror("Syntax Error");
 		return (1);
 	}
 	return (0);
