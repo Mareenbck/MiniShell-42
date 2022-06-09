@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 22:07:48 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 22:07:50 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:04:29 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,11 @@ void		check_if_expand(char *str, int i, t_cmd *cmd);
 t_token		*find_redir(t_token *token, t_cmd *cmd);
 t_token		*ana_redir_in(t_token *token, t_cmd *cmd);
 t_token *ana_redir_out(t_token *token, t_cmd *cmd);
-t_token		*ana_append_in(t_token *token, t_cmd *cmd);
-t_token		*ana_append_out(t_token *token, t_cmd *cmd);
+int	ana_append_in(t_token *token, t_cmd *cmd);
+int	ana_append_out(t_token *token, t_cmd *cmd);
+int	check_redir_out(t_token *token, t_cmd *cmd);
+int	check_redir_in(t_token *token, t_cmd *cmd);
+t_token	*ft_fill_cmdval(t_cmd *cmd, t_token *token);
 
 
 //PIPE

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plan_bis.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 22:06:55 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 22:07:10 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:03:43 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ int	check_redir_in(t_token *token, t_cmd *cmd)
 	return (0);
 }
 
-t_token	*ana_redir_in(t_token *token, t_cmd *cmd)
-{
-	check_redir_in(token, cmd);
-	return (token);
-}
-
 int	check_redir_out(t_token *token, t_cmd *cmd)
 {
 	if (token->token == REDIR_OUT)
@@ -56,16 +50,7 @@ int	check_redir_out(t_token *token, t_cmd *cmd)
 	return (0);
 }
 
-t_token	*ana_redir_out(t_token *token, t_cmd *cmd)
-{
-	if (check_redir_out(token, cmd) == 0)
-	{
-		return (token->next);
-	}
-	return (NULL);
-}
-
-t_token	*ana_append_in(t_token *token, t_cmd *cmd)
+int	ana_append_in(t_token *token, t_cmd *cmd)
 {
 	if (token->token == APPEND_IN)
 	{
@@ -79,12 +64,13 @@ t_token	*ana_append_in(t_token *token, t_cmd *cmd)
 			ft_error("Syntax error", 2);
 			ft_lst_clear2(&cmd, free);
 			printf("error\n");
+			return (1);
 		}
 	}
-	return (token);
+	return (0);
 }
 
-t_token	*ana_append_out(t_token *token, t_cmd *cmd)
+int	ana_append_out(t_token *token, t_cmd *cmd)
 {
 	if (token->token == APPEND_OUT)
 	{
@@ -98,8 +84,27 @@ t_token	*ana_append_out(t_token *token, t_cmd *cmd)
 			ft_error("Syntax error", 2);
 			ft_lst_clear2(&cmd, free);
 			printf("error\n");
+			return (1);
 		}
 	}
+	return (0);
+}
+
+t_token	*ft_fill_cmdval(t_cmd *cmd, t_token *token)
+{
+	int	i;
+
+	i = 0;
+	while (token->token == WORD)
+	{
+		cmd->expand[i] = 0;
+		if (token->expand)
+			cmd->expand[i] = 1;
+		cmd->val[i] = ft_strdup(token->val);
+		token = token->next;
+		i++;
+	}
+	cmd->val[i] = NULL;
 	return (token);
 }
 

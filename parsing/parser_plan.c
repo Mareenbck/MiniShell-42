@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plan.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 22:07:35 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 22:07:38 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:04:56 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,22 +89,13 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 {
 	t_token	*token;
 	t_cmd	*cmd;
-	int		i;
+	// int		i;
 	token = global->head;
 	cmd = create_cmd(list_len(&global->head));
-	i = 0;
+	// i = 0;
 	while (token != NULL)
 	{
-		while (token->token == WORD)
-		{
-			cmd->expand[i] = 0;
-			if (token->expand)
-				cmd->expand[i] = 1;
-			cmd->val[i] = ft_strdup(token->val);
-			token = token->next;
-			i++;
-		}
-		cmd->val[i] = NULL;
+		token = ft_fill_cmdval(cmd, token);
 		if (token->token == PIPE)
 		{
 			if (!check_pipe_position(token, cmd))
@@ -112,7 +103,7 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 				cmd->pipe = true;
 				ft_lstaddback2(comd, cmd);
 				cmd = create_cmd(list_len(&global->head));
-				i = 0;
+				// i = 0;
 			}
 			else
 			{
@@ -122,14 +113,25 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			}
 		}
 		else if (token->token == REDIR_OUT)
-			token = ana_redir_out(token, cmd);
+		{
+			if (check_redir_out(token, cmd) == 0)
+				token = token->next;
+		}
 		else if (token->token == REDIR_IN)
-			token = ana_redir_in(token, cmd);
+		{
+			if (check_redir_in(token, cmd) == 0)
+				token = token->next;
+		}
 		else if (token->token == APPEND_OUT)
-			token = ana_append_out(token, cmd);
+		{
+			if (ana_append_out(token, cmd) == 0)
+				token = token->next;
+		}
 		else if (token->token == APPEND_IN)
-			token = ana_append_in(token, cmd);
-
+		{
+			if (ana_append_in(token, cmd) == 0)
+				token = token->next;
+		}
 		token = token->next;
 	}
 	ft_lstaddback2(comd, cmd);

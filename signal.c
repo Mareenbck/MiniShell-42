@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:14:33 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 19:14:35 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:18:21 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_signal(int i)
 	else if (i == 1)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 	}
 	else if (i == 2)
 	{

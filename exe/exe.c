@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 21:23:40 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:25:18 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void	ft_parent_process(t_global *global)
 	while (cmd->next != NULL)
 	{
 		waitpid(cmd->pid, &g_exit_status, 0);
+		if (g_exit_status == 131 && ft_strncmp(cmd->val[0], "echo", 4))
+			printf("Quit (core dumped)\n");
 		cmd = cmd->next;
 	}
 	if (global->exit == -1)
