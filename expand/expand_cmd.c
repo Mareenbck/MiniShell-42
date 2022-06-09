@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:11:15 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 13:39:31 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:41:19 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,15 @@ void	ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 	t_env	*env;
 	char	**split;
 	int		i;
+	char	*tmp;
 
 	env = global->head_env;
 	if (cmd->val[1] != NULL && cmd->val[1][1] == '?')
-		printf("%d", g_exit_status);
+	{
+		tmp = ft_itoa(g_exit_status);
+		write(1, tmp, ft_strlen(tmp));
+		free(tmp);
+	}
 	else if (str[0] == '$' && !str[1])
 	{
 		g_exit_status = 127;
