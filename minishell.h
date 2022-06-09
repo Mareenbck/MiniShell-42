@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 15:19:22 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:29:57 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ char		*find_binary(char **split_path, char *cmd);
 
 // EXPAND
 /* expand_utils.c */
-int	ft_go_expand_echo(t_cmd *cmd, t_global *global, char *tmp);
+int			ft_go_expand_echo(t_cmd *cmd, t_global *global, char *tmp);
 /* expand.c */
 int			ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 void		ft_expand_args(t_global *global, t_cmd *cmd, int i);
@@ -322,7 +322,7 @@ int			ft_check_args(t_global *global);
 int			not_valid(char *str);
 void		ft_quit(t_global *global);
 
-t_token	*ft_if_operator(t_cmd *cmd, t_token *token);
-void ft_print_token(t_token **head);
+t_token		*ft_if_operator(t_cmd *cmd, t_token *token);
+void		ft_print_token(t_token **head);
 
 #endif

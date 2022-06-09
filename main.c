@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 15:36:22 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:13:48 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	ft_init_minishell(t_global *global, char **envp)
 int	init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
-	// ft_print_token(&global->head);
+	// if (!init_token_list(line, &global->head))
+
+		// ft_print_token(&global->head);
 	if (!analize_cmd(&global->headcmd, global))
 		return (0);
 	else
@@ -37,7 +39,7 @@ int	init_token_cmd_list(char *line, t_global *global)
 		ft_lst_clear2(&global->headcmd, free);
 		return (1);
 	}
-}
+
 
 void	go_exec(t_global global)
 {
@@ -55,25 +57,12 @@ int ft_check_arg(int ac)
 	return (0);
 }
 
-int	ft_str_isspace(char *str)
-{
-	int i;
-
-	i = 0;
-	while (ft_isspace(str[i]))
-		i++;
-	if (!str[i])
-		return (1);
-	else
-		return (0);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char		*line;
 	t_global	global;
-
 	(void)av;
+
 	if (ft_check_arg(ac))
 		return (1);
 	ft_init_minishell(&global, envp);
@@ -83,7 +72,7 @@ int	main(int ac, char **av, char **envp)
 		ft_signal(2);
 		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
 		ft_signal(0);
-		if (!line || ft_str_isspace(line))
+		if (!line)
 			ft_quit(&global);
 		add_history(line);
 		if (!init_token_cmd_list(line, &global))
