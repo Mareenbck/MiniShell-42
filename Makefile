@@ -17,6 +17,7 @@ SRCS	= main.c toolbox/utils.c signal.c \
 		builtin/exit.c expand/expand.c parsing/parser_plan_bis.c \
 		toolbox/error.c toolbox/list_add.c toolbox/list_clear.c \
 		toolbox/list_free.c expand/expand_cmd.c \
+		toolbox/close.c toolbox/list_free_bis.c \
 
 
 
