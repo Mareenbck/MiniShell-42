@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 16:13:48 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:59:39 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,26 @@ void	ft_init_minishell(t_global *global, char **envp)
 int	init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
-	// if (!init_token_list(line, &global->head))
-
-		// ft_print_token(&global->head);
-	if (!analize_cmd(&global->headcmd, global))
-		return (0);
-	else
+	if (!global->head->next)
+	{
+		ft_lst_clear(&global->head, free);
+		return (1);
+	}
+	if (analize_cmd(&global->headcmd, global) == 1)
 	{
 		ft_lst_clear(&global->head, free);
 		ft_lst_clear2(&global->headcmd, free);
 		return (1);
 	}
-
-
-void	go_exec(t_global global)
-{
-	ft_close(&global);
-	ft_free_list(&global);
+	return (0);
 }
+
+
+// void	go_exec(t_global global)
+// {
+// 	ft_close(&global);
+// 	ft_free_list(&global);
+// }
 
 int ft_check_arg(int ac)
 {
@@ -88,4 +90,5 @@ int	main(int ac, char **av, char **envp)
 	ft_close(&global);
 	ft_free_list(&global);
 	exit(g_exit_status);
+	return(0);
 }
