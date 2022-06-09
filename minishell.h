@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 22:07:48 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 09:04:29 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:53:53 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ int	ana_append_out(t_token *token, t_cmd *cmd);
 int	check_redir_out(t_token *token, t_cmd *cmd);
 int	check_redir_in(t_token *token, t_cmd *cmd);
 t_token	*ft_fill_cmdval(t_cmd *cmd, t_token *token);
+t_cmd	*ft_fill_pipe(t_token *token, t_cmd *cmd, t_global *global);
+t_cmd	*create_cmd(int len);
 
 
 //PIPE

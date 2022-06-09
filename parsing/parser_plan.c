@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 22:07:35 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 09:04:56 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 09:55:49 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,19 +98,9 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 		token = ft_fill_cmdval(cmd, token);
 		if (token->token == PIPE)
 		{
-			if (!check_pipe_position(token, cmd))
-			{
-				cmd->pipe = true;
-				ft_lstaddback2(comd, cmd);
-				cmd = create_cmd(list_len(&global->head));
-				// i = 0;
-			}
-			else
-			{
-				ft_error("syntax error near unexpected token `|'", 2);
-				ft_lst_clear2(&cmd, free);
+			cmd = ft_fill_pipe(token, cmd, global);
+			if (!cmd)
 				return (1);
-			}
 		}
 		else if (token->token == REDIR_OUT)
 		{
