@@ -1,0 +1,13 @@
+drwxr-xr-x 12 mbascuna 2021_paris   4096 Jun  9 15:02 .
+drwxr-xr-x  3 mbascuna 2021_paris   4096 May 18 07:28 ..
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:47 append
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:47 builtin
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:47 env
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:47 exe
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 15:01 expand
+drwxr-xr-x  8 mbascuna 2021_paris   4096 Jun  9 14:43 .git
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:47 lexerd
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:27 libft
+-rwxr-xr-x  1 mbascuna 2021_paris 340568 Jun  9 15:01 minishell
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:48 parsing
+drwxr-xr-x  2 mbascuna 2021_paris   4096 Jun  9 14:48 toolbox

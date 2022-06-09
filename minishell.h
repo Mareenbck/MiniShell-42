@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:13:05 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 14:14:16 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:14:39 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,8 @@ char		**ft_split_envp(t_env **head_env, char *str);
 char		*find_binary(char **split_path, char *cmd);
 
 // EXPAND
+/* expand_utils.c */
+int	ft_go_expand_echo(t_cmd *cmd, t_global *global, char *tmp);
 /* expand.c */
 int			ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 void		ft_expand_args(t_global *global, t_cmd *cmd, int i);
@@ -321,8 +323,7 @@ int			ft_check_args(t_global *global);
 int			not_valid(char *str);
 void		ft_quit(t_global *global);
 
-
-
+t_token	*ft_if_operator(t_cmd *cmd, t_token *token);
 void ft_print_token(t_token **head);
 
 #endif

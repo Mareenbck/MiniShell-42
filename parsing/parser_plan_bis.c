@@ -6,13 +6,11 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:11:02 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 14:11:07 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:15:11 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
-
 
 t_token	*check_redir_in(t_token *token, t_cmd *cmd)
 {
@@ -21,14 +19,14 @@ t_token	*check_redir_in(t_token *token, t_cmd *cmd)
 		if (check_redir_i_position(token, cmd) == 1)
 		{
 			ft_lst_clear2(&cmd, free);
-			return NULL;
+			return (NULL);
 		}
 		token = token->next;
 		if (check_access(cmd, token->val))
 		{
 			perror(token->val);
 			ft_lst_clear2(&cmd, free);
-			return NULL;
+			return (NULL);
 		}
 	}
 	return (token);
@@ -41,14 +39,14 @@ t_token	*check_redir_out(t_token *token, t_cmd *cmd)
 		if (check_redir_o_position(token, cmd) == 1)
 		{
 			ft_lst_clear2(&cmd, free);
-			return NULL;
+			return (NULL);
 		}
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
 			ft_error("ambiguous redirect", 2);
 			ft_lst_clear2(&cmd, free);
-			return NULL;
+			return (NULL);
 		}
 		else
 			redir_out(cmd, token->val);
@@ -69,7 +67,7 @@ t_token	*ana_append_in(t_token *token, t_cmd *cmd)
 		{
 			ft_error("Syntax error", 2);
 			ft_lst_clear2(&cmd, free);
-			return NULL;
+			return (NULL);
 		}
 	}
 	return (token);
@@ -82,14 +80,14 @@ t_token	*ana_append_out(t_token *token, t_cmd *cmd)
 		if (check_append_o(token, cmd) == 1)
 		{
 			ft_lst_clear2(&cmd, free);
-			return NULL;
+			return (NULL);
 		}
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
 			ft_error("ambiguous redirect", 2);
 			ft_lst_clear2(&cmd, free);
-			return NULL;
+			return (NULL);
 		}
 		else
 			append_out(cmd, token->val);
@@ -127,7 +125,7 @@ t_cmd	*ft_fill_pipe(t_token *token, t_cmd *cmd, t_global *global)
 	{
 		ft_error("syntax error near unexpected token `|'", 2);
 		ft_lst_clear2(&cmd, free);
-		return NULL;
+		return (NULL);
 	}
 	return (cmd);
 }
@@ -171,5 +169,16 @@ t_token	*ft_if_append(t_cmd *cmd, t_token *token)
 		else
 			return (token->next);
 	}
+	return (token);
+}
+
+t_token	*ft_if_operator(t_cmd *cmd, t_token *token)
+{
+	token = ft_if_redir(cmd, token);
+	if (!token)
+		return (NULL);
+	token = ft_if_append(cmd, token);
+	if (!token)
+		return (NULL);
 	return (token);
 }

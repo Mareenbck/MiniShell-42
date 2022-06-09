@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:26:40 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 14:35:08 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:52:11 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,29 +60,6 @@ char	**split_expand(char *str)
 	return (split);
 }
 
-char	**ft_create_cmd(char **split, t_global *global)
-{
-	int		i;
-	t_env	*env;
-
-	i = 0;
-	while (split[i] != NULL)
-	{
-		env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
-		if (env && i == 0)
-		{
-			free(split[0]);
-			split[0] = ft_strdup(env->var_value);
-		}
-		else if (env && i > 0)
-			split[0] = ft_strjoin(split[0], env->var_value);
-		else if (i != 0)
-			split[0] = ft_strjoin(split[0], split[i]);
-		i++;
-	}
-	return (split);
-}
-
 void	ft_init_expand(t_cmd *cmd)
 {
 	int	i;
@@ -98,10 +75,20 @@ void	ft_init_expand(t_cmd *cmd)
 	}
 }
 
+void	ft_print_val(char **split, t_global *global)
+{
+	t_env	*env;
+
+	env = find_name(&global->head_env,
+			split[0], ft_strlen(split[0]));
+	if (env)
+		printf("%s : command not found\n", env->var_value);
+	ft_free_tab(split);
+}
+
 void	ft_expand_cmd_first(t_global *global)
 {
 	t_cmd	*cmd;
-	t_env	*env;
 	char	**split;
 
 	cmd = global->headcmd;
@@ -114,10 +101,7 @@ void	ft_expand_cmd_first(t_global *global)
 			split = ft_split_many(cmd->val[0], "$\"");
 			if ((split[0] != NULL && split[1] == NULL) || split[0] == NULL)
 			{
-				env = find_name(&global->head_env, split[0], ft_strlen(split[0]));
-				if (env)
-					printf("%s : command not found\n", env->var_value);
-				ft_free_tab(split);
+				ft_print_val(split, global);
 				break ;
 			}
 		}
