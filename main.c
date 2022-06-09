@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:15:11 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 11:24:59 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:05:28 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	ft_free_list_and_error(t_global *global)
 int	init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
+	// ft_print_token(&global->head);
 	if (!analize_cmd(&global->headcmd, global))
 		return (0);
 	else

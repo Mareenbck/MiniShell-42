@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:28:15 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 16:08:39 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:34:41 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	ft_echo(t_cmd *cmd, t_global *global)
 		i++;
 	}
 	if (!option)
-		printf("\n");
+	{
+		write(cmd->output, "\n", 1);
+	}
 	return (0);
 }

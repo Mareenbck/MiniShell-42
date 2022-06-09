@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 12:05:25 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 11:49:05 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:36:06 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	ft_exe_with_pipe(t_cmd *cmd, t_global *global)
 			if (ft_execve(global, cmd))
 			{
 				ft_close(global);
+				close(3);
 				ft_free_list2(global);
 				exit(127);
 			}
@@ -103,7 +104,8 @@ void	ft_child_process(t_cmd *cmd, t_global *global)
 				init_io(cmd);
 				if (ft_execve(global, cmd))
 				{
-					printf("\n");
+					// printf("\n");
+					//POUR LE $PATH
 					ft_close(global);
 					ft_free_list2(global);
 					exit(127);

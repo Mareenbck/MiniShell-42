@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:18:49 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 12:01:28 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:18:31 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,21 @@ int	ft_change_env(char *name, char *value, t_global *global)
 	return (1);
 }
 
-void	ft_insert_new_env(char *cmd, t_global *global, char *name)
+void	ft_insert_new_env(char *cmd, t_global *global, char *name, char *sign)
 {
 	t_env	*new_env;
+	char	*tmp;
 
-	if (ft_strchr(cmd, '='))
+	if (ft_strchr(cmd, '=') && !ft_strchr(cmd, '+'))
 		ft_insert_tab(global->env, cmd);
-	new_env = create_var_env(name, cmd);
+	if (sign[0] == '+')
+	{
+		tmp = ft_strtrim(sign, "+");
+		new_env = create_var_env(name, cmd, tmp);
+		free(tmp);
+	}
+	else
+		new_env = create_var_env(name, cmd, sign);
 	ft_lst_insert(&global->head_env, new_env);
 	free(name);
 }
@@ -89,7 +97,7 @@ void	ft_change_export(t_global *global, char *name, char *sign, char *cmd)
 		}
 	}
 	else
-		ft_insert_new_env(cmd, global, name);
+		ft_insert_new_env(cmd, global, name, sign);
 	free(sign);
 }
 

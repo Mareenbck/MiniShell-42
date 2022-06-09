@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:26:40 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/08 20:45:13 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:03:57 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_init_expand(t_cmd *cmd)
 void	ft_expand_cmd_first(t_global *global)
 {
 	t_cmd	*cmd;
+	t_env	*env;
 	char	**split;
 
 	cmd = global->headcmd;
@@ -113,6 +114,11 @@ void	ft_expand_cmd_first(t_global *global)
 			split = ft_split_many(cmd->val[0], "$\"");
 			if ((split[0] != NULL && split[1] == NULL) || split[0] == NULL)
 			{
+				env = find_name(&global->head_env, split[0], ft_strlen(split[0]));
+				if (env)
+					printf("%s : command not found\n", env->var_value);
+				else
+					write(2," ",1);
 				ft_free_tab(split);
 				break ;
 			}

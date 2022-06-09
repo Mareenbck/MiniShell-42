@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 10:02:47 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 11:47:32 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:03:19 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_token	*check_redir_in(t_token *token, t_cmd *cmd)
 	if (token->token == REDIR_IN)
 	{
 		if (check_redir_i_position(token, cmd) == 1)
+		{
+			ft_lst_clear2(&cmd, free);
 			return NULL;
+		}
 		token = token->next;
 		if (check_access(cmd, token->val))
 		{
@@ -35,7 +38,10 @@ t_token	*check_redir_out(t_token *token, t_cmd *cmd)
 	if (token->token == REDIR_OUT)
 	{
 		if (check_redir_o_position(token, cmd) == 1)
+		{
+			ft_lst_clear2(&cmd, free);
 			return NULL;
+		}
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
@@ -73,7 +79,10 @@ t_token	*ana_append_out(t_token *token, t_cmd *cmd)
 	if (token->token == APPEND_OUT)
 	{
 		if (check_append_o(token, cmd) == 1)
+		{
+			ft_lst_clear2(&cmd, free);
 			return NULL;
+		}
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
