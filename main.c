@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 14:10:40 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:36:22 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,19 @@ int ft_check_arg(int ac)
 	return (0);
 }
 
+int	ft_str_isspace(char *str)
+{
+	int i;
+
+	i = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	if (!str[i])
+		return (1);
+	else
+		return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char		*line;
@@ -70,7 +83,7 @@ int	main(int ac, char **av, char **envp)
 		ft_signal(2);
 		line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
 		ft_signal(0);
-		if (!line)
+		if (!line || ft_str_isspace(line))
 			ft_quit(&global);
 		add_history(line);
 		if (!init_token_cmd_list(line, &global))
