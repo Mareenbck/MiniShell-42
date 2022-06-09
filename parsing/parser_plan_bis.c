@@ -6,50 +6,51 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 10:02:47 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 10:04:03 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 11:15:34 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int	check_redir_in(t_token *token, t_cmd *cmd)
+t_token	*check_redir_in(t_token *token, t_cmd *cmd)
 {
 	if (token->token == REDIR_IN)
 	{
 		if (check_redir_i_position(token, cmd) == 1)
-			return (1);
+			return NULL;
 		token = token->next;
 		if (check_access(cmd, token->val))
 		{
 			perror(token->val);
 			ft_lst_clear2(&cmd, free);
-			return (1);
+			return NULL;
 		}
 	}
-	return (0);
+	return (token);
 }
 
-int	check_redir_out(t_token *token, t_cmd *cmd)
+t_token	*check_redir_out(t_token *token, t_cmd *cmd)
 {
 	if (token->token == REDIR_OUT)
 	{
 		if (check_redir_o_position(token, cmd) == 1)
-			return (1);
+			return NULL;
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
 			ft_error("ambiguous redirect", 2);
 			ft_lst_clear2(&cmd, free);
-			return (1);
+			return NULL;
 		}
 		else
 			redir_out(cmd, token->val);
 	}
-	return (0);
+	printf("token : %s\n", token->val);
+	return (token);
 }
 
-int	ana_append_in(t_token *token, t_cmd *cmd)
+t_token	*ana_append_in(t_token *token, t_cmd *cmd)
 {
 	if (token->token == APPEND_IN)
 	{
@@ -62,29 +63,29 @@ int	ana_append_in(t_token *token, t_cmd *cmd)
 		{
 			ft_error("Syntax error", 2);
 			ft_lst_clear2(&cmd, free);
-			return (1);
+			return NULL;
 		}
 	}
-	return (0);
+	return (token);
 }
 
-int	ana_append_out(t_token *token, t_cmd *cmd)
+t_token	*ana_append_out(t_token *token, t_cmd *cmd)
 {
 	if (token->token == APPEND_OUT)
 	{
 		if (check_append_o(token, cmd) == 1)
-			return (1);
+			return NULL;
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
 			ft_error("ambiguous redirect", 2);
 			ft_lst_clear2(&cmd, free);
-			return (1);
+			return NULL;
 		}
 		else
 			append_out(cmd, token->val);
 	}
-	return (0);
+	return (token);
 }
 
 t_token	*ft_fill_cmdval(t_cmd *cmd, t_token *token)
@@ -120,6 +121,48 @@ t_cmd	*ft_fill_pipe(t_token *token, t_cmd *cmd, t_global *global)
 		return NULL;
 	}
 	return (cmd);
+}
+
+t_token	*ft_if_redir(t_cmd *cmd, t_token *token)
+{
+	if (token->token == REDIR_OUT)
+	{
+		token = check_redir_out(token, cmd);
+		if (!check_redir_out(token, cmd))
+			return (NULL);
+		else
+			return (token->next);
+	}
+	else if (token->token == REDIR_IN)
+	{
+		token = check_redir_in(token, cmd);
+		if (!token)
+			return (NULL);
+		else
+			return (token->next);
+	}
+	return (token);
+}
+
+t_token	*ft_if_append(t_cmd *cmd, t_token *token)
+{
+	if (token->token == APPEND_OUT)
+	{
+		token = ana_append_out(token, cmd);
+		if (!token)
+			return (NULL);
+		else
+			return (token->next);
+	}
+	else if (token->token == APPEND_IN)
+	{
+		token = ana_append_in(token, cmd);
+		if (!token)
+			return (NULL);
+		else
+			return (token->next);
+	}
+	return (token);
 }
 
 // t_token	*find_redir(t_token *token, t_cmd *cmd)

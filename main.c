@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:15:11 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 21:25:35 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 11:03:29 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ int	ft_free_list_and_error(t_global *global)
 
 int	init_token_cmd_list(char *line, t_global *global)
 {
+	printf("RE\n");
 	init_token_list(line, &global->head);
+	printf("SORTIE TOKEN\n");
 	if (!analize_cmd(&global->headcmd, global))
 		return (0);
 	else
@@ -144,7 +146,7 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		if (!init_token_cmd_list(line, &global))
 		{
-			//ft_print_cmd(&global.headcmd);
+			// ft_print_cmd(&global.headcmd);
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
 				ft_expand_cmd_first(&global);
