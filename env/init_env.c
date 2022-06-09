@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 08:45:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 16:41:37 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 12:56:41 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,19 @@ void	ft_init_list_env(t_env **head_env, t_global *global)
 {
 	int		i;
 	char	*name;
+	char	*sign;
 	t_env	*new_var_env;
 
 	i = 0;
 	ft_init_sorted_env(global);
 	while (global->sorted_env[i])
 	{
+		sign = init_sign(global->sorted_env[i]);
 		if (!check_name(global->sorted_env[i]))
 			name = edit_name(global->sorted_env[i], '=');
-		new_var_env = create_var_env(name, global->sorted_env[i]);
+		new_var_env = create_var_env(name, global->sorted_env[i], sign);
 		free(name);
+		free(sign);
 		ft_lstaddback3(head_env, new_var_env);
 		i++;
 	}

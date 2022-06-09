@@ -6,13 +6,13 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:30:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 17:19:25 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 13:00:34 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_env	*create_var_env(char *name, char *env)
+t_env	*create_var_env(char *name, char *env, char *sign)
 {
 	t_env	*new_var_env;
 
@@ -20,7 +20,7 @@ t_env	*create_var_env(char *name, char *env)
 	new_var_env->declare = ft_strdup("declare -x");
 	new_var_env->var_name = ft_strdup(name);
 	new_var_env->var_value = check_value(env);
-	new_var_env->var_sign = init_sign(env);
+	new_var_env->var_sign = ft_strdup(sign);
 	new_var_env->next = NULL;
 	new_var_env->prev = NULL;
 	return (new_var_env);

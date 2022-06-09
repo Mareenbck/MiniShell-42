@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 11:53:01 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 11:53:04 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 14:10:40 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -27,6 +28,7 @@ void	ft_init_minishell(t_global *global, char **envp)
 int	init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
+	// ft_print_token(&global->head);
 	if (!analize_cmd(&global->headcmd, global))
 		return (0);
 	else

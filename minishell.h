@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 11:26:13 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 11:27:26 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 14:13:05 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 14:14:16 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,6 @@ void		ft_lst_delone3(t_env *env, void (*del)(void *));
 // INIT_ENV
 void		ft_init_list_env(t_env **head_env, t_global *global);
 void		ft_init_env(t_global *global, char **envp);
-t_env		*create_var_env(char *name, char *value);
 t_env		*ft_init_var_env(void);
 char		*init_var_name(char *str, char c);
 void		ft_print_export(t_global *global);
@@ -244,7 +243,9 @@ char		*init_sign(char *name);
 char		*fill_sign(int j, int i, char *name, char *res);
 char		*edit_name(char *str, char c);
 char		*fill_name(int i, char *str, char *res);
-t_env		*create_var_env(char *name, char *env);
+t_env		*create_var_env(char *name, char *env, char *sign);
+
+
 /* init_env.c */
 t_env		*ft_init_var_env(void);
 void		ft_init_list_env(t_env **head_env, t_global *global);
@@ -305,7 +306,7 @@ int			ft_exit(t_global *global, t_cmd *cmd);
 /* export.c */
 void		ft_print_export(t_global *global);
 int			ft_change_env(char *name, char *value, t_global *global);
-void		ft_insert_new_env(char *cmd, t_global *global, char *name);
+void		ft_insert_new_env(char *cmd, t_global *global, char *name, char *sign);
 void		ft_change_export(t_global *global, char *name,
 				char *sign, char *cmd);
 int			ft_export(t_cmd *cmd, t_global *global);
@@ -319,5 +320,9 @@ void		ft_shift_env(t_global *global, int i);
 int			ft_check_args(t_global *global);
 int			not_valid(char *str);
 void		ft_quit(t_global *global);
+
+
+
+void ft_print_token(t_token **head);
 
 #endif

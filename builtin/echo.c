@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 18:28:15 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 13:31:16 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 14:12:21 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 14:12:23 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 

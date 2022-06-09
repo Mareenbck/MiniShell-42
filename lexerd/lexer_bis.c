@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_bis.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 16:07:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 14:01:07 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 14:13:37 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 14:13:40 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -69,13 +70,16 @@
 int	ft_lex(char *str, t_token *token)
 {
 	int	i;
-	int quotes = 0;
+	int	quotes;
+
 	i = 0;
+	quotes = 0;
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) && !ft_isspace(str[i]) && ft_operator(str[i]))
+		if ((ft_isprint(str[i]) && !ft_isspace(str[i]) && ft_operator(str[i])))
 		{
-			while (str[i] && ft_isprint(str[i]))
+			while (str[i] && ft_isprint(str[i]) && ft_operator(str[i]))
+
 			{
 				if (is_doble_quotes(str[i]) || is_simple_quotes(str[i]))
 				{
@@ -103,6 +107,7 @@ int	ft_lex(char *str, t_token *token)
 				token->len = 1;
 			token->val = ft_strdup_bis(&str[i], token->len);
 			return (token->token);
+			//redir_pipe(str, token, i);
 		}
 		i++;
 	}
