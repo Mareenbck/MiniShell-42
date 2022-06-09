@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:18:49 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 13:18:31 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:52:35 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	ft_export(t_cmd *cmd, t_global *global)
 	int		i;
 
 	i = 1;
+	g_exit_status = 0;
 	if (cmd->val[i] == NULL)
 		ft_print_export(global);
 	while (cmd->val[i] != NULL)

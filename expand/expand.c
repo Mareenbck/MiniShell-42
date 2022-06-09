@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:26:40 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 14:52:11 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:22:32 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_init_expand(t_cmd *cmd)
 	}
 }
 
-void	ft_print_val(char **split, t_global *global)
+void	ft_print_val(char **split, t_global *global, t_cmd *cmd)
 {
 	t_env	*env;
 
@@ -83,10 +83,11 @@ void	ft_print_val(char **split, t_global *global)
 			split[0], ft_strlen(split[0]));
 	if (env)
 		printf("%s : command not found\n", env->var_value);
+	cmd->expand[0] = 0;
 	ft_free_tab(split);
 }
 
-void	ft_expand_cmd_first(t_global *global)
+int	ft_expand_cmd_first(t_global *global)
 {
 	t_cmd	*cmd;
 	char	**split;
@@ -101,8 +102,8 @@ void	ft_expand_cmd_first(t_global *global)
 			split = ft_split_many(cmd->val[0], "$\"");
 			if ((split[0] != NULL && split[1] == NULL) || split[0] == NULL)
 			{
-				ft_print_val(split, global);
-				break ;
+				ft_print_val(split, global, cmd);
+				return (1);
 			}
 		}
 		split = ft_create_cmd(split, global);
@@ -112,4 +113,5 @@ void	ft_expand_cmd_first(t_global *global)
 		ft_free_tab(split);
 		cmd = cmd->next;
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 08:45:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 12:56:41 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:47:07 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_init_env(t_global *global, char **envp)
 		i++;
 	global->env = (char **)malloc(sizeof(t_env) * i + 1);
 	if (!global->env)
-		perror("Error\n");
+		printf("Error\n");
 	i = 0;
 	while (envp[i])
 	{

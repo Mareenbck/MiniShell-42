@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 15:29:57 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:20:47 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,14 +216,13 @@ t_env		*find_name(t_env **head_env, char *var, size_t len);
 void		ft_signal(int i);
 void		handle_sigint(int sig);
 
-void		ft_free_only_list(t_global *global);
+int			ft_free_list_return(t_global *global);
 void		ft_close_cmd(t_global *global);
 void		ft_free_list2(t_global *global);
 
 // EXPAND ENV
 int			check_name(char *token);
 char		*check_value(char *token);
-void		ft_expand_cmd_first(t_global *global);
 void		ft_expand_echo(t_cmd *cmd, t_global *global, char *str);
 void		ft_parse_execution(t_global *global);
 void		ft_free_list(t_global *global);
@@ -265,7 +264,7 @@ int			ft_count_cmd(char *str);
 char		**split_expand(char *str);
 char		**ft_create_cmd(char **split, t_global *global);
 void		ft_init_expand(t_cmd *cmd);
-void		ft_expand_cmd_first(t_global *global);
+int			ft_expand_cmd_first(t_global *global);
 /* expand_cmd.c */
 int			ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 void		ft_expand_args(t_global *global, t_cmd *cmd, int i);
@@ -325,4 +324,5 @@ void		ft_quit(t_global *global);
 t_token		*ft_if_operator(t_cmd *cmd, t_token *token);
 void		ft_print_token(t_token **head);
 
+int			ft_quit_minishell(t_global *global);
 #endif

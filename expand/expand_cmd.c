@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:11:15 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 15:00:16 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:19:14 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 	else if (str[0] == '$' && !str[1])
 	{
 		g_exit_status = 127;
-		ft_free_only_list(global);
+		ft_free_list2(global);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:04 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 16:37:02 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:20:06 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_execve(t_global *global, t_cmd *cmd)
 		else
 			cmd->path = find_binary(split_path, cmd->val[i]);
 		if (!cmd->path)
-			return (ft_free_list_and_error(global));
+			return (ft_free_list_return(global));
 		while (cmd->val[++i])
 			if (cmd->expand[i])
 				ft_expand_args(global, cmd, i);
@@ -124,8 +124,8 @@ void	ft_parent_process(t_global *global)
 	while (cmd->next != NULL)
 	{
 		waitpid(cmd->pid, &g_exit_status, 0);
-		if (g_exit_status == 131 && ft_strncmp(cmd->val[0], "echo", 4))
-			printf("Quit (core dumped)\n");
+		if (g_exit_status == 131 && ft_strncmp(cmd->val[0], "echo", 5))
+			write(2, "Quit (core dumped)\n", 19);
 		cmd = cmd->next;
 	}
 	if (global->exit == -1)

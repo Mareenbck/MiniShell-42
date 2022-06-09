@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 10:12:10 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 17:18:49 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 18:45:38 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,12 @@ void	ft_quit(t_global *global)
 	global->exit = 1;
 	ft_free_list(global);
 	exit(0);
+}
+
+int	ft_quit_minishell(t_global *global)
+{
+	ft_close(global);
+	ft_free_list(global);
+	exit(g_exit_status);
+	return (0);
 }
