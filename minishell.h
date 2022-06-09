@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/08 22:07:48 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 10:24:03 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 11:26:13 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/09 11:27:26 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -128,11 +129,13 @@ void		check_if_expand(char *str, int i, t_cmd *cmd);
 //ANALIZE CMD
 t_token		*find_redir(t_token *token, t_cmd *cmd);
 t_token		*ana_redir_in(t_token *token, t_cmd *cmd);
-t_token		*ana_redir_out(t_token *token, t_cmd *cmd);
-int			ana_append_in(t_token *token, t_cmd *cmd);
-int			ana_append_out(t_token *token, t_cmd *cmd);
-int			check_redir_out(t_token *token, t_cmd *cmd);
-int			check_redir_in(t_token *token, t_cmd *cmd);
+t_token 	*ana_redir_out(t_token *token, t_cmd *cmd);
+t_token		*ana_append_in(t_token *token, t_cmd *cmd);
+t_token		*ana_append_out(t_token *token, t_cmd *cmd);
+t_token		*check_redir_out(t_token *token, t_cmd *cmd);
+t_token		*ft_if_redir(t_cmd *cmd, t_token *token);
+t_token		*ft_if_append(t_cmd *cmd, t_token *token);
+t_token		*check_redir_in(t_token *token, t_cmd *cmd);
 t_token		*ft_fill_cmdval(t_cmd *cmd, t_token *token);
 t_cmd		*ft_fill_pipe(t_token *token, t_cmd *cmd, t_global *global);
 t_cmd		*create_cmd(int len);
