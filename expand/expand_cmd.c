@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:11:15 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 13:39:31 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:00:16 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	**ft_create_cmd(char **split, t_global *global)
+{
+	int		i;
+	t_env	*env;
+
+	i = 0;
+	while (split[i] != NULL)
+	{
+		env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
+		if (env && i == 0)
+		{
+			free(split[0]);
+			split[0] = ft_strdup(env->var_value);
+		}
+		else if (env && i > 0)
+			split[0] = ft_strjoin(split[0], env->var_value);
+		else if (i != 0)
+			split[0] = ft_strjoin(split[0], split[i]);
+		i++;
+	}
+	return (split);
+}
 
 int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 {
@@ -33,12 +56,7 @@ int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 	{
 		cmd->path = find_binary(split_path, env->var_value);
 		if (!cmd->path)
-		{
-			ft_expand_echo(cmd, global, cmd->val[0]);
-			free(tmp);
-			ft_free_list(global);
-			return (1);
-		}
+			return (ft_go_expand_echo(cmd, global, tmp));
 	}
 	free(tmp);
 	ft_free_list(global);
@@ -55,15 +73,39 @@ void	ft_expand_args(t_global *global, t_cmd *cmd, int i)
 		ft_strcpy(cmd->val[i], env->var_value);
 }
 
+void	ft_print_split_env(t_cmd *cmd, t_global *global, char **split)
+{
+	int		i;
+	t_env	*env;
+
+	i = 0;
+	env = global->head_env;
+	while (split[i])
+	{
+		if (!ft_strchr(split[i], '$'))
+			env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
+		else
+			env = find_name(&global->head_env,
+					&split[i][1], ft_strlen(&split[i][1]));
+		if (env)
+			write(cmd->output, env->var_value, ft_strlen(env->var_value));
+		else if (!env && split[i][0] != '$')
+			write(cmd->output, split[i], ft_strlen(split[i]));
+		i++;
+	}
+}
+
 void	ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 {
-	t_env	*env;
 	char	**split;
-	int		i;
+	char	*tmp;
 
-	env = global->head_env;
 	if (cmd->val[1] != NULL && cmd->val[1][1] == '?')
-		printf("%d", g_exit_status);
+	{
+		tmp = ft_itoa(g_exit_status);
+		write(1, tmp, ft_strlen(tmp));
+		free(tmp);
+	}
 	else if (str[0] == '$' && !str[1])
 	{
 		g_exit_status = 127;
@@ -72,19 +114,7 @@ void	ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 	else
 	{
 		split = split_expand(str);
-		i = 0;
-		while (split[i])
-		{
-			if (!ft_strchr(split[i], '$'))
-				env = find_name(&global->head_env, split[i], ft_strlen(split[i]));
-			else
-				env = find_name(&global->head_env, &split[i][1], ft_strlen(&split[i][1]));
-			if (env)
-				printf("%s", env->var_value);
-			else if (!env && split[i][0] != '$')
-				printf("%s", split[i]);
-			i++;
-		}
+		ft_print_split_env(cmd, global, split);
 		ft_free_tab(split);
 	}
 }

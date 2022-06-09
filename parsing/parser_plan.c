@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 14:10:45 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 15:07:24 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 15:18:45 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/09 15:18:51 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -101,13 +102,9 @@ int	analize_cmd(t_cmd **comd, t_global *global)
 			cmd = ft_fill_pipe(token, cmd, global);
 			if (!cmd)
 				return (1);
-			else
-				token = token->next;
+			token = token->next;
 		}
-		token = ft_if_redir(cmd, token);
-		if (!token)
-			return (1);
-		token = ft_if_append(cmd, token);
+		token = ft_if_operator(cmd, token);
 		if (!token)
 			return (1);
 	}
