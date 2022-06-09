@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:13:05 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 14:14:16 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:52:05 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -36,7 +35,7 @@
 
 extern int	g_exit_status;
 
-typedef enum
+typedef enum e_token_type
 {
 	REDIR_IN = 1,
 	REDIR_OUT = 2,
@@ -45,9 +44,9 @@ typedef enum
 	WORD = 5,
 	NEW_LINE = 6,
 	PIPE = 7,
-}	token_type;
+}		t_token_type;
 
-typedef enum
+typedef enum e_exit_status
 {
 	SUCCESS = 0,
 	PIPE_FAIL = 3,
@@ -62,7 +61,7 @@ typedef enum
 	CANTEXEC = 126,
 	NOTFOUND = 127,
 	CSIGINT = 130
-}	exit_status;
+}		t_exit_status;
 
 typedef struct s_token
 {
@@ -129,7 +128,7 @@ void		check_if_expand(char *str, int i, t_cmd *cmd);
 //ANALIZE CMD
 t_token		*find_redir(t_token *token, t_cmd *cmd);
 t_token		*ana_redir_in(t_token *token, t_cmd *cmd);
-t_token 	*ana_redir_out(t_token *token, t_cmd *cmd);
+t_token		*ana_redir_out(t_token *token, t_cmd *cmd);
 t_token		*ana_append_in(t_token *token, t_cmd *cmd);
 t_token		*ana_append_out(t_token *token, t_cmd *cmd);
 t_token		*check_redir_out(t_token *token, t_cmd *cmd);
@@ -245,7 +244,6 @@ char		*edit_name(char *str, char c);
 char		*fill_name(int i, char *str, char *res);
 t_env		*create_var_env(char *name, char *env, char *sign);
 
-
 /* init_env.c */
 t_env		*ft_init_var_env(void);
 void		ft_init_list_env(t_env **head_env, t_global *global);
@@ -306,7 +304,8 @@ int			ft_exit(t_global *global, t_cmd *cmd);
 /* export.c */
 void		ft_print_export(t_global *global);
 int			ft_change_env(char *name, char *value, t_global *global);
-void		ft_insert_new_env(char *cmd, t_global *global, char *name, char *sign);
+void		ft_insert_new_env(char *cmd, t_global *global,
+				char *name, char *sign);
 void		ft_change_export(t_global *global, char *name,
 				char *sign, char *cmd);
 int			ft_export(t_cmd *cmd, t_global *global);
@@ -320,9 +319,6 @@ void		ft_shift_env(t_global *global, int i);
 int			ft_check_args(t_global *global);
 int			not_valid(char *str);
 void		ft_quit(t_global *global);
-
-
-
-void ft_print_token(t_token **head);
+void		ft_print_token(t_token **head);
 
 #endif

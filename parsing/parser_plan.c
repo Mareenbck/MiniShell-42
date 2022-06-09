@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plan.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:45 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 14:10:56 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:07:24 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../minishell.h"
 
@@ -68,24 +66,24 @@ int	list_len(t_token **head)
 	return (len);
 }
 
-void	ft_print_cmd(t_cmd **cmd)
-{
-	t_cmd	*tmp;
-	int		i;
+// void	ft_print_cmd(t_cmd **cmd)
+// {
+// 	t_cmd	*tmp;
+// 	int		i;
 
-	tmp = *cmd;
-	i = 0;
-	while (tmp != NULL)
-	{
-		i = 0;
-		while (tmp->val[i])
-		{
-			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d -> output : %d -> input : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe, tmp->output, tmp->input);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-}
+// 	tmp = *cmd;
+// 	i = 0;
+// 	while (tmp != NULL)
+// 	{
+// 		i = 0;
+// 		while (tmp->val[i])
+// 		{
+// 			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d -> output : %d -> input : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe, tmp->output, tmp->input);
+// 			i++;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
 
 int	analize_cmd(t_cmd **comd, t_global *global)
 {

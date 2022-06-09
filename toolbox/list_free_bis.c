@@ -6,7 +6,7 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 10:54:00 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 13:34:26 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/09 14:41:21 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_free_only_list(t_global *global)
 	ft_lst_clear(&global->head, free);
 	ft_lst_clear2(&global->headcmd, free);
 	perror("");
-	// perror("Command Not Found2");
 }
 
 int	ft_free_list_and_error(t_global *global)

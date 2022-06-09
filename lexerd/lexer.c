@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:19:12 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 13:50:15 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 15:08:31 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ t_token	*create_token(char *str)
 	return (new_token);
 }
 
-void ft_print_token(t_token **head)
-{
-	t_token *tmp;
+// void ft_print_token(t_token **head)
+// {
+// 	t_token *tmp;
 
-	tmp = *head;
-	int i = 0;
+// 	tmp = *head;
+// 	int i = 0;
 
-	while (tmp != NULL)
-	{
-		printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
-		i++;
-		tmp = tmp->next;
-	}
-}
+// 	while (tmp != NULL)
+// 	{
+// 		printf("%d > token : %d, size : %d, data : %s \n", i, tmp->token, tmp->len, tmp->val);
+// 		i++;
+// 		tmp = tmp->next;
+// 	}
+// }
 
 void	init_token_list(char *line, t_token **head)
 {
