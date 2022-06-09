@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 16:59:39 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:20:37 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,6 @@ int	init_token_cmd_list(char *line, t_global *global)
 	}
 	return (0);
 }
-
-
-// void	go_exec(t_global global)
-// {
-// 	ft_close(&global);
-// 	ft_free_list(&global);
-// }
 
 int ft_check_arg(int ac)
 {

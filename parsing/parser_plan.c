@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_plan.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:18:45 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 16:40:12 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:18:23 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,25 +64,6 @@ int	list_len(t_token **head)
 		token = token->next;
 	}
 	return (len);
-}
-
-void	ft_print_cmd(t_cmd **cmd)
-{
-	t_cmd	*tmp;
-	int		i;
-
-	tmp = *cmd;
-	i = 0;
-	while (tmp != NULL)
-	{
-		i = 0;
-		while (tmp->val[i])
-		{
-			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d -> output : %d -> input : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe, tmp->output, tmp->input);
-			i++;
-		}
-		tmp = tmp->next;
-	}
 }
 
 int	analize_cmd(t_cmd **comd, t_global *global)

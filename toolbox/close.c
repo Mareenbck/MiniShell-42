@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 10:12:10 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 15:37:25 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:18:49 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,5 @@ void	ft_quit(t_global *global)
 	ft_close(global);
 	global->exit = 1;
 	ft_free_list(global);
-	// return (0);
 	exit(0);
 }
