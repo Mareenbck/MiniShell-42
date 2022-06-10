@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:04 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 19:20:06 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/10 10:18:32 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ int	ft_execve(t_global *global, t_cmd *cmd)
 	{
 		split_path = ft_split_envp(&global->head_env, "PATH");
 		if (!split_path)
-			return (ft_free_list_and_error(global));
+			return (ft_free_list_and_error(global, cmd));
 		if (cmd->expand[i])
 			return (ft_expand_cmd(global, cmd, split_path));
 		else
 			cmd->path = find_binary(split_path, cmd->val[i]);
 		if (!cmd->path)
-			return (ft_free_list_return(global));
+			return (ft_free_list_and_error(global, cmd));
 		while (cmd->val[++i])
 			if (cmd->expand[i])
 				ft_expand_args(global, cmd, i);
 		ft_signal(1);
 		if (execve(cmd->path, cmd->val, global->env) == -1)
-			return (ft_free_list_and_error(global));
+			return (ft_free_list_and_error(global, cmd));
 	}
 	return (0);
 }
@@ -105,6 +105,7 @@ void	ft_child_process(t_cmd *cmd, t_global *global)
 				if (ft_execve(global, cmd))
 				{
 					ft_close(global);
+					close(3);
 					ft_free_list2(global);
 					exit(127);
 				}

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 19:20:47 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/10 10:21:41 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ void		ft_free_list(t_global *global);
 int			ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 char		*new_string(char *str, char c);
 void		ft_free_list(t_global *global);
-int			ft_free_list_and_error(t_global *global);
+int			ft_free_list_and_error(t_global *global, t_cmd *cmd);
 int			ft_free_list_not_env(t_global *global);
 
 // ENV

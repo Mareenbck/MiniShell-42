@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 10:12:10 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/09 18:45:38 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/10 10:09:50 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_close(t_global *global)
 	close(STDERR_FILENO);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
+	close(3);
 	cmd = global->headcmd;
 	if (cmd)
 	{
