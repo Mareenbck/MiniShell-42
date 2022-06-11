@@ -26,6 +26,16 @@ t_env	*expand_heredoc(char *str, t_env *env, t_global *global, int heredoc)
 	else
 		write(heredoc, str, ft_strlen(str));
 	return (env);
+
+int	check_lim(char *lim)
+{
+	int	i;
+
+	i = -1;
+	while (lim[++i])
+		if (!ft_isalpha(lim[i]))
+			return (1);
+	return (0);
 }
 
 char	*init_heredoc(char *str)

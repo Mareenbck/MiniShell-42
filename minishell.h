@@ -327,4 +327,5 @@ void		ft_print_token(t_token **head);
 
 int			ft_quit_minishell(t_global *global);
 int			ft_free_list3(t_global *global);
+
 #endif
