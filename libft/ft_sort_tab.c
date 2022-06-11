@@ -15,8 +15,8 @@
 char	**ft_sort_tab(char **tab)
 {
 	char	*tmp;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (tab[i])
@@ -37,4 +37,3 @@ char	**ft_sort_tab(char **tab)
 	}
 	return (tab);
 }
-

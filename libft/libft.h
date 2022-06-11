@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/29 13:25:45 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/03/24 11:57:18 by mbascuna         ###   ########.fr       */
+/*   Created: 2022/06/08 12:24:36 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 11:28:40 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
@@ -74,11 +75,13 @@ void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char		*ft_get_next_line(int fd);
 int			ft_count_words(char const *s, char c);
-int ft_isspace(int c);
-int	ft_strcmp(const char *s1, const char *s2);
-char	**ft_sort_tab(char **tab);
-char	*ft_strcat(char *dest, char *src);
-char	*ft_strcpy(char *dest, char *src);
-char **ft_split_many(char *str, char *charset);
+int			ft_isspace(int c);
+int			ft_strcmp(const char *s1, const char *s2);
+char		**ft_sort_tab(char **tab);
+char		*ft_strcat(char *dest, char *src);
+char		*ft_strcpy(char *dest, char *src);
+char		**ft_split_many(char *str, char *charset);
+int			include_charset(char c, char *charset);
+bool		ft_str_isalnum(char *str);
 
 #endif

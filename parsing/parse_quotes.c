@@ -6,108 +6,39 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:41:37 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/27 15:47:30 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 17:59:00 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_d_quotes(t_cmd *cmd)
+char	*new_string(char *str, char c)
 {
-	int	i;
-	int	j;
-	int count;
+	char	*s;
+	int		i;
+	int		j;
 
-	count = 0;
 	i = 0;
 	j = 0;
-	while (cmd->val[i])
+	s = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!s)
+		return (NULL);
+	while (str[i])
 	{
-		j = 0;
-		while (cmd->val[i][j])
-		{
-			if (is_doble_quotes(cmd->val[i][j]))
-				count++;
-			j++;
-		}
-		i++;
+		if (str[i] == c)
+			i++;
+		else
+			s[j++] = str[i++];
 	}
-	return (count);
+	s[j] = '\0';
+	free(str);
+	return (s);
 }
 
-int	count_s_quotes(t_cmd *cmd)
+void	check_if_expand(char *str, int i, t_cmd *cmd)
 {
-	int	i;
-	int	j;
-	int count;
-
-	count = 0;
-	i = 0;
-	j = 0;
-	while (cmd->val[i])
-	{
-		j = 0;
-		while (cmd->val[i][j])
-		{
-			if (is_simple_quotes(cmd->val[i][j]))
-				count++;
-			j++;
-		}
-		i++;
-	}
-	return (count);
-}
-
-int	start_with_simple(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd->val[i])
-	{
-		if (cmd->val[i][0] == '\'')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	start_with_dobles(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd->val[i])
-	{
-		if (cmd->val[i][0] == '\"')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int start_with_dollar(t_cmd *cmd)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (cmd->val[i])
-	{
-		j = 0;
-		if (cmd->val[i][j] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int is_empty_string(char *str)
-{
-	if (is_doble_quotes(str[0]) && is_doble_quotes(str[1]) && ft_isspace(str[2]))
-		return (1);
-	else if (is_simple_quotes(str[0]) && is_simple_quotes(str[1]) && ft_isspace(str[2]))
-		return (1);
+	if (str[0] == '$' && str[1] != '\0' && str[1] != '\"')
+		cmd->expand[i] = 1;
 	else
-		return (0);
+		cmd->expand[i] = 0;
 }

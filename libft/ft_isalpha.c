@@ -6,16 +6,15 @@
 /*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:03:19 by marinebas         #+#    #+#             */
-/*   Updated: 2022/04/19 17:27:55 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 11:13:26 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 int	ft_isalpha(int c)
-{	
+{
 	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 		return (1);
 	return (0);
 }
-

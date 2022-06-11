@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_split_many_bis.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/29 14:13:35 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/10 11:34:07 by mbascuna         ###   ########.fr       */
+/*   Created: 2022/06/08 11:10:23 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/08 11:11:04 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-void	ft_insert_tab(char **tab, char *name)
+int	include_charset(char c, char *charset)
 {
 	int	i;
 
 	i = 0;
-	while (tab[i])
-		i++;
-	tab[i] = ft_strdup(name);
-	i++;
-	tab[i] = NULL;
-}
-
-int	ft_env(t_global *global)
-{
-	int	i;
-
-	i = 0;
-	g_exit_status = 0;
-	while (global->env[i])
+	while (charset[i])
 	{
-		printf("%s\n", global->env[i]);
+		if (c == charset[i])
+			return (1);
 		i++;
 	}
+	if (!c)
+		return (1);
 	return (0);
 }

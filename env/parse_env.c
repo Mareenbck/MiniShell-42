@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 12:55:02 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/24 16:52:43 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:46:50 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_env	*find_name(t_env **head_env, char *var, size_t len)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = *head_env;
 	while (env->next != NULL)
@@ -38,7 +38,7 @@ char	**ft_split_envp(t_env **head_env, char *str)
 		if (!split_path)
 		{
 			ft_free_tab(split_path);
-			ft_error("Error\n", ALLOCATION_FAIL);
+			perror("Error\n");
 			return (NULL);
 		}
 		return (split_path);
@@ -46,7 +46,7 @@ char	**ft_split_envp(t_env **head_env, char *str)
 	return (NULL);
 }
 
-char *find_binary(char **split_path, char *cmd)
+char	*find_binary(char **split_path, char *cmd)
 {
 	int		i;
 	char	*join_path;
@@ -63,6 +63,6 @@ char *find_binary(char **split_path, char *cmd)
 			free(join_path);
 		i++;
 	}
+	free(split_path);
 	return (NULL);
 }
-

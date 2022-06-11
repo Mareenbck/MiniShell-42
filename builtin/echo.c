@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/29 09:34:42 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/05/17 13:10:04 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 14:12:21 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/10 12:34:49 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool find_n(char *str, char c)
+bool	find_n(char *str, char c)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (str[i] == c)
 		i++;
@@ -24,35 +25,53 @@ bool find_n(char *str, char c)
 		return (false);
 }
 
-int ft_echo(t_cmd *cmd, t_global *global)
+void	ft_print(t_cmd *cmd, int i)
 {
-	int option;
-	int i;
+	char	*tmp;
+
+	if (start_with_dollar(cmd->val[i]) && cmd->expand[i] == 2)
+	{
+		tmp = ft_strtrim(&cmd->val[i][1], "\"$");
+		write(cmd->output, tmp, ft_strlen(tmp));
+		write(cmd->output, " ", 1);
+		free(tmp);
+	}
+	else if (start_with_dollar(cmd->val[i]) && !cmd->expand[i])
+	{
+		write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
+		write(cmd->output, " ", 1);
+	}
+	else
+	{
+		write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
+		if (cmd->val[i + 1])
+			write(cmd->output, " ", 1);
+	}
+}
+
+int	ft_echo(t_cmd *cmd, t_global *global)
+{
+	int	option;
+	int	i;
 
 	option = 0;
 	i = 1;
-	while (cmd->val[i] != NULL && !ft_strncmp(cmd->val[i], "-n", 2) && find_n(&cmd->val[i][1], 'n'))
+	while (cmd->val[i] != NULL && !ft_strncmp(cmd->val[i], "-n", 2)
+		&& find_n(&cmd->val[i][1], 'n'))
 	{
 		option = 1;
 		i++;
 	}
 	while (cmd->val[i] != NULL)
 	{
-		if (cmd->expand[i])
+		if (cmd->expand[i] == 1)
 			ft_expand_echo(cmd, global, cmd->val[i]);
 		else
-		{
-			if (start_with_dollar(cmd) && cmd->expand[i])
-				printf("%s ", &cmd->val[i][1]);
-			else if (start_with_dollar(cmd) && !cmd->expand[i])
-				printf("%s ", cmd->val[i]);
-			else
-				printf("%s ", cmd->val[i]);
-		}
+			ft_print(cmd, i);
 		i++;
-
 	}
 	if (!option)
-		printf("\n");
+		write(cmd->output, "\n", 1);
+	g_exit_status = 0;
 	return (0);
 }

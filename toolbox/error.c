@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/29 14:13:35 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/10 11:34:07 by mbascuna         ###   ########.fr       */
+/*   Created: 2022/06/08 11:34:18 by emcariot          #+#    #+#             */
+/*   Updated: 2022/06/08 11:47:44 by emcariot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_insert_tab(char **tab, char *name)
+void	ft_error(char *msg, int exit_status)
+{
+	printf("%s\n", msg);
+	g_exit_status = exit_status;
+}
+
+int	ft_wrong(char *str)
+{
+	printf("%s\n", str);
+	return (1);
+}
+
+char	**ft_free_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
 	while (tab[i])
-		i++;
-	tab[i] = ft_strdup(name);
-	i++;
-	tab[i] = NULL;
-}
-
-int	ft_env(t_global *global)
-{
-	int	i;
-
-	i = 0;
-	g_exit_status = 0;
-	while (global->env[i])
 	{
-		printf("%s\n", global->env[i]);
+		free(tab[i]);
 		i++;
 	}
-	return (0);
+	free(tab);
+	return (NULL);
 }

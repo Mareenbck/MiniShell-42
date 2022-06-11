@@ -4,16 +4,22 @@ LIB_DIR = ./libft
 
 LIBFT	= ./libft/libft.a
 
-SRCS	= main.c utils.c signal.c \
-		lexer.c env/parse_env.c builtin/pwd.c \
-		builtin/cd.c parsing/parser_plan.c \
-		builtin/echo.c exe.c builtin/env.c \
+SRCS	= main.c toolbox/utils.c signal.c \
+		lexerd/lexer.c lexerd/lexer_bis.c env/parse_env.c builtin/pwd.c \
+		builtin/cd.c parsing/parser_plan.c builtin/env.c \
+		builtin/echo.c exe/exe.c exe/parse_exe.c \
 		env/init_env.c builtin/export.c builtin/unset.c \
 		parsing/pipe.c append/redir.c \
-		append/append.c parsing/trim_quotes.c \
+		append/append.c parsing/quotes_type.c \
 		parsing/parse_quotes.c parsing/parse_quotes_bis.c \
-		parsing/redir_syntax.c append/heredoc.c \
-		env/expand_env.c builtin/exit.c expand.c
+		parsing/parse_quotes_ter.c parsing/redir_syntax.c \
+		append/heredoc.c env/check_env.c env/fill_env.c \
+		builtin/exit.c expand/expand.c parsing/parser_plan_bis.c \
+		toolbox/error.c toolbox/list_add.c toolbox/list_clear.c \
+		toolbox/list_free.c expand/expand_cmd.c expand/expand_utils.c\
+		toolbox/close.c toolbox/list_free_bis.c \
+		parsing/parser_plan_ter.c \
+
 
 
 OBJS	= ${SRCS:.c=.o}

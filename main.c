@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 14:33:53 by emcariot          #+#    #+#             */
-/*   Updated: 2022/05/24 11:33:42 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 19:20:34 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_exit_status;
+int	g_exit_status;
 
 void	ft_init_minishell(t_global *global, char **envp)
 {
+	g_exit_status = 0;
 	global->head = NULL;
 	global->headcmd = NULL;
 	global->head_env = NULL;
@@ -24,69 +25,65 @@ void	ft_init_minishell(t_global *global, char **envp)
 	ft_init_list_env(&global->head_env, global);
 }
 
-void	ft_free_list(t_global *global)
-{
-	ft_lst_clear3(&global->head_env, free);
-	// if (&global->head != NULL)
-	ft_lst_clear(&global->head, free);
-	ft_lst_clear2(&global->headcmd, free);
-	// free(global->sorted_env);
-	// free(global->env);
-	ft_free_tab(global->env);
-	// ft_free_tab(global->sorted_env);
-}
-
-int init_token_cmd_list(char *line, t_global *global)
+int	init_token_cmd_list(char *line, t_global *global)
 {
 	init_token_list(line, &global->head);
-	if (!analize_cmd(&global->headcmd, global))
-		return (0);
-	else
+	if (!global->head->next)
+	{
+		ft_lst_clear(&global->head, free);
+		return (1);
+	}
+	if (analize_cmd(&global->headcmd, global) == 1)
 	{
 		ft_lst_clear(&global->head, free);
 		ft_lst_clear2(&global->headcmd, free);
 		return (1);
 	}
+	return (0);
 }
 
-void	ft_quit(t_global *global)
+int	ft_check_arg(int ac)
 {
-	printf("exit\n");
-	global->exit = true;
-	ft_free_list(global);
-	exit(0);
+	if (ac != 1)
+	{
+		printf("Wrong number of arguments\n");
+		return (1);
+	}
+	return (0);
+}
+
+char	*ft_prompt(char *line, t_global *global)
+{
+	ft_signal(2);
+	line = readline("\1\033[01;32m 💥\2 Minishell Happiness \1💥 ➜ \e[00m\2");
+	ft_signal(0);
+	if (!line)
+		ft_quit(global);
+	add_history(line);
+	return (line);
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	char *line;
+	char		*line;
 	t_global	global;
-	(void)ac;
-	(void)av;
 
+	(void)av;
+	if (ft_check_arg(ac))
+		return (1);
 	ft_init_minishell(&global, envp);
-	g_exit_status = 0;
-	while (!global.exit)
+	while (global.exit != 1)
 	{
-		ft_signal(2);
-		// line = readline("\1\033[01;32m ​💥\2​ Minishell Happiness ​\1💥​ ➜ \e[00m\2");
-		line = readline("\033[01;32m ​💥​ Minishell Happiness ​💥​ ➜ \e[00m");
-		ft_signal(0);
-		if (!line)
-			ft_quit(&global);
-		add_history(line);
+		line = ft_prompt(line, &global);
 		if (!init_token_cmd_list(line, &global))
 		{
 			if (!last_call_quotes(global.headcmd, global.head, &global))
 			{
-				ft_print_cmd(&global.headcmd);
 				ft_expand_cmd_first(&global);
-				parse_execution(&global);
+				ft_parse_execution(&global);
 			}
 		}
 		free(line);
 	}
-	// ft_close(&global);
-	ft_free_list(&global);
-	exit(g_exit_status);
+	return (ft_quit_minishell(&global));
 }

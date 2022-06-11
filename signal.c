@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/19 11:30:28 by emcariot          #+#    #+#             */
-/*   Updated: 2022/04/19 12:15:25 by emcariot         ###   ########.fr       */
+/*   Created: 2022/06/08 19:14:33 by mbascuna          #+#    #+#             */
+/*   Updated: 2022/06/09 09:18:21 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,18 @@ void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_exit_status = CSIGINT;
+		g_exit_status = 130;
+		write(1, "\n", 1);
+		rl_on_new_line();
+		// rl_replace_line("", 1);
+	}
+}
+
+void	handle_sigint_bis(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_exit_status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		// rl_replace_line("", 1);
@@ -34,11 +45,16 @@ void	ft_signal(int i)
 	else if (i == 1)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 	}
 	else if (i == 2)
+	{
+		signal(SIGINT, handle_sigint_bis);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (i == 3)
 	{
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }
-
