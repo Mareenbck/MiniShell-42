@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:21 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 08:47:11 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:55:08 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ bool	find_n(char *str, char c)
 		return (true);
 	else
 		return (false);
+}
+
+void	ft_print_output(t_cmd *cmd, int i)
+{
+	write(1, cmd->val[i], ft_strlen(cmd->val[i]));
+	if (cmd->val[i + 1])
+		write(1, " ", 1);
 }
 
 void	ft_print(t_cmd *cmd, int i)
@@ -42,11 +49,7 @@ void	ft_print(t_cmd *cmd, int i)
 		write(cmd->output, " ", 1);
 	}
 	else if (cmd->pipe)
-	{
-		write(1, cmd->val[i], ft_strlen(cmd->val[i]));
-		if (cmd->val[i + 1])
-			write(1, " ", 1);
-	}
+		ft_print_output(cmd, i);
 	else
 	{
 		write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));

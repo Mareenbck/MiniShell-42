@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:04 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 14:55:30 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:52:43 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,25 @@ int	ft_execve(t_global *global, t_cmd *cmd)
 	int		i;
 
 	i = 0;
-	if (cmd->val[0])
+	if (!cmd->val[0])
+		return (1);
+	if (execve(cmd->val[0], cmd->val, global->env) == -1)
 	{
-		if (execve(cmd->val[0], cmd->val, global->env) == -1)
-		{
-			split_path = ft_split_envp(&global->head_env, "PATH");
-			if (!split_path)
-				return (ft_free_list_and_error(global, cmd));
+		split_path = ft_split_envp(&global->head_env, "PATH");
+		if (!split_path)
+			return (ft_free_list_and_error(global, cmd));
+		if (cmd->expand[i])
+			return (ft_expand_cmd(global, cmd, split_path));
+		else
+			cmd->path = find_binary(split_path, cmd->val[i]);
+		if (!cmd->path)
+			return (ft_free_list_and_error(global, cmd));
+		while (cmd->val[++i])
 			if (cmd->expand[i])
-				return (ft_expand_cmd(global, cmd, split_path));
-			else
-				cmd->path = find_binary(split_path, cmd->val[i]);
-			if (!cmd->path)
-				return (ft_free_list_and_error(global, cmd));
-			while (cmd->val[++i])
-				if (cmd->expand[i])
-					ft_expand_args(global, cmd, i);
-			ft_signal(1);
-			if (execve(cmd->path, cmd->val, global->env) == -1)
-				return (ft_free_list_and_error(global, cmd));
-		}
+				ft_expand_args(global, cmd, i);
+		ft_signal(1);
+		if (execve(cmd->path, cmd->val, global->env) == -1)
+			return (ft_free_list_and_error(global, cmd));
 	}
 	return (0);
 }
@@ -78,12 +77,15 @@ void	ft_exe_with_pipe(t_cmd *cmd, t_global *global)
 		init_io(cmd);
 		if (ft_search_builtin(cmd, cmd->val[0], global) == 1)
 		{
-			if (ft_execve(global, cmd))
+			if (cmd->val[0])
 			{
-				ft_close(global);
-				close(3);
-				ft_free_list2(global);
-				exit(127);
+				if (ft_execve(global, cmd))
+				{
+					ft_close(global);
+					close(3);
+					ft_free_list2(global);
+					exit(127);
+				}
 			}
 		}
 		ft_close(global);

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:26:40 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/14 10:33:21 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 16:09:03 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,37 +35,12 @@ int	ft_count_cmd(char *str)
 char	**split_expand(char *str)
 {
 	char	**split;
-	char	*tmp;
-	int		i;
-	int		j;
-	int		k = 0;
 	int		words;
 
-	i = 0;
 	str = ft_strtrim(str, "\"");
 	words = ft_count_cmd(str);
 	split = (char **)malloc(sizeof(char *) * (words + 1));
-	j = 0;
-	while (k < words)
-	{
-		if (str[i] == '$' || str[i] == '=')
-		{
-			j++;
-			while (ft_isalnum(str[j]))
-				j++;
-		}
-		tmp = ft_strdup_bis(&str[(i)], j - i);
-		split[k] = ft_strtrim(tmp, "\"\'");
-		free(tmp);
-		if (str[j++] == '\'')
-		{
-			split[++k] = ft_strdup("\'");
-		}
-		else
-			j--;
-		i += j - i;
-		k++;
-	}
+	split = ft_fill_split_expand(str, words, split);
 	free(str);
 	split[words] = NULL;
 	return (split);

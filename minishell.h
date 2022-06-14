@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/14 12:12:09 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 16:09:32 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,5 +327,7 @@ void		ft_print_token(t_token **head);
 
 int			ft_quit_minishell(t_global *global);
 int			ft_free_list3(t_global *global);
+int			ft_find_j(int j, int i, char *str);
+char		**ft_fill_split_expand(char *str, int words, char **split);
 
 #endif

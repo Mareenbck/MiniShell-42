@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 09:25:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 13:19:53 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:57:23 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,7 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 			printf("bash: cd: No such file or directory\n");
 	}
 	else
-	{
-		if (ft_go_new_path(cmd, global))
-		{
-			free(oldpwd);
-			return (1);
-		}
-	}
+		ft_go_new_path(cmd, global);
 	ft_save_new_pwd(global);
 	ft_init_list_env(&global->head_env, global);
 	free(oldpwd);

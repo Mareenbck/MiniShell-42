@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:18:52 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 13:41:15 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:53:18 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	ft_parse_execution(t_global *global)
 			ft_child_process(cmd, global);
 		if (cmd->output != STDOUT_FILENO)
 			close(cmd->output);
-		if (cmd->input != STDIN_FILENO)
-			close(cmd->input);
 		cmd = cmd->next;
 	}
 	ft_parent_process(global);

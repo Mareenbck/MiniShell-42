@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:14:33 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 09:18:21 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 16:10:28 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_sigint(int sig)
 		g_exit_status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
-		// rl_replace_line("", 1);
+		rl_replace_line("", 1);
 	}
 }
 
@@ -30,7 +30,7 @@ void	handle_sigint_bis(int sig)
 		g_exit_status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
-		// rl_replace_line("", 1);
+		rl_replace_line("", 1);
 		rl_redisplay();
 	}
 }
