@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 09:25:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 13:00:25 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:19:53 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_go_new_path(t_cmd *cmd, t_global *global)
 	tmp = ft_strdup(pwd->var_value);
 	new = ft_strjoin(tmp, "/");
 	new = ft_strjoin(new, cmd->val[1]);
-	// chdir(new);
 	if (chdir(new) == -1)
 		printf("bash: cd1: No such file or directory\n");
 	free(new);

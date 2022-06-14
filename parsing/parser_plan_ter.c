@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:31:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/10 13:11:22 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:07:10 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token	*check_redir_out(t_token *token, t_cmd *cmd)
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
-			ft_error("ambiguous redirect", 2);
+			ft_error("ambiguous redirect", 1);
 			ft_lst_clear2(&cmd, free);
 			return (NULL);
 		}
@@ -85,7 +85,7 @@ t_token	*ana_append_out(t_token *token, t_cmd *cmd)
 		token = token->next;
 		if (check_ambiguious_args(token->val, cmd))
 		{
-			ft_error("ambiguous redirect", 2);
+			ft_error("ambiguous redirect", 1);
 			ft_lst_clear2(&cmd, free);
 			return (NULL);
 		}

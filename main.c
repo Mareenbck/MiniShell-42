@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 10:55:16 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:13:15 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_check_arg(int ac)
 char	*ft_prompt(char *line, t_global *global)
 {
 	ft_signal(2);
-	line = readline("\1\033[01;32m 💥\2 Minishell Happiness \1💥 ➜ \e[00m\2");
+	line = readline("\033[01;32m 💥\2 Minishell Happiness \1💥 ➜ \e[00m");
 	ft_signal(0);
 	if (!line)
 		ft_quit(global);
