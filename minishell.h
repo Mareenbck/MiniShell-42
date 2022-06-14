@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/10 13:11:05 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 12:12:09 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ void		ft_parse_execution(t_global *global);
 /* cd.c */
 char		*ft_change_oldpwd(t_global *global);
 void		ft_go_home(t_global *global);
-void		ft_go_new_path(t_cmd *cmd);
+int			ft_go_new_path(t_cmd *cmd, t_global *global);
 void		ft_save_new_pwd(t_global *global);
 int			ft_cd(t_cmd *cmd, t_global *global);
 
@@ -313,7 +313,7 @@ void		ft_change_export(t_global *global, char *name,
 int			ft_export(t_cmd *cmd, t_global *global);
 
 /* pwd.c */
-int			ft_pwd(void);
+int			ft_pwd(t_global *global);
 
 /* unset.c */
 int			ft_unset(t_cmd *cmd, t_global *global);

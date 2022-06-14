@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:26:40 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/10 10:27:23 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 10:33:21 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	ft_count_cmd(char *str)
 	while (str[i])
 	{
 		if ((ft_isalnum(str[i]) && str[i + 1] == '\'')
-			|| (ft_isalnum(str[i]) && !str[i + 1]))
+			|| (ft_isalnum(str[i]) && str[i - 1] == '$')
+			|| (ft_isalnum(str[i]) && str[i - 1] == '='))
 			words++;
 		else if (str[i] == '\'')
 			words++;
@@ -37,6 +38,7 @@ char	**split_expand(char *str)
 	char	*tmp;
 	int		i;
 	int		j;
+	int		k = 0;
 	int		words;
 
 	i = 0;
@@ -44,16 +46,25 @@ char	**split_expand(char *str)
 	words = ft_count_cmd(str);
 	split = (char **)malloc(sizeof(char *) * (words + 1));
 	j = 0;
-	while (i < words)
+	while (k < words)
 	{
-		while (ft_isalnum(str[j]) || str[j] == '$')
+		if (str[i] == '$' || str[i] == '=')
+		{
 			j++;
-		tmp = ft_strdup_bis(&str[(j - (j - i))], j - i);
-		split[i] = ft_strtrim(tmp, "\"\'");
+			while (ft_isalnum(str[j]))
+				j++;
+		}
+		tmp = ft_strdup_bis(&str[(i)], j - i);
+		split[k] = ft_strtrim(tmp, "\"\'");
 		free(tmp);
 		if (str[j++] == '\'')
-			split[++i] = ft_strdup("\'");
-		i++;
+		{
+			split[++k] = ft_strdup("\'");
+		}
+		else
+			j--;
+		i += j - i;
+		k++;
 	}
 	free(str);
 	split[words] = NULL;

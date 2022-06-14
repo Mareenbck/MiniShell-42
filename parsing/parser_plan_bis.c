@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:18:13 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/10 13:10:49 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 11:06:00 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ t_token	*ft_fill_cmdval(t_cmd *cmd, t_token *token)
 	int	i;
 
 	i = 0;
+	if (cmd->val[i] != NULL)
+		while (cmd->val[i] != NULL)
+			i++;
 	while (token->token == WORD)
 	{
 		cmd->expand[i] = 0;

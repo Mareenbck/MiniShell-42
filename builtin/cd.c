@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emcariot <emcariot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 09:25:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/07 15:07:36 by emcariot         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:00:25 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,17 @@
 
 char	*ft_change_oldpwd(t_global *global)
 {
-	t_env	*env = NULL;
-	char	*path = NULL;
-	char	*oldpwd = NULL;
+	t_env	*env;
+	t_env	*pwd;
+	char	*oldpwd;
 
 	env = find_name(&global->head_env, "OLDPWD", 6);
 	if (env)
 	{
 		oldpwd = ft_strdup(env->var_value);
+		pwd = find_name(&global->head_env, "PWD", 3);
 		free(env->var_value);
-		path = getcwd(NULL, 0);
-		if (!path)
-			return (NULL);
-		env->var_value = ft_strdup(path);
-		free(path);
+		env->var_value = ft_strdup(pwd->var_value);
 		ft_change_env(ft_strdup("OLDPWD"), env->var_value, global);
 	}
 	return (oldpwd);
@@ -41,15 +38,26 @@ void	ft_go_home(t_global *global)
 	chdir(home->var_value);
 }
 
-void	ft_go_new_path(t_cmd *cmd)
+int	ft_go_new_path(t_cmd *cmd, t_global *global)
 {
 	char	*new;
+	char	*tmp;
+	t_env	*pwd;
 
-	new = ft_strjoin(getcwd(NULL, 0), "/");
-	new = ft_strjoin(new, cmd->val[1]);
-	if (!new || chdir(new) == -1)
+	pwd = find_name(&global->head_env, "PWD", 3);
+	if (!pwd)
+	{
 		printf("bash: cd: No such file or directory\n");
+		return (1);
+	}
+	tmp = ft_strdup(pwd->var_value);
+	new = ft_strjoin(tmp, "/");
+	new = ft_strjoin(new, cmd->val[1]);
+	// chdir(new);
+	if (chdir(new) == -1)
+		printf("bash: cd1: No such file or directory\n");
 	free(new);
+	return (0);
 }
 
 void	ft_save_new_pwd(t_global *global)
@@ -60,10 +68,10 @@ void	ft_save_new_pwd(t_global *global)
 	env = find_name(&global->head_env, "PWD", 3);
 	if (env)
 	{
-		free(env->var_value);
 		path = getcwd(NULL, 0);
 		if (!path)
 			return ;
+		free(env->var_value);
 		env->var_value = ft_strdup(path);
 		free(path);
 		ft_change_env(ft_strdup("PWD"), env->var_value, global);
@@ -84,11 +92,20 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 		|| !ft_strncmp(cmd->val[1], "/", 2))
 		ft_go_home(global);
 	else if (!ft_strncmp(cmd->val[1], "-", 2))
-		chdir(oldpwd);
+	{
+		if (chdir(oldpwd) == -1)
+			printf("bash: cd: No such file or directory\n");
+	}
 	else
-		ft_go_new_path(cmd);
+	{
+		if (ft_go_new_path(cmd, global))
+		{
+			free(oldpwd);
+			return (1);
+		}
+	}
 	ft_save_new_pwd(global);
-	free(oldpwd);
 	ft_init_list_env(&global->head_env, global);
+	free(oldpwd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 19:14:41 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 19:14:42 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 08:55:23 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	delete_quotes_bis(t_cmd *cmd, int i)
 	{
 		if (is_empty_string(cmd->val[i]))
 			cmd->val[i] = ft_strdup("");
-		tmp = ft_strtrim(cmd->val[i], "\'\"");
+		tmp = ft_strtrim(cmd->val[i], "\'");
 		free(cmd->val[i]);
 		cmd->val[i] = new_string(tmp, '\'');
 	}

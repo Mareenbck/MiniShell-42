@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:43:07 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/10 13:05:25 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 07:56:46 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ t_env	*expand_heredoc(char *str, t_env *env, t_global *global, int heredoc)
 	else
 		write(heredoc, str, ft_strlen(str));
 	return (env);
-
-int	check_lim(char *lim)
-{
-	int	i;
-
-	i = -1;
-	while (lim[++i])
-		if (!ft_isalpha(lim[i]))
-			return (1);
-	return (0);
 }
 
 char	*init_heredoc(char *str)
@@ -61,7 +51,7 @@ int	check_error(int heredoc)
 int	launch_heredoc(char *lim, int heredoc, t_global *global)
 {
 	t_env	*env;
-	char	*str = NULL;
+	char	*str;
 
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:04 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/10 11:44:09 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 12:12:21 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_search_builtin(t_cmd *cmd, char *str, t_global *global)
 	else if (!ft_strncmp(str, "env", 4))
 		ft_env(global);
 	else if (!ft_strncmp(str, "pwd", 4))
-		return (ft_pwd());
+		return (ft_pwd(global));
 	else if (!ft_strncmp(str, "export", 7))
 		ft_export(cmd, global);
 	else if (!ft_strncmp(str, "unset", 6))

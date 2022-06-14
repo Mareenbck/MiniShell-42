@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 19:20:34 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 10:55:16 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,23 @@ int	main(int ac, char **av, char **envp)
 		free(line);
 	}
 	return (ft_quit_minishell(&global));
+}
+
+void	ft_print_cmd(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+	int		i;
+
+	tmp = *cmd;
+	i = 0;
+	while (tmp != NULL)
+	{
+		i = 0;
+		while (tmp->val[i])
+		{
+			printf("cmd[%d] = %s , -> expand : %d, -> pipe : %d -> output : %d -> input : %d\n", i, tmp->val[i], tmp->expand[i], tmp->pipe, tmp->output, tmp->input);
+			i++;
+		}
+		tmp = tmp->next;
+	}
 }

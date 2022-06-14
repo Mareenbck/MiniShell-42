@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:21 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/10 12:34:49 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/14 08:47:11 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ void	ft_print(t_cmd *cmd, int i)
 		write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
 		write(cmd->output, " ", 1);
 	}
+	else if (cmd->pipe)
+	{
+		write(1, cmd->val[i], ft_strlen(cmd->val[i]));
+		if (cmd->val[i + 1])
+			write(1, " ", 1);
+	}
 	else
 	{
 		write(cmd->output, cmd->val[i], ft_strlen(cmd->val[i]));
@@ -70,8 +76,10 @@ int	ft_echo(t_cmd *cmd, t_global *global)
 			ft_print(cmd, i);
 		i++;
 	}
-	if (!option)
+	if (!option && !cmd->pipe)
 		write(cmd->output, "\n", 1);
+	else if (!option && cmd->pipe == 1)
+		write(1, "\n", 1);
 	g_exit_status = 0;
 	return (0);
 }
