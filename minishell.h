@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/14 16:09:32 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:24:45 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int			is_empty_string(char *str);
 void		delete_quotes(t_cmd *cmd, int i, int j);
 void		delete_quotes_bis(t_cmd *cmd, int i);
 int			error_quotes(t_cmd *cmd);
-int			last_call_quotes(t_cmd *cmd, t_token *token, t_global *global);
+int			last_call_quotes(t_global *global);
 
 /* UTILS */
 char		**ft_free_tab(char **tab);
@@ -222,7 +222,6 @@ void		ft_close_cmd(t_global *global);
 void		ft_free_list2(t_global *global);
 
 // EXPAND ENV
-int			check_name(char *token);
 char		*check_value(char *token);
 void		ft_expand_echo(t_cmd *cmd, t_global *global, char *str);
 void		ft_parse_execution(t_global *global);
@@ -258,6 +257,8 @@ char		*find_binary(char **split_path, char *cmd);
 // EXPAND
 /* expand_utils.c */
 int			ft_go_expand_echo(t_cmd *cmd, t_global *global, char *tmp);
+int			ft_print_val(char **split, t_cmd *cmd);
+void		ft_init_expand(t_cmd *cmd);
 /* expand.c */
 int			ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path);
 void		ft_expand_args(t_global *global, t_cmd *cmd, int i);

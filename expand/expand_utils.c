@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:56:17 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 16:09:33 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:23:53 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,26 @@ char	**ft_fill_split_expand(char *str, int words, char **split)
 		i += j - i;
 	}
 	return (split);
+}
+
+void	ft_init_expand(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (cmd->val[1] != NULL)
+	{
+		while (cmd->val[i])
+		{
+			cmd->expand[i] = 0;
+			i++;
+		}
+	}
+}
+
+int	ft_print_val(char **split, t_cmd *cmd)
+{
+	cmd->expand[0] = 0;
+	ft_free_tab(split);
+	return (1);
 }

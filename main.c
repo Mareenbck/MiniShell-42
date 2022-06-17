@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:10:39 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 16:11:07 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:27:23 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 		line = ft_prompt(line, &global);
 		if (!init_token_cmd_list(line, &global))
 		{
-			if (!last_call_quotes(global.headcmd, global.head, &global))
+			if (!last_call_quotes(&global))
 			{
 				ft_expand_cmd_first(&global);
 				ft_parse_execution(&global);

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:04 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 15:52:43 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:22:03 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,10 @@ void	ft_parent_process(t_global *global)
 			write(2, "Quit (core dumped)\n", 19);
 		cmd = cmd->next;
 	}
-	if (global->exit == -1)
+	if (global->exit == -1 || g_exit_status == 1)
 		g_exit_status = 1;
+	else if (WIFSIGNALED(g_exit_status))
+		g_exit_status = WTERMSIG(g_exit_status) + 128;
 	else if (WIFEXITED(g_exit_status))
 		g_exit_status = WEXITSTATUS(g_exit_status);
-	else
-		g_exit_status = WTERMSIG(g_exit_status) + 128;
 }

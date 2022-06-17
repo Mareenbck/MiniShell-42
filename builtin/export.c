@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:18:49 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/09 17:52:35 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 12:53:49 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,16 @@ void	ft_change_export(t_global *global, char *name, char *sign, char *cmd)
 	t_env	*env;
 	char	*value;
 
+	value = check_value(cmd);
 	env = find_name(&global->head_env, name, (ft_strlen(name) + 1));
 	if (env)
 	{
 		if (sign[0] == '+')
 		{
-			value = check_value(cmd);
 			env->var_value = ft_strjoin(env->var_value, value);
-			free(value);
 			ft_change_env(name, env->var_value, global);
 		}
-		else
+		else if (value[0] != '\0')
 		{
 			free(env->var_sign);
 			env->var_sign = init_sign(cmd);
@@ -99,6 +98,7 @@ void	ft_change_export(t_global *global, char *name, char *sign, char *cmd)
 	else
 		ft_insert_new_env(cmd, global, name, sign);
 	free(sign);
+	free(value);
 }
 
 int	ft_export(t_cmd *cmd, t_global *global)

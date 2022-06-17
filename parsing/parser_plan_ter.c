@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:31:08 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/14 15:07:10 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 12:33:26 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_token	*ana_append_in(t_token *token, t_cmd *cmd, t_global *global)
 		else
 		{
 			ft_error("Syntax error", 2);
+			g_exit_status = 2;
 			ft_lst_clear2(&cmd, free);
 			return (NULL);
 		}

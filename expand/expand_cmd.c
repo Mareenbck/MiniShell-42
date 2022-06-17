@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:11:15 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 10:28:53 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:22:56 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	ft_expand_cmd(t_global *global, t_cmd *cmd, char **split_path)
 	{
 		ft_free_tab(global->env);
 		ft_free_tab(split_path);
-		perror("Command not Found");
+		write (1, cmd->val[0], ft_strlen(cmd->val[0]));
+		write (1, " : Command not found\n", 21);
 		return (1);
 	}
 	tmp = ft_strdup(env->var_value);
@@ -89,7 +90,8 @@ void	ft_print_split_env(t_cmd *cmd, t_global *global, char **split)
 					&split[i][1], ft_strlen(&split[i][1]));
 		if (env)
 			write(cmd->output, env->var_value, ft_strlen(env->var_value));
-		else if (!env && split[i][0] != '$')
+		else if ((!env && split[i][0] != '$')
+			|| (split[i][0] == '$' && !split[i][1]))
 			write(cmd->output, split[i], ft_strlen(split[i]));
 		i++;
 	}
@@ -105,11 +107,6 @@ void	ft_expand_echo(t_cmd *cmd, t_global *global, char *str)
 		tmp = ft_itoa(g_exit_status);
 		write(1, tmp, ft_strlen(tmp));
 		free(tmp);
-	}
-	else if (str[0] == '$' && !str[1])
-	{
-		g_exit_status = 127;
-		ft_free_list2(global);
 	}
 	else
 	{

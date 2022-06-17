@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 13:43:07 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/14 07:56:46 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 14:51:19 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*expand_heredoc(char *str, t_env *env, t_global *global, int heredoc)
 {
 	if (start_with_dollar(str))
 	{
-		env = find_name(&global->head_env, &str[1], ft_strlen(&str[1]) - 1);
+		env = find_name(&global->head_env, &str[1], ft_strlen(&str[1]) - 2);
 		if (env)
 		{
 			write(heredoc, env->var_value, ft_strlen(env->var_value));
@@ -33,6 +33,8 @@ char	*init_heredoc(char *str)
 	write(1, ">", 1);
 	ft_signal(3);
 	str = readline(STDIN_FILENO);
+	if (str[0] == '\0')
+		write(1, "\n", 1);
 	ft_signal(0);
 	str = ft_strjoin(str, "\n");
 	return (str);

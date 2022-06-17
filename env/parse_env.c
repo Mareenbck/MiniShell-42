@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 12:55:02 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 16:46:50 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 10:20:45 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*find_name(t_env **head_env, char *var, size_t len)
 	env = *head_env;
 	while (env->next != NULL)
 	{
-		if (!ft_strncmp(env->var_name, var, len))
+		if (!ft_strncmp(env->var_name, var, len + 1))
 			return (env);
 		env = env->next;
 	}

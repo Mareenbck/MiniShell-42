@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 09:25:51 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/14 15:57:23 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:22:18 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ int	ft_go_new_path(t_cmd *cmd, t_global *global)
 	new = ft_strjoin(tmp, "/");
 	new = ft_strjoin(new, cmd->val[1]);
 	if (chdir(new) == -1)
-		printf("bash: cd1: No such file or directory\n");
+	{
+		g_exit_status = 1;
+		printf("bash: cd: No such file or directory\n");
+	}
 	free(new);
 	return (0);
 }
@@ -84,6 +87,7 @@ int	ft_cd(t_cmd *cmd, t_global *global)
 	if (cmd->val[2] != NULL)
 	{
 		printf("cd : too many arguments\n");
+		g_exit_status = 1;
 		return (1);
 	}
 	oldpwd = ft_change_oldpwd(global);

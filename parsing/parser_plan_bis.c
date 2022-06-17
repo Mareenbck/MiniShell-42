@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:18:13 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/14 14:58:18 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 11:52:04 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_cmd	*ft_fill_pipe(t_token *token, t_cmd *cmd, t_global *global)
 	else
 	{
 		ft_error("syntax error near unexpected token `|'", 2);
+		g_exit_status = 2;
 		ft_lst_clear2(&cmd, free);
 		return (NULL);
 	}

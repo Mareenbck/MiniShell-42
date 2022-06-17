@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 11:04:52 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/08 12:20:30 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:22:39 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	not_valid(char *str)
 		if (ft_isalnum(str[i]) || str[i] == '=')
 			i++;
 		else
+		{
+			printf("unset: not a valid identifier\n");
 			return (0);
+		}
 	}
 	return (1);
 }
@@ -34,11 +37,8 @@ int	ft_check_args(t_global *global)
 	token = global->head->next;
 	while (token->next != NULL)
 	{
-		if (!not_valid(token->val))
-		{
-			printf("unset: not a valid identifier\n");
+		if (!not_valid(token->val) || check_name(token->val))
 			return (1);
-		}
 		token = token->next;
 	}
 	return (0);
@@ -63,7 +63,10 @@ int	ft_unset(t_cmd *cmd, t_global *global)
 
 	i = -1;
 	if (cmd->val[1] == NULL || ft_check_args(global))
+	{
+		g_exit_status = 1;
 		return (1);
+	}
 	while (global->env[++i])
 	{
 		name = edit_name(global->env[i], '=');

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:28:11 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/16 18:16:41 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:15:17 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	init_io(t_cmd *cmd)
 	{
 		dup2(cmd->input, STDIN_FILENO);
 		close(cmd->input);
-		if (cmd->prev)
-			close(cmd->prev->output);
 	}
 	if (cmd->output != STDOUT_FILENO)
 	{
