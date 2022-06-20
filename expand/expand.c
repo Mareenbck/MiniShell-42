@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 18:26:40 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/17 15:24:03 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/20 11:11:06 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,7 @@ int	ft_expand_cmd_first(t_global *global)
 		{
 			split = ft_split_many(cmd->val[0], "$\"");
 			if ((split[0] != NULL && split[1] == NULL) || split[0] == NULL)
-			{
 				return (ft_print_val(split, cmd));
-			}
 		}
 		split = ft_create_cmd(split, global);
 		ft_free_tab(cmd->val);

@@ -6,11 +6,20 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:18:52 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/17 15:07:18 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/20 11:13:33 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_cmd	*ft_close_if(t_cmd *cmd)
+{
+	if (cmd->output != STDOUT_FILENO)
+		close(cmd->output);
+	if (cmd->input != STDIN_FILENO)
+		close(cmd->input);
+	return (cmd);
+}
 
 void	ft_parse_execution(t_global *global)
 {
@@ -30,10 +39,7 @@ void	ft_parse_execution(t_global *global)
 		}
 		else
 			ft_child_process(cmd, global);
-		if (cmd->output != STDOUT_FILENO)
-			close(cmd->output);
-		if (cmd->input != STDIN_FILENO)
-			close(cmd->input);
+		cmd = ft_close_if(cmd);
 		cmd = cmd->next;
 	}
 	ft_parent_process(global);

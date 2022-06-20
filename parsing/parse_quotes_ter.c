@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:39:59 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/17 15:26:21 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/20 11:25:12 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	last_call_quotes(t_global *global)
 	{
 		if (utils_quotes(cmd))
 		{
-			perror("Syntax error");
+			printf("Syntax error");
 			g_exit_status = 2;
 			ft_lst_clear(&global->head, free);
 			ft_lst_clear2(&global->headcmd, free);
