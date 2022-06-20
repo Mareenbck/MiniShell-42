@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/17 15:24:45 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/20 14:05:15 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,6 +282,7 @@ void		ft_parent_process(t_global *global);
 
 /* parse_exe.c */
 void		ft_parse_execution(t_global *global);
+void		ft_print_status(void);
 
 // BUILTIN
 /* cd.c */

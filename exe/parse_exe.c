@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:18:52 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/20 11:13:33 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/20 14:04:56 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,14 @@ void	ft_parse_execution(t_global *global)
 	ft_close_cmd(global);
 	ft_lst_clear2(&global->headcmd, free);
 	ft_lst_clear(&global->head, free);
+}
+
+void	ft_print_status(void)
+{
+	if (g_exit_status == 134)
+		printf("Aborted (core dumped)\n");
+	else if (g_exit_status == 139)
+		printf("Segmentation fault (core dumped)\n");
+	else if (g_exit_status == 135)
+		printf("Bus error (core dumped)\n");
 }

@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:18:45 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/20 11:10:11 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/20 14:06:03 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	list_len(t_token **head)
 
 t_cmd	*ft_init_heredoc(t_global *global, t_cmd *cmd)
 {
-	if (global->head->token == APPEND_IN && cmd->val[0]
+	if ((global->head->token == APPEND_IN
+			|| global->head->next->token == APPEND_IN) && cmd->val[0]
 		&& !ft_strncmp(cmd->val[0], "cat", 3))
 	{
 		cmd->val[1] = ft_strdup(".here_doc");

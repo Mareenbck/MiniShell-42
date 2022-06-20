@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:04 by mbascuna          #+#    #+#             */
-/*   Updated: 2022/06/17 15:22:03 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/06/20 14:05:29 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,10 @@ void	ft_parent_process(t_global *global)
 	if (global->exit == -1 || g_exit_status == 1)
 		g_exit_status = 1;
 	else if (WIFSIGNALED(g_exit_status))
+	{
+		ft_print_status();
 		g_exit_status = WTERMSIG(g_exit_status) + 128;
+	}
 	else if (WIFEXITED(g_exit_status))
 		g_exit_status = WEXITSTATUS(g_exit_status);
 }
