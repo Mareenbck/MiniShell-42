@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:28:11 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/20 13:26:40 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/09/27 09:51:51 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	redir_out(t_cmd *cmd, char *file_name)
 {
 	int	fd;
+
 
 	fd = open(file_name, O_CREAT | O_WRONLY, 0644);
 	if (fd == -1)

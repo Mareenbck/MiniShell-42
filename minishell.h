@@ -6,7 +6,7 @@
 /*   By: mbascuna <mbascuna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:19:02 by emcariot          #+#    #+#             */
-/*   Updated: 2022/06/20 14:05:15 by mbascuna         ###   ########.fr       */
+/*   Updated: 2022/09/27 09:44:13 by mbascuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,7 @@ void		ft_change_export(t_global *global, char *name,
 int			ft_export(t_cmd *cmd, t_global *global);
 
 /* pwd.c */
-int			ft_pwd(t_global *global);
+int			ft_pwd(t_global *global, t_cmd *cmd);
 
 /* unset.c */
 int			ft_unset(t_cmd *cmd, t_global *global);
