@@ -1,19 +1,53 @@
-# MiniShell-42
+# 🐚 MiniShell-42
 
->  Développer un shell 
+>  Développer un shell simplifié en **C**, inspiré de bash — Projet 42.
 
-### To Do 
-* Afficher un prompt
-* Posséder un historique fonctionnel
-* Chercher et lancer le bon exécutable
-* Implémenter les redirections
-* Implémenter les pipes
-* Gérer les variables d’environnement
-* Gérer $? 
-* Gérer `ctrl-C`, `ctrl-D` et `ctrl-\` qui doivent fonctionner comme dans bash
-* implémenter les builtins : echo, cd, pwd, export, unset, env, exit
+## ✨ Fonctionnalités
 
-## Tests effectues
-🏆 [TESTS MINISHELL](https://elated-porpoise-8e6.notion.site/TESTS-MINISHELL-4a2e011a42194e72b01a1c4d03c21ddb)   
+- 📝 **Lexer & Parser** — Tokenisation et analyse syntaxique des commandes
+- 🔧 **Builtins** — `echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`
+- 🔀 **Pipes** — Chaînage de commandes avec `|`
+- 📂 **Redirections** — `>`, `>>`, `<`, `<<` (heredoc)
+- 💲 **Expansion** — Variables d'environnement (`$VAR`, `$?`)
+- 🔤 **Quotes** — Gestion des simple et double quotes
+- 🚦 **Signaux** — `ctrl-C`, `ctrl-D`, `ctrl-\`
 
-🧠 [NOTION DU PROJET](https://elated-porpoise-8e6.notion.site/MINISHELL-791b3ef846d643eea3c77642f4251d8c)
+## 🛠 Stack
+
+**Langage** : C · **Lib** : libft · readline  
+**Compilation** : gcc · Makefile · Flags `-Wall -Wextra -Werror`
+
+## 📁 Structure
+
+```
+├── builtin/     # echo, cd, pwd, export, unset, env, exit
+├── parsing/     # Lexer → Parser → Quotes → Redirections
+├── lexerd/      # Tokenisation de l'input
+├── exe/         # Exécution des commandes (fork, execve, pipes)
+├── expand/      # Expansion des variables d'environnement
+├── env/         # Gestion de l'environnement
+├── append/      # Redirections & heredoc
+├── toolbox/     # Utilitaires (listes chaînées, free, erreurs)
+├── libft/       # Bibliothèque C personnalisée
+├── main.c       # Point d'entrée
+├── signal.c     # Gestion des signaux
+└── minishell.h  # Header principal
+```
+
+## 🚀 Utilisation
+
+```bash
+git clone https://github.com/Mareenbck/MiniShell-42.git
+cd MiniShell-42
+make
+./minishell
+```
+
+```
+minishell$ echo "Hello World" | cat -e
+Hello World$
+minishell$ ls -la > output.txt
+minishell$ export MY_VAR=42
+minishell$ echo $MY_VAR
+42
+```
